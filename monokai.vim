@@ -4,7 +4,6 @@
 " License:    MIT
 "
 " The colour palette is from http://www.colourlovers.com/
-" The original code is from https://github.com/w0ng/vim-hybrid
 
 " Initialisation
 " --------------
@@ -276,21 +275,37 @@ call s:h("jsDocTags",           { "fg": s:aqua,   "format": "italic" })
 call s:h("jsFunction",          { "fg": s:aqua,   "format": "italic" })
 
 " Typescript
-call s:h("typescriptArrowFuncArg",        { "fg": s:orange, "format": "italic" })
-call s:h("typescriptFuncType",            { "fg": s:orange, "format": "italic" })
-call s:h("typescriptCall",                { "fg": s:orange, "format": "italic" })
-call s:h("typescriptVariable",            { "fg": s:aqua })
-call s:h("typescriptModule",              { "fg": s:aqua })
-call s:h("typescriptPredefinedType",      { "fg": s:aqua })
-call s:h("typescriptFuncTypeArrow",       { "fg": s:aqua })
-call s:h("typescriptImport",              { "fg": s:pink })
-call s:h("typescriptExport",              { "fg": s:pink })
-call s:h("typescriptCastKeyword",         { "fg": s:pink })
+call s:h("typescriptBraces",              { "fg": s:white })
+call s:h("typescriptParens",              { "fg": s:white })
 call s:h("typescriptOperator",            { "fg": s:pink })
 call s:h("typescriptEndColons",           { "fg": s:white })
-call s:h("typescriptObjectLabel",         { "fg": s:green })
+call s:h("typescriptModule",              { "fg": s:aqua })
+call s:h("typescriptPredefinedType",      { "fg": s:aqua })
+call s:h("typescriptImport",              { "fg": s:pink })
+call s:h("typescriptExport",              { "fg": s:pink })
+call s:h("typescriptIdentifier",          { "fg": s:orange, "format": "italic" })
+call s:h("typescriptVariable",            { "fg": s:aqua })
+call s:h("typescriptCastKeyword",         { "fg": s:pink })
 call s:h("typescriptAmbientDeclaration",  { "fg": s:pink })
 call s:h("typescriptTestGlobal",          { "fg": s:pink })
+call s:h("typescriptFuncKeyword",         { "fg": s:aqua })
+call s:h("typescriptFuncTypeArrow",       { "fg": s:aqua })
+call s:h("typescriptFuncType",            { "fg": s:orange, "format": "italic" })
+call s:h("typescriptFuncName",            { "fg": s:green })
+call s:h("typescriptArrowFuncArg",        { "fg": s:orange, "format": "italic" })
+call s:h("typescriptCall",                { "fg": s:orange, "format": "italic" })
+call s:h("typescriptClassKeyword",        { "fg": s:aqua,   "format": "italic" })
+call s:h("typescriptClassName",           { "fg": s:white })
+call s:h("typescriptClassHeritage",       { "fg": s:white })
+call s:h("typescriptInterfaceKeyword",    { "fg": s:aqua,   "format": "italic" })
+call s:h("typescriptInterfaceName",       { "fg": s:white })
+call s:h("typescriptObjectLabel",         { "fg": s:green })
+call s:h("typescriptMember",              { "fg": s:green })
+call s:h("typescriptTypeReference",       { "fg": s:purple, "format": "italic" })
+call s:h("typescriptTypeParameter",       { "fg": s:purple, "format": "italic" })
+call s:h("typescriptOptionalMark",        { "fg": s:pink })
+call s:h("tsxAttrib",                     { "fg": s:green })
+call s:h("tsxTagName",                    { "fg": s:pink })
                                  
 " Html
 call s:h("htmlTag",             { "fg": s:white })
