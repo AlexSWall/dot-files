@@ -1,0 +1,24 @@
+{
+	"languageserver": {
+		"lua-language-server": {
+			"command": "/Users/Alex/.language_servers/lua-language-server/bin/macOS/lua-language-server",
+			"args": ["-E", "-e", "LANG='en'", "/Users/Alex/.language_servers/lua-language-server/main.lua"],
+			"filetypes": ["lua"],
+			"cwd": "/Users/Alex/.language_servers/lua-language-server"
+		},
+		"erlang_ls": {
+			"command": "/Users/Alex/.language_servers/erlang_ls/_build/default/bin/erlang_ls",
+			"args": ["-t stdio"],
+			"filetypes": ["erlang"]
+		},
+		"bash": {
+			"command": "bash-language-server",
+			"args": ["start"],
+			"filetypes": ["sh"],
+			"ignoredRootPaths": ["~"]
+		}
+	},
+	"erlang_ls.erlang_ls_path": "/Users/Alex/.language_servers/erlang_ls/_build/default/bin/erlang_ls",
+	"erlang_ls.trace.server": "off",
+	"suggest.minTriggerInputLength": 3
+}
