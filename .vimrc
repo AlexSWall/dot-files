@@ -212,9 +212,10 @@
 
 		Plug 'octol/vim-cpp-enhanced-highlight'  " improves C++ syntax highlighting in vim
 
+		Plug 'tbastos/vim-lua'  " Makes Lua syntax highlight not terribly buggy
+
 		Plug 'luochen1990/rainbow'  " Rainbow parentheses matching
 		let g:rainbow_active = 1
-
 
 	" -- Miscellaneous --
 
