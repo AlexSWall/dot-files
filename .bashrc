@@ -5,7 +5,7 @@ case $- in
 	*) return;;
 esac # Only run if interactive
 
-OS=$(cat .operating_system)  # Sets `OS`; valid values: mac, ubuntu
+OS=$(cat ~/.operating_system)  # Sets `OS`; valid values: mac, ubuntu
 if [[ ! "$OS" =~ ^(mac|ubuntu)$ ]]; then echo 'Error: .operating_system value not one of {mac,ubuntu}'; return; fi
 
 
