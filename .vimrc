@@ -452,3 +452,6 @@
 			autocmd User NERDTreeInit call s:attempt_select_last_file()
 		augroup END
 	endif
+
+	" Disable Rainbow bracket matching for Lua: it messes up comments of the form [[ ... ' ... ]]
+	autocmd FileType lua :RainbowToggleOff
