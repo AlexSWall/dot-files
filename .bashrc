@@ -42,7 +42,7 @@ PROMPT_COMMAND='case $PWD in
 		/*/*/*)    HPWD="${PWD#"${PWD%/*/*}/"}";;
 		 *)        HPWD="$PWD";;
 	esac'
-PS1='\[\e[0;33m\]\u\[\e[0;33m\] @ \[\e[0;36m\]$HPWD \[\e[0;33m\]\$\[\e[0m\] '
+PS1='\[\e[0;33m\]\u\[\e[0;33m\] @ \[\e[0;36m\]$HPWD'"\n"'\[\e[0;33m\]\$\[\e[0m\] '
 
 
 # == Includes ==
