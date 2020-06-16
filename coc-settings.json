@@ -1,21 +1,29 @@
 {
 	"languageserver": {
-		"lua-language-server": {
-			"command": "/Users/Alex/.language_servers/lua-language-server/bin/macOS/lua-language-server",
-			"args": ["-E", "-e", "LANG='en'", "/Users/Alex/.language_servers/lua-language-server/main.lua"],
-			"filetypes": ["lua"],
-			"cwd": "/Users/Alex/.language_servers/lua-language-server"
+		"bash": {
+			"command": "bash-language-server",
+			"args": ["start"],
+			"filetypes": ["sh"],
+			"ignoredRootPaths": ["~"]
 		},
 		"erlang_ls": {
 			"command": "/Users/Alex/.language_servers/erlang_ls/_build/default/bin/erlang_ls",
 			"args": ["-t stdio"],
 			"filetypes": ["erlang"]
 		},
-		"bash": {
-			"command": "bash-language-server",
-			"args": ["start"],
-			"filetypes": ["sh"],
-			"ignoredRootPaths": ["~"]
+		"intelephense": {
+			"command": "intelephense",
+			"args": ["--stdio"],
+			"filetypes": ["php"],
+			"initializationOptions": {
+				"storagePath": "/tmp/intelephense"
+			}
+		},
+		"lua-language-server": {
+			"command": "/Users/Alex/.language_servers/lua-language-server/bin/macOS/lua-language-server",
+			"args": ["-E", "-e", "LANG='en'", "/Users/Alex/.language_servers/lua-language-server/main.lua"],
+			"filetypes": ["lua"],
+			"cwd": "/Users/Alex/.language_servers/lua-language-server"
 		}
 	},
 	"erlang_ls.erlang_ls_path": "/Users/Alex/.language_servers/erlang_ls/_build/default/bin/erlang_ls",
