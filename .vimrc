@@ -210,7 +210,10 @@
 
 		Plug 'crusoexia/vim-monokai'
 
-		Plug 'octol/vim-cpp-enhanced-highlight'  " improves C++ syntax highlighting in vim
+		Plug 'octol/vim-cpp-enhanced-highlight'  " improves C++ syntax highlighting
+		Plug 'StanAngeloff/php.vim'  " improves PHP syntax highlighting
+
+		let g:php_var_selector_is_identifier = 1
 
 		Plug 'tbastos/vim-lua'  " Makes Lua syntax highlight not terribly buggy
 
@@ -242,6 +245,9 @@
 	" Always show the signcolumn, otherwise it would shift the text each time
 	" diagnostics appear/become resolved.
 	set signcolumn=yes
+
+	" A yank command can be redone with '.'
+	set cpoptions+=y
 
 	" -- Input --
 
@@ -455,3 +461,4 @@
 
 	" Disable Rainbow bracket matching for Lua: it messes up comments of the form [[ ... ' ... ]]
 	autocmd FileType lua :RainbowToggleOff
+	autocmd FileType php :RainbowToggleOff
