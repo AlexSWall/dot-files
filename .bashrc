@@ -49,4 +49,4 @@ PS1='\[\e[0;33m\]\u\[\e[0;33m\] @ \[\e[0;36m\]$HPWD'"\n"'\[\e[0;33m\]\$\[\e[0m\]
 
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.aliases ]      && source ~/.aliases
-[ -f ~/.fzf.bash ]     && source ~/.fzf.bash
+# [ -f ~/.fzf.bash ]     && source ~/.fzf.bash
