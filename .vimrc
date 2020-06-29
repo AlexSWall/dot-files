@@ -27,6 +27,8 @@
 " == Prep ==
 
 	set nocompatible  " Break vi compatibility to behave in a more useful way
+	set runtimepath^=~/.vim
+	let &packpath=&runtimepath
 
 
 " == Plugins ==
@@ -208,8 +210,6 @@
 
 	" -- Colours --
 
-		Plug 'crusoexia/vim-monokai'
-
 		Plug 'octol/vim-cpp-enhanced-highlight'  " improves C++ syntax highlighting
 		Plug 'StanAngeloff/php.vim'  " improves PHP syntax highlighting
 
@@ -383,6 +383,15 @@
 			nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 
+		" -- Easy Align --
+
+		" Start interactive EasyAlign in visual mode (e.g. vipga)
+		xmap ga <Plug>(EasyAlign)
+
+		" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+		nmap ga <Plug>(EasyAlign)
+
+
 		" -- Easymotion --
 
 			" <Leader><Leader>[swef...]
@@ -414,6 +423,17 @@
 			endfunction
 
 			vnoremap <silent> <leader>y :call <sid>tmux_load_buffer()<CR>
+
+
+		" -- Tmux Navigator (Alt-[hjkl]) --
+
+			let g:tmux_navigator_no_mappings = 1
+
+			nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
+			nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
+			nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
+			nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
+			nnoremap <silent> <M-\> :TmuxNavigatePrevious<cr>
 
 
 		" -- Undotree (<Leader>u) --
