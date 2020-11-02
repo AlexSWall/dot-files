@@ -11,6 +11,25 @@
 			"args": ["-t stdio"],
 			"filetypes": ["erlang"]
 		},
+		"haskell": {
+			"command": "hie-wrapper",
+			"args": ["--lsp"],
+			"rootPatterns": [
+				"*.cabal",
+				"stack.yaml",
+				"cabal.project",
+				"package.yaml"
+			],
+			"filetypes": [
+				"hs",
+				"lhs",
+				"haskell"
+			],
+			"initializationOptions": {
+				"haskell": {
+				}
+			}
+		},
 		"intelephense": {
 			"command": "intelephense",
 			"args": ["--stdio"],
