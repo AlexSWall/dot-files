@@ -158,9 +158,9 @@ call s:h("FoldColumn",    {                     "bg": s:black })
 "        Incsearch"
 
 " popup menu
-call s:h("Pmenu",         { "fg": s:white2,     "bg": s:lightblack3 })
-call s:h("PmenuSel",      { "fg": s:aqua,       "bg": s:lightblack3,        "format": "reverse,bold" })
-call s:h("PmenuThumb",    { "fg": s:lightblack, "bg": s:grey })
+call s:h("Pmenu",         { "fg": s:white2,     "bg": s:lightblack0 })
+call s:h("PmenuSel",      { "fg": s:aqua,       "bg": s:lightblack0,        "format": "reverse,bold" })
+call s:h("PmenuThumb",    { "fg": s:lightblack, "bg": s:lightblack2 })
 "        PmenuSbar"
 
 " Generic Syntax Highlighting
@@ -234,7 +234,7 @@ call s:h("SyntasticWarningSign",    { "fg": s:lightblack, "bg": s:orange })
 
 hi! link CocErrorSign Error
 call s:h("CocErrorHighlight",       { "fg": s:red, "format": "underline" })
-call s:h("CocErrorFloat",           { "fg": s:purered, "bg": s:lightblack3 })
+call s:h("CocErrorFloat",           { "fg": s:red, "bg": s:lightblack0 })
 
 call s:h("CocWarningSign",          { "fg": s:orange, "bg": s:lightblack })
 call s:h("CocWarningHighlight",     { "format": "underline" })
