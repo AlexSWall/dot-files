@@ -4,7 +4,7 @@
 	process = git-lfs filter-process
 	required = true
 [user]
-	name = Alex
+	name = Alex W.
 	email = alexander.stephen.wall@gmail.com
 [alias]
 	log1 = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
