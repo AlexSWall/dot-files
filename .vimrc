@@ -111,6 +111,10 @@
 			let g:NERDTreeMouseMode=2  " Single-click to toggle directory nodes, double-click to open non-directory nodes.
 			let g:NERDTreeCreatePrefix='silent keepalt keepjumps'
 
+			" Ignore certain files by name in NERDTree.
+			set wildignore+=*.pyc,*.o,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.min.*
+			let NERDTreeRespectWildIgnore=1
+
 			autocmd FileType nerdtree setlocal nonumber relativenumber  " use relative line numbers
 
 			" Start up nerdtree for empty vim instances
@@ -128,9 +132,11 @@
 			call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
 			call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
 
-		Plug 'Xuyuanp/nerdtree-git-plugin'  " Adds git flag visuals to nerdtree
+		" Plug 'Xuyuanp/nerdtree-git-plugin'  " Adds git flag visuals to nerdtree
 
 		Plug 'mbbill/undotree'  " Browse the undo tree via <Leader>u
+
+		Plug 'monkoose/fzf-hoogle.vim'  " Gives :Hoogle
 
 
 	" -- Finders --
@@ -138,12 +144,8 @@
 		Plug 'junegunn/fzf'  " Gives :FZF[!] --preview=head\ -10\ {}, fzf#run, and fzf#wrap; Ctrl-[XV] to select into split/vsplit
 		Plug 'junegunn/fzf.vim'  " Gives :Ag, :Files, :Buffers, :Lines, :Tags
 
-			" Open fzf in a Tmux pane if Tmux is being used (`man fzf-tmux`), and in a vim window if not
-			if exists('$TMUX')
-				let g:fzf_layout = { 'tmux': '-p90%,60%' }
-			else
-				let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-			endif
+			let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+			let g:fzf_prefer_tmux = 0
 
 		Plug 'jlanzarotta/bufexplorer'  " <Leader>b[etsv] (open/toggle/-split/|split); then b<Num> switches to buffer
 
@@ -154,10 +156,6 @@
 			" The bang version of `install-binary` will try to download the prebuilt binary if cargo does not exist.
 
 			" Then run `call :clap#installer#build_all()` if `cargo` exists for full Clap tooling
-
-		Plug 'mileszs/ack.vim'  " :Ack[!] [options] {pattern} [{directories}]; use `<Leader>a`
-
-			let g:ackprg = 'ag --vimgrep'  " Use ag for :Ack
 
 
 	" -- Vim-Tmux Interaction --
@@ -213,12 +211,22 @@
 		Plug 'octol/vim-cpp-enhanced-highlight'  " improves C++ syntax highlighting
 		Plug 'StanAngeloff/php.vim'  " improves PHP syntax highlighting
 
+		Plug 'neovimhaskell/haskell-vim'
+			let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+			let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+			let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+			let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+			let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+			let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+			let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+
 		let g:php_var_selector_is_identifier = 1
 
 		Plug 'tbastos/vim-lua'  " Makes Lua syntax highlight not terribly buggy
 
 		Plug 'luochen1990/rainbow'  " Rainbow parentheses matching
 		let g:rainbow_active = 1
+
 
 	" -- Miscellaneous --
 
@@ -266,6 +274,7 @@
 
 	" Fold based on indentation
 	set foldmethod=indent
+	set foldminlines=0
 
 	" Default split positions
 	set splitbelow
@@ -283,7 +292,7 @@
 
 	colorscheme monokai
 	set t_Co=256
-	set termguicolors
+	set notermguicolors
 	let g:monokai_term_italic = 1
 	let g:monokai_gui_italic = 1
 
@@ -302,7 +311,7 @@
 	set linebreak           " Break between words, not in the middle of words
 	set breakindent         " Visually indent wrapped lines
 	set breakindentopt=sbr  " Visually indent with the 'showbreak' option value
-	set showbreak=↪>\       " What to show to indent wrapped lines
+	set showbreak=↪\        " What to show to indent wrapped lines
 	set shortmess-=S        " Ensure we show the number of matches for '/'
 
 
@@ -319,11 +328,12 @@
 
 	" -- Tab = 2 Spaces --
 	"autocmd Filetype json       setlocal ts=2 sw=2 sts=2 noexpandtab
-	"autocmd Filetype cpp        setlocal ts=2 sw=2 sts=2 expandtab
 
 	" -- Tab = 3 Spaces --
+	autocmd Filetype cpp        setlocal ts=3 sw=3 sts=3 noexpandtab
 
 	" -- Tab = 4 Spaces --
+	autocmd Filetype haskell    setlocal ts=4 sw=4 sts=4 expandtab
 
 
 " == Key Mappings ==
@@ -333,10 +343,14 @@
 		" Set <Leader> to be <Space>
 		let mapleader = " "
 
+		" Swap : and ;
 		nnoremap ; :
 		vnoremap ; :
 		nnoremap : ;
 		vnoremap : ;
+
+		" Set <Esc> to its normal job when in terminal mode, instead of C-\,C-n
+		tnoremap <Esc> <C-\><C-n>
 
 		" Convenience <Leader> maps
 		nnoremap <Leader>w :w<CR>
@@ -347,19 +361,17 @@
 		" List buffers and prepare to move to one
 		nnoremap gb :ls<cr>:b<space>
 
-		" Fast movement with leader key
-		nnoremap <Leader>h 10h
+		" Previous and next Buffers
+		nnoremap <Leader>h :bprev<CR>
+		nnoremap <Leader>l :bnext<CR>
+
+		" Fast up-down movement
 		nnoremap <Leader>j 10j
 		nnoremap <Leader>k 10k
-		nnoremap <Leader>l 10l
 
+		nnoremap <Leader>z :tab sp<CR>
 
 	" -- Plugins --
-
-		" -- Ack (<Leader>a) --
-
-			nnoremap <Leader>a :Ack!<Space>
-
 
 		" -- Bufexplorer (<Leader>b[etsv]) --
 
@@ -382,19 +394,51 @@
 			nmap <silent> [g <Plug>(coc-diagnostic-prev)
 			nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+			" Formatting selected code.
+			xmap <leader>f  <Plug>(coc-format-selected)
+			nmap <leader>f  <Plug>(coc-format-selected)
+
 
 		" -- Easy Align --
 
-		" Start interactive EasyAlign in visual mode (e.g. vipga)
-		xmap ga <Plug>(EasyAlign)
+			" Start interactive EasyAlign in visual mode (e.g. vipga)
+			xmap ga <Plug>(EasyAlign)
 
-		" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-		nmap ga <Plug>(EasyAlign)
+			" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+			nmap ga <Plug>(EasyAlign)
 
 
 		" -- Easymotion --
 
 			" <Leader><Leader>[swef...]
+
+
+		" -- FZF (<Leader>f[abfgl], <Leader>f![abfgl]) --
+
+			" (:FZF = :Files)
+			nnoremap <Leader>fa :Ag<CR>
+			nnoremap <Leader>fb :BLines<CR>
+			nnoremap <Leader>ff :Files<CR>
+			nnoremap <Leader>fg :GFiles<CR>
+			nnoremap <Leader>fl :Lines<CR>
+
+			nnoremap <Leader>f!a :Ag!<CR>
+			nnoremap <Leader>f!b :BLines!<CR>
+			nnoremap <Leader>f!f :Files!<CR>
+			nnoremap <Leader>f!g :GFiles!<CR>
+			nnoremap <Leader>f!l :Lines!<CR>
+
+
+		" -- FZF-Hoogle --
+
+			nnoremap <Leader>fh :Hoogle<CR>
+
+
+		" -- Gitgutter --
+
+			" nunmap <Space>hp
+			" nunmap <Space>hu
+			" nunmap <Space>hs
 
 
 		" -- NERDTree (<Leader>n[fv], -) --
