@@ -292,8 +292,13 @@
 " == Visuals ==
 
 	function! StatuslineGit()
-		let l:branchname = gitbranch#name()
-		return strlen(l:branchname) > 0 ? '  '.l:branchname.' ' : ''
+		" Check whether vim-gitbranch is loaded (which gives gitbranch#name()) before continuing.
+		if exists("*gitbranch#name")
+			let l:branchname = gitbranch#name()
+			return strlen(l:branchname) > 0 ? '  '.l:branchname.' ' : ''
+		else
+			return ''
+		endif
 	endfunction
 
 	set statusline=%#Visual#%{StatuslineGit()}%#StatusLineNC#\ %f\ \ %y\ \ %{&fileencoding?&fileencoding:&encoding}:%{&fileformat}\ \ %h%w%m%r%=%12.(%l,%c%V%)\ 
