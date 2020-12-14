@@ -265,6 +265,18 @@
 	" A yank command can be redone with '.'
 	set cpoptions+=y
 
+	" View keyword help with K
+	set keywordprg=:help
+
+	" highlight all search results
+	set hlsearch
+
+	"  Do case-insensitive search
+	set ignorecase
+
+	" Show incremental search results as you type
+	set incsearch
+
 	" -- Input --
 
 	" Enable mouse resizing splits
