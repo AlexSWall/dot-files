@@ -5,11 +5,8 @@ case $- in
 	*) return;;
 esac # Only run if interactive
 
-OS=$(cat ~/.operating_system)  # Sets `OS`; valid values: mac, ubuntu
-if [[ ! "$OS" =~ ^(mac|ubuntu)$ ]]; then echo 'Error: .operating_system value not one of {mac,ubuntu}'; return; fi
-
-
 set -o vi
+alias vim='nvim'
 
 HISTSIZE=1000           # Number of commands.
 HISTFILESIZE=2000       # Number of lines.
@@ -18,18 +15,9 @@ HISTCONTROL=ignoreboth  # Ignore duplicate lines and lines starting with a space
 shopt -s histappend    # Append to the history file, don't overwrite it
 shopt -s checkwinsize  # Sets 'checkwinsize': After each command, the `LINES` and `COLUMNS` values are updated
 
-case $OS in
-	mac) export BASH_SILENCE_DEPRECATION_WARNING=1 ;;
-esac
-
 # == Visuals ==
 
-# Set CLI_COLOR/CLICOLOR if you want (Ansi) Colors
-if [[ "$OS" == "mac" ]]; then
-	export CLICOLOR=1
-elif [[ "$OS" == "ubuntu" ]]; then
-	export CLI_COLOR=1
-fi
+export CLI_COLOR=1
 
 # Set the colours of directories, executables, etc., see: https://geoff.greer.fm/lscolors/
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
@@ -43,6 +31,7 @@ PROMPT_COMMAND='case $PWD in
 		 *)        HPWD="$PWD";;
 	esac'
 PS1='\[\e[0;33m\]\u\[\e[0;33m\] @ \[\e[0;36m\]$HPWD'"\n"'\[\e[0;33m\]\$\[\e[0m\] '
+# PS1='\[\e[0;33m\]\u\[\e[0;33m\] @ \[\e[0;36m\]$HPWD \[\e[0;33m\](\[\e[0;36m\]CentOS\[\e[0;33m\])'"\n"'\[\e[0;33m\]\$\[\e[0m\] '
 
 
 # == Includes ==
