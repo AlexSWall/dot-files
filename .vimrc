@@ -64,7 +64,7 @@
 			" " position. Coc only does snippet and additional edit on confirm.
 			if has('patch8.1.1068')
 				" Use `complete_info` if your (Neo)Vim version supports it.
-				inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+				"inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 			else
 				imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 			endif
@@ -136,7 +136,7 @@
 
 		Plug 'mbbill/undotree'  " Browse the undo tree via <Leader>u
 
-		Plug 'monkoose/fzf-hoogle.vim'  " Gives :Hoogle
+		" Plug 'monkoose/fzf-hoogle.vim'  " Gives :Hoogle
 
 
 	" -- Finders --
@@ -177,6 +177,11 @@
 
 		Plug 'airblade/vim-gitgutter'  " Displays git symbols next to lines (]c, [c to navigate)
 
+			" Get rid of <Leader>h-
+			let g:gitgutter_map_keys=0
+			nmap [c <Plug>GitGutterPrevHunk
+			nmap ]c <Plug>GitGutterNextHunk
+
 		Plug 'itchyny/vim-gitbranch'  " Gives `gitbranch#name()`
 
 
@@ -209,7 +214,9 @@
 	" -- Colours --
 
 		Plug 'octol/vim-cpp-enhanced-highlight'  " improves C++ syntax highlighting
+
 		Plug 'StanAngeloff/php.vim'  " improves PHP syntax highlighting
+			let g:php_var_selector_is_identifier = 1
 
 		Plug 'neovimhaskell/haskell-vim'
 			let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
@@ -220,7 +227,7 @@
 			let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 			let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
-		let g:php_var_selector_is_identifier = 1
+		Plug 'pangloss/vim-javascript'
 
 		Plug 'tbastos/vim-lua'  " Makes Lua syntax highlight not terribly buggy
 
@@ -328,12 +335,14 @@
 
 	" -- Tab = 2 Spaces --
 	"autocmd Filetype json       setlocal ts=2 sw=2 sts=2 noexpandtab
+	" autocmd Filetype yaml       setlocal ts=2 sw=2 sts=2 expandtab
 
 	" -- Tab = 3 Spaces --
 	autocmd Filetype cpp        setlocal ts=3 sw=3 sts=3 noexpandtab
 
 	" -- Tab = 4 Spaces --
 	autocmd Filetype haskell    setlocal ts=4 sw=4 sts=4 expandtab
+	autocmd Filetype yaml       setlocal ts=4 sw=4 sts=4 expandtab
 
 
 " == Key Mappings ==
@@ -357,6 +366,17 @@
 		nnoremap <Leader><Leader>w :w!<CR>
 		nnoremap <Leader>q :q<CR>
 		nnoremap <Leader><Leader>q :q!<CR>
+
+		" Switch between vim tabs
+		nnoremap <leader>1 1gt
+		nnoremap <leader>2 2gt
+		nnoremap <leader>3 3gt
+		nnoremap <leader>4 4gt
+		nnoremap <leader>5 5gt
+		nnoremap <leader>6 6gt
+		nnoremap <leader>7 7gt
+		nnoremap <leader>8 8gt
+		nnoremap <leader>9 9gt
 
 		" List buffers and prepare to move to one
 		nnoremap gb :ls<cr>:b<space>
@@ -526,3 +546,11 @@
 	" Disable Rainbow bracket matching for Lua: it messes up comments of the form [[ ... ' ... ]]
 	autocmd FileType lua :RainbowToggleOff
 	autocmd FileType php :RainbowToggleOff
+
+	" Get coc-css to add @ to iskeyword
+	autocmd FileType scss setl iskeyword+=@-@
+
+	function! SynGroup()
+		let l:s = synID(line('.'), col('.'), 1)
+		echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+	endfun
