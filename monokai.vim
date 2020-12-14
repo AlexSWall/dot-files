@@ -4,6 +4,7 @@
 " License:    MIT
 "
 " The colour palette is from http://www.colourlovers.com/
+" The original code is from https://github.com/w0ng/vim-hybrid
 
 " Initialisation
 " --------------
@@ -13,7 +14,7 @@ if !has("gui_running") && &t_Co < 256
 endif
 
 if ! exists("g:monokai_gui_italic")
-    let g:monokai_gui_italic = 1
+    let g:monokai_gui_italic = 0
 endif
 
 if ! exists("g:monokai_term_italic")
@@ -95,7 +96,8 @@ let s:darkred     = { "gui": "#5f0000", "cterm": "52" }
 
 let s:addfg       = { "gui": "#d7ffaf", "cterm": "193" }
 let s:addbg       = { "gui": "#5f875f", "cterm": "65" }
-let s:delbg       = { "gui": "#f75f5f", "cterm": "167" }
+let s:delfg       = { "gui": "#ff8b8b", "cterm": "210" }
+let s:delbg       = { "gui": "#f75f5f", "cterm": "124" }
 let s:changefg    = { "gui": "#d7d7ff", "cterm": "189" }
 let s:changebg    = { "gui": "#5f5f87", "cterm": "60" }
 
@@ -117,11 +119,6 @@ call s:h("Cursor",        { "fg": s:black,      "bg": s:white })
 call s:h("CursorColumn",  {                     "bg": s:lightblack2 })
 call s:h("CursorLine",    {                     "bg": s:lightblack2 })
 call s:h("NonText",       { "fg": s:lightgrey })
-call s:h("StatusLine",    { "fg": s:lightblack, "bg": s:white3,       "format": "reverse" })
-call s:h("StatusLineNC",  { "fg": s:lightblack0,"bg": s:white3,       "format": "reverse" })
-call s:h("TabLineSel",    { "fg": s:white,      "bg": s:lightblack })
-call s:h("TabLine",       { "fg": s:grey,       "bg": s:black })
-call s:h("TabLineFill",   { "fg": s:grey,       "bg": s:black })
 call s:h("Visual",        {                     "bg": s:lightgrey })
 call s:h("Search",        {                     "bg": s:darkblue})
 call s:h("MatchParen",    { "fg": s:purple,                           "format": "underline,bold" })
@@ -134,6 +131,24 @@ call s:h("VertSplit",     { "fg": s:darkgrey,   "bg": s:black })
 call s:h("LineNr",        { "fg": s:grey,       "bg": s:black })
 call s:h("CursorLineNr",  { "fg": s:orange,     "bg": s:black })
 call s:h("SignColumn",    {                     "bg": s:black })
+
+" statusline
+call s:h("StatusLine",    { "fg": s:lightblack, "bg": s:white3,       "format": "reverse" })
+call s:h("StatusLineNC",  { "fg": s:lightblack0,"bg": s:white3,       "format": "reverse" })
+call s:h("TabLineSel",    { "fg": s:white,      "bg": s:lightblack })
+call s:h("TabLine",       { "fg": s:grey,       "bg": s:black })
+call s:h("TabLineFill",   { "fg": s:grey,       "bg": s:black })
+"origin's statusline:
+" call s:h("StatusLine",    { "fg": s:black,      "bg": s:lightgrey })
+" call s:h("StatusLineNC",  { "fg": s:lightgrey,  "bg": s:black })
+" call s:h("TabLine",       { "fg": s:lightgrey,  "bg": s:lightblack })
+" call s:h("TabLineSel",    { "fg": s:darkblack,  "bg": s:warmgrey,     "format": "bold" })
+" call s:h("TabLineFill",   { "bg": s:lightblack })
+
+call s:h("User1",         { "fg": s:yellow,     "bg": s:lightgrey,    "format": "bold" })
+call s:h("User2",         { "fg": s:orange,     "bg": s:lightgrey,    "format": "bold" })
+call s:h("User3",         { "fg": s:purple,     "bg": s:lightgrey,    "format": "bold" })
+call s:h("User4",         { "fg": s:aqua,       "bg": s:lightgrey,    "format": "bold" })
 
 " spell
 call s:h("SpellBad",      { "fg": s:red,                              "format": "underline" })
@@ -148,7 +163,7 @@ call s:h("Directory",     { "fg": s:aqua })
 
 " diff
 call s:h("DiffAdd",       { "fg": s:addfg,      "bg": s:addbg })
-call s:h("DiffDelete",    { "fg": s:black,      "bg": s:delbg })
+call s:h("DiffDelete",    { "fg": s:delfg,      "bg": s:delbg })
 call s:h("DiffChange",    { "fg": s:changefg,   "bg": s:changebg })
 call s:h("DiffText",      { "fg": s:black,      "bg": s:aqua })
 
@@ -158,9 +173,9 @@ call s:h("FoldColumn",    {                     "bg": s:black })
 "        Incsearch"
 
 " popup menu
-call s:h("Pmenu",         { "fg": s:white2,     "bg": s:lightblack0 })
-call s:h("PmenuSel",      { "fg": s:aqua,       "bg": s:lightblack0,        "format": "reverse,bold" })
-call s:h("PmenuThumb",    { "fg": s:lightblack, "bg": s:lightblack2 })
+call s:h("Pmenu",         { "fg": s:white2,     "bg": s:lightblack3 })
+call s:h("PmenuSel",      { "fg": s:aqua,       "bg": s:lightblack3,        "format": "reverse,bold" })
+call s:h("PmenuThumb",    { "fg": s:lightblack, "bg": s:grey })
 "        PmenuSbar"
 
 " Generic Syntax Highlighting
@@ -234,7 +249,7 @@ call s:h("SyntasticWarningSign",    { "fg": s:lightblack, "bg": s:orange })
 
 hi! link CocErrorSign Error
 call s:h("CocErrorHighlight",       { "fg": s:red, "format": "underline" })
-call s:h("CocErrorFloat",           { "fg": s:red, "bg": s:lightblack0 })
+call s:h("CocErrorFloat",           { "fg": s:purered, "bg": s:lightblack3 })
 
 call s:h("CocWarningSign",          { "fg": s:orange, "bg": s:lightblack })
 call s:h("CocWarningHighlight",     { "format": "underline" })
@@ -260,12 +275,12 @@ call s:h("jsClassKeyword",      { "fg": s:aqua, "format": "italic" })
 call s:h("jsGlobalObjects",     { "fg": s:aqua, "format": "italic" })
 call s:h("jsFuncName",          { "fg": s:green })
 call s:h("jsThis",              { "fg": s:orange, "format": "italic" })
+call s:h("jsObjectKey",         { "fg": s:white })
 call s:h("jsFunctionKey",       { "fg": s:green })
 call s:h("jsPrototype",         { "fg": s:aqua })
 call s:h("jsExceptions",        { "fg": s:aqua })
 call s:h("jsFutureKeys",        { "fg": s:aqua })
 call s:h("jsBuiltins",          { "fg": s:aqua })
-call s:h("jsArgsObj",           { "fg": s:aqua })
 call s:h("jsStatic",            { "fg": s:aqua })
 call s:h("jsSuper",             { "fg": s:orange, "format": "italic" })
 call s:h("jsFuncArgRest",       { "fg": s:purple, "format": "italic" })                                 
@@ -306,19 +321,43 @@ call s:h("typescriptTypeParameter",       { "fg": s:purple, "format": "italic" }
 call s:h("typescriptOptionalMark",        { "fg": s:pink })
 call s:h("tsxAttrib",                     { "fg": s:green })
 call s:h("tsxTagName",                    { "fg": s:pink })
+
+" Dart
+call s:h("dartStorageClass",    { "fg": s:pink })
+call s:h("dartExceptions",      { "fg": s:pink })
+call s:h("dartConditional",     { "fg": s:pink })
+call s:h("dartRepeat",          { "fg": s:pink })
+call s:h("dartTypedef",         { "fg": s:pink })
+call s:h("dartKeyword",         { "fg": s:pink })
+call s:h("dartConstant",        { "fg": s:purple })
+call s:h("dartBoolean",         { "fg": s:purple })
+call s:h("dartCoreType",        { "fg": s:aqua })
+call s:h("dartType",            { "fg": s:aqua })
                                  
-" Html
+" HTML
 call s:h("htmlTag",             { "fg": s:white })
 call s:h("htmlEndTag",          { "fg": s:white })
 call s:h("htmlTagName",         { "fg": s:pink })
 call s:h("htmlArg",             { "fg": s:green })
 call s:h("htmlSpecialChar",     { "fg": s:purple })
 
-" Xml
+" XML
 call s:h("xmlTag",              { "fg": s:pink })
 call s:h("xmlEndTag",           { "fg": s:pink })
 call s:h("xmlTagName",          { "fg": s:orange })
 call s:h("xmlAttrib",           { "fg": s:green })
+
+" JSX
+call s:h("jsxTag",              { "fg": s:white })
+call s:h("jsxCloseTag",         { "fg": s:white })
+call s:h("jsxCloseString",      { "fg": s:white })
+call s:h("jsxPunct",            { "fg": s:white })
+call s:h("jsxClosePunct",       { "fg": s:white })
+call s:h("jsxTagName",          { "fg": s:pink })
+call s:h("jsxComponentName",    { "fg": s:pink })
+call s:h("jsxAttrib",           { "fg": s:green })
+call s:h("jsxEqual",            { "fg": s:white })
+call s:h("jsxBraces",           { "fg": s:white })
 
 " CSS
 call s:h("cssProp",             { "fg": s:yellow })
@@ -335,6 +374,17 @@ call s:h("cssURL",              { "fg": s:orange, "format": "underline,italic" }
 
 " LESS
 call s:h("lessVariable",        { "fg": s:green })
+
+" SASS
+call s:h("sassMixing",          { "fg": s:aqua })
+call s:h("sassMixin",           { "fg": s:aqua })
+call s:h("sassFunctionDecl",    { "fg": s:aqua })
+call s:h("sassReturn",          { "fg": s:aqua })
+call s:h("sassClass",           { "fg": s:green })
+call s:h("sassClassChar",       { "fg": s:pink })
+call s:h("sassIdChar",          { "fg": s:pink })
+call s:h("sassControl",         { "fg": s:aqua })
+call s:h("sassFor",             { "fg": s:aqua })
 
 " ruby
 call s:h("rubyInterpolationDelimiter",  {})
@@ -373,6 +423,19 @@ call s:h("cStorageClass",               { "fg": s:pink })
 call s:h("cInclude",                    { "fg": s:pink })
 call s:h("cDefine",                     { "fg": s:pink })
 call s:h("cSpecial",                    { "fg": s:purple })
+
+" Markdown
+call s:h("markdownCode",       { "fg": s:purple, "format": "italic" } )
+call s:h("markdownListMarker", { "fg": s:purple                     } )
+
+" vim-notes
+call s:h("notesTitle",        { "fg": s:aqua,        "format": "bold"        } )
+call s:h("notesAtxMarker",    { "fg": s:pink,        "format": "italic,bold" } )
+call s:h("notesShortHeading", { "fg": s:white,       "format": "bold"        } )
+call s:h("notesListBullet",   { "fg": s:purple                               } )
+call s:h("notesListNumber",   { "fg": s:purple,      "format": "italic"      } )
+call s:h("notesBold",         {                      "format": "bold"        } )
+call s:h("notesDoneMarker",   { "fg": s:green                                } )
 
 " Terminal Colors
 " ---------------
