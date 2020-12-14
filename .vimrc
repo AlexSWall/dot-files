@@ -90,7 +90,7 @@
 				endif
 			endfunction
 
-		Plug 'hyhugh/coc-erlang_ls', {'do': 'yarn install --frozen-lockfile'}
+		" Plug 'hyhugh/coc-erlang_ls', {'do': 'yarn install --frozen-lockfile'}
 
 		"Plug 'dense-analysis/ale'  " Linting for many languages
 
@@ -167,7 +167,7 @@
 
 		Plug 'benmills/vimux'  " Allows one to send commands when in Tmux (e.g. <Leader>vp, <Leader>vl, etc.)
 
-		Plug 'jtdowney/vimux-cargo'  " Adds <Leader>r[cabf] for cargo run/test all/unit test current file/focused
+		Plug 'jtdowney/vimux-cargo', { 'branch': 'main' }  " Adds <Leader>r[cabf] for cargo run/test all/unit test current file/focused
 
 		Plug 'tmux-plugins/vim-tmux-focus-events'  " restores Focus{Gained,Lost} events for vim inside tmux
 
