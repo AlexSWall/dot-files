@@ -92,6 +92,7 @@
 
 		Plug 'hyhugh/coc-erlang_ls', {'do': 'yarn install --frozen-lockfile'}
 
+		"Plug 'dense-analysis/ale'  " Linting for many languages
 
 	" -- Visual Interface Plugins --
 
@@ -204,11 +205,11 @@
 
 			Plug 'tpope/vim-repeat'  " Enables repeating surrounds and some other plugins
 
-			Plug 'jiangmiao/auto-pairs'  " Automatically adds and removes paired brackets etc.
+			" Plug 'jiangmiao/auto-pairs'  " Automatically adds and removes paired brackets etc.
 
-			Plug 'tpope/vim-endwise'  " Automatically add endings
+			" Plug 'tpope/vim-endwise'  " Automatically add endings
 
-				let g:endwise_no_mappings = v:true  " disable mapping to not break coc.nvim
+				" let g:endwise_no_mappings = v:true  " disable mapping to not break coc.nvim
 
 
 	" -- Colours --
