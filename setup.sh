@@ -5,10 +5,10 @@ OLD="$(pwd)/old"
 mkdir -p "$OLD"
 
 # == Home directory dotfiles ==
-for f in ".bashrc .vimrc .tmux.conf .gitconfig"
+for f in .bashrc .vimrc .tmux.conf .gitconfig
 do
 	if [ -e "$HOME/$f" ]; then
-		mv "$HOME/$f $OLD/$f"
+		mv "$HOME/$f" "$OLD/$f"
 	fi
 	ln -s "$PWD/$f" "$HOME/$f"
 done
@@ -16,7 +16,7 @@ done
 # == Monokai ==
 mkdir -p "$HOME/.vim/colors"
 if [ -e "$HOME/.vim/colors/monokai.vim" ]; then
-	mv "$HOME/.vim/colors/monokai.vim $OLD/monokai.vim"
+	mv "$HOME/.vim/colors/monokai.vim" "$OLD/monokai.vim"
 fi
 ln -s "$PWD/monokai.vim" "$HOME/.vim/colors/monokai.vim"
 
@@ -24,12 +24,12 @@ ln -s "$PWD/monokai.vim" "$HOME/.vim/colors/monokai.vim"
 mkdir -p "$HOME/.config/nvim"
 # init.vim
 if [ -e "$HOME/.config/nvim/init.vim" ]; then
-	mv "$HOME/config/nvim/init.vim" "$OLD/init.vim"
+	mv "$HOME/.config/nvim/init.vim" "$OLD/init.vim"
 fi
 ln -s "$PWD/init.vim" "$HOME/.config/nvim/init.vim"
 # coc-settings.json
 if [ -e "$HOME/.config/nvim/coc-settings.json" ]; then
-	mv "$HOME/config/nvim/coc-settings.json" "$OLD/coc-settings.json"
+	mv "$HOME/.config/nvim/coc-settings.json" "$OLD/coc-settings.json"
 fi
 ln -s "$PWD/coc-settings.json" "$HOME/.config/nvim/coc-settings.json"
 
