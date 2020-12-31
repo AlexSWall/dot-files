@@ -72,11 +72,10 @@ endfunction
 let s:white       = { "gui": "#d0d0d0", "cterm": "252" }
 let s:white2      = { "gui": "#bcbcbc", "cterm": "250" }
 let s:white3      = { "gui": "#949494", "cterm": "246" }
-let s:grey        = { "gui": "#808080", "cterm": "243" }
+let s:lightgrey   = { "gui": "#808080", "cterm": "243" }
 let s:warmgrey    = { "gui": "#6a6a5a", "cterm": "59"  }
-let s:darkgrey    = { "gui": "#4e4e4e", "cterm": "239" }
-let s:lightgrey   = { "gui": "#3a3a3a", "cterm": "237" }
-let s:lightblack3 = { "gui": "#3a3a3a", "cterm": "237" }
+let s:grey        = { "gui": "#4e4e4e", "cterm": "239" }
+let s:darkgrey    = { "gui": "#3a3a3a", "cterm": "237" }
 let s:lightblack2 = { "gui": "#303030", "cterm": "236" }
 let s:lightblack  = { "gui": "#262626", "cterm": "235" }
 let s:lightblack0 = { "gui": "#1c1c1c", "cterm": "234" }
@@ -118,8 +117,8 @@ call s:h("ColorColumn",   {                     "bg": s:lightblack })
 call s:h("Cursor",        { "fg": s:black,      "bg": s:white })
 call s:h("CursorColumn",  {                     "bg": s:lightblack2 })
 call s:h("CursorLine",    {                     "bg": s:lightblack2 })
-call s:h("NonText",       { "fg": s:lightgrey })
-call s:h("Visual",        {                     "bg": s:lightgrey })
+call s:h("NonText",       { "fg": s:darkgrey })
+call s:h("Visual",        {                     "bg": s:darkgrey })
 call s:h("Search",        {                     "bg": s:darkblue})
 call s:h("MatchParen",    { "fg": s:purple,                           "format": "underline,bold" })
 call s:h("Question",      { "fg": s:yellow })
@@ -127,8 +126,8 @@ call s:h("ModeMsg",       { "fg": s:yellow })
 call s:h("MoreMsg",       { "fg": s:yellow })
 call s:h("ErrorMsg",      { "fg": s:black,      "bg": s:red,          "format": "standout" })
 call s:h("WarningMsg",    { "fg": s:red })
-call s:h("VertSplit",     { "fg": s:darkgrey,   "bg": s:black })
-call s:h("LineNr",        { "fg": s:grey,       "bg": s:black })
+call s:h("VertSplit",     { "fg": s:grey,   "bg": s:black })
+call s:h("LineNr",        { "fg": s:lightgrey,       "bg": s:black })
 call s:h("CursorLineNr",  { "fg": s:orange,     "bg": s:black })
 call s:h("SignColumn",    {                     "bg": s:black })
 
@@ -136,19 +135,19 @@ call s:h("SignColumn",    {                     "bg": s:black })
 call s:h("StatusLine",    { "fg": s:lightblack, "bg": s:white3,       "format": "reverse" })
 call s:h("StatusLineNC",  { "fg": s:lightblack0,"bg": s:white3,       "format": "reverse" })
 call s:h("TabLineSel",    { "fg": s:white,      "bg": s:lightblack })
-call s:h("TabLine",       { "fg": s:grey,       "bg": s:black })
-call s:h("TabLineFill",   { "fg": s:grey,       "bg": s:black })
+call s:h("TabLine",       { "fg": s:lightgrey,       "bg": s:black })
+call s:h("TabLineFill",   { "fg": s:lightgrey,       "bg": s:black })
 "origin's statusline:
-" call s:h("StatusLine",    { "fg": s:black,      "bg": s:lightgrey })
-" call s:h("StatusLineNC",  { "fg": s:lightgrey,  "bg": s:black })
-" call s:h("TabLine",       { "fg": s:lightgrey,  "bg": s:lightblack })
+" call s:h("StatusLine",    { "fg": s:black,      "bg": s:darkgrey })
+" call s:h("StatusLineNC",  { "fg": s:darkgrey,  "bg": s:black })
+" call s:h("TabLine",       { "fg": s:darkgrey,  "bg": s:lightblack })
 " call s:h("TabLineSel",    { "fg": s:darkblack,  "bg": s:warmgrey,     "format": "bold" })
 " call s:h("TabLineFill",   { "bg": s:lightblack })
 
-call s:h("User1",         { "fg": s:yellow,     "bg": s:lightgrey,    "format": "bold" })
-call s:h("User2",         { "fg": s:orange,     "bg": s:lightgrey,    "format": "bold" })
-call s:h("User3",         { "fg": s:purple,     "bg": s:lightgrey,    "format": "bold" })
-call s:h("User4",         { "fg": s:aqua,       "bg": s:lightgrey,    "format": "bold" })
+call s:h("User1",         { "fg": s:yellow,     "bg": s:darkgrey,    "format": "bold" })
+call s:h("User2",         { "fg": s:orange,     "bg": s:darkgrey,    "format": "bold" })
+call s:h("User3",         { "fg": s:purple,     "bg": s:darkgrey,    "format": "bold" })
+call s:h("User4",         { "fg": s:aqua,       "bg": s:darkgrey,    "format": "bold" })
 
 " spell
 call s:h("SpellBad",      { "fg": s:red,                              "format": "underline" })
@@ -173,9 +172,9 @@ call s:h("FoldColumn",    {                     "bg": s:black })
 "        Incsearch"
 
 " popup menu
-call s:h("Pmenu",         { "fg": s:white2,     "bg": s:lightblack3 })
-call s:h("PmenuSel",      { "fg": s:aqua,       "bg": s:lightblack3,        "format": "reverse,bold" })
-call s:h("PmenuThumb",    { "fg": s:lightblack, "bg": s:grey })
+call s:h("Pmenu",         { "fg": s:white2,     "bg": s:lightblack })
+call s:h("PmenuSel",      { "fg": s:aqua,       "bg": s:lightblack,        "format": "reverse,bold" })
+call s:h("PmenuThumb",    { "fg": s:lightblack, "bg": s:lightgrey })
 "        PmenuSbar"
 
 " Generic Syntax Highlighting
@@ -235,8 +234,8 @@ call s:h("NERDTreeBookmarksLeader", { "fg": s:black })
 call s:h("NERDTreeBookmarkName",    { "fg": s:yellow })
 call s:h("NERDTreeCWD",             { "fg": s:pink })
 call s:h("NERDTreeUp",              { "fg": s:white })
-call s:h("NERDTreeDirSlash",        { "fg": s:grey })
-call s:h("NERDTreeDir",             { "fg": s:grey })
+call s:h("NERDTreeDirSlash",        { "fg": s:lightgrey })
+call s:h("NERDTreeDir",             { "fg": s:lightgrey })
 
 " Syntastic
 " ---------
@@ -249,16 +248,16 @@ call s:h("SyntasticWarningSign",    { "fg": s:lightblack, "bg": s:orange })
 
 hi! link CocErrorSign Error
 call s:h("CocErrorHighlight",       { "fg": s:red, "format": "underline" })
-call s:h("CocErrorFloat",           { "fg": s:purered, "bg": s:lightblack3 })
+call s:h("CocErrorFloat",           { "fg": s:red, "bg": s:lightblack })
 
 call s:h("CocWarningSign",          { "fg": s:orange, "bg": s:lightblack })
 call s:h("CocWarningHighlight",     { "format": "underline" })
-call s:h("CocWarningFloat",         { "fg": s:orange, "bg": s:lightblack3 })
+call s:h("CocWarningFloat",         { "fg": s:orange, "bg": s:lightblack })
 
-call s:h("CocInfoSign",             { "fg": s:yellow, "bg": s:lightblack3 })
+call s:h("CocInfoSign",             { "fg": s:yellow, "bg": s:lightblack })
 call s:h("CocInfoHighlight",        { "format": "underline" })
 
-call s:h("CocHintSign",             { "fg": s:white, "bg": s:lightblack3 })
+call s:h("CocHintSign",             { "fg": s:white, "bg": s:lightblack })
 call s:h("CocHintHighlight",        { "format": "underline" })
 
 " Language highlight
@@ -448,7 +447,7 @@ if has('nvim')
   let g:terminal_color_5  = s:purple.gui
   let g:terminal_color_6  = s:cyan.gui
   let g:terminal_color_7  = s:white.gui
-  let g:terminal_color_8  = s:darkgrey.gui
+  let g:terminal_color_8  = s:grey.gui
   let g:terminal_color_9  = s:pink.gui
   let g:terminal_color_10 = s:br_green.gui
   let g:terminal_color_11 = s:br_yellow.gui
@@ -466,7 +465,7 @@ else
         \ s:purple.gui,
         \ s:cyan.gui,
         \ s:white.gui,
-        \ s:darkgrey.gui,
+        \ s:grey.gui,
         \ s:pink.gui,
         \ s:br_green.gui,
         \ s:br_yellow.gui,
