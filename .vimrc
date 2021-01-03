@@ -151,6 +151,9 @@
 			let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 			let g:fzf_prefer_tmux = 0
 
+			" Ignore file names when searching with Ag
+			command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
 		Plug 'jlanzarotta/bufexplorer'  " <Leader>b[etsv] (open/toggle/-split/|split); then b<Num> switches to buffer
 
 		Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }  " Adds `:Clap <X>` commands (<Leader>c[bcfglt])
