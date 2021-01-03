@@ -8,7 +8,7 @@ esac # Only run if interactive
 
 set -o vi
 alias vim='nvim'
-export VISUAL=vim
+export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 HISTSIZE=1000           # Number of commands.
