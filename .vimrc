@@ -137,6 +137,9 @@
 
 		Plug 'mbbill/undotree'  " Browse the undo tree via <Leader>u
 
+			" Fixing bug I seem to get complaining that this isn't defined.
+			let g:undotree_CursorLine = 1
+
 		" Plug 'monkoose/fzf-hoogle.vim'  " Gives :Hoogle
 
 
