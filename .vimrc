@@ -244,8 +244,74 @@
 
 	" -- Miscellaneous --
 
-		Plug 'tpope/vim-sensible'
+		" Plug 'tpope/vim-sensible'
 
+			" Manually pasting parts of vim-sensible to remove 'filetype indent on' and other things I later set myself
+
+			set complete-=i
+			set smarttab
+
+			set nrformats-=octal
+
+			if !has('nvim') && &ttimeoutlen == -1
+			  set ttimeout
+			  set ttimeoutlen=100
+			endif
+
+			set incsearch
+			" Use <C-L> to clear the highlighting of :set hlsearch.
+			if maparg('<C-L>', 'n') ==# ''
+			  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+			endif
+
+			set laststatus=2
+			set ruler
+			set wildmenu
+
+			set display+=lastline
+
+			set encoding=utf-8
+
+			if &listchars ==# 'eol:$'
+			  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+			endif
+
+			if v:version > 703 || v:version == 703 && has("patch541")
+			  set formatoptions+=j " Delete comment character when joining commented lines
+			endif
+
+			if has('path_extra')
+			  setglobal tags-=./tags tags-=./tags; tags^=./tags;
+			endif
+
+			if &shell =~# 'fish$' && (v:version < 704 || v:version == 704 && !has('patch276'))
+			  set shell=/usr/bin/env\ bash
+			endif
+
+			set autoread
+
+			if &history < 1000
+			  set history=1000
+			endif
+
+			if &tabpagemax < 50
+			  set tabpagemax=50
+			endif
+
+			if !empty(&viminfo)
+			  set viminfo^=!
+			endif
+
+			set sessionoptions-=options
+			set viewoptions-=options
+
+			if empty(mapcheck('<C-U>', 'i'))
+			  inoremap <C-U> <C-G>u<C-U>
+			endif
+
+			if empty(mapcheck('<C-W>', 'i'))
+			  inoremap <C-W> <C-G>u<C-W>
+			endif
 
 	call plug#end()
 
@@ -260,6 +326,8 @@
 
 	" Set the closest the cursor can get to the top/bottom before scrolling
 	set scrolloff=3
+	" Set the closest the cursor can get to the left/right before scrolling
+	set sidescrolloff=5
 
 	" Don't pass messages to |ins-completion-menu| ?
 	set shortmess-=c
