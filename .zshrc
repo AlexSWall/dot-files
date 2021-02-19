@@ -85,7 +85,16 @@ alias clear='clear; unset _NEW_LINE_BEFORE_PROMPT'
 # == Visuals ==
 
 # Set LS_COLORS
-eval "$(dircolors -b)"
+if [ -x "$(command -v dircolors)" ]; then
+	# -- Linux --
+	export CLICOLOR=1
+	eval "$(dircolors -b)"
+	export LS_COLORS='gxBxhxDxfxhxhxhxhxcxcx:di=0;35:'
+else
+	# -- MacOS --
+	export CLI_COLOR=1
+	export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+fi
 
 # Set color of auto-suggestions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999'

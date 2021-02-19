@@ -49,16 +49,16 @@ PROMPT_COMMAND='case $PWD in
 		 *)        HPWD="$PWD";;
 	esac'
 
-# green='\[\033[0;32m\]'
+green='\[\033[0;32m\]'
 gold='\[\033[0;33m\]'
 cyan='\[\033[0;36m\]'
 white='\[\033[0;0m\]'
 
+PS1=$gold'\u '$cyan'$HPWD'"\n"$gold'\$'$white' '
+
 # set variable identifying the chroot you work in (used in the prompt below)
 # if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then debian_chroot=$(cat /etc/debian_chroot); fi
-# PS1=$green'┌──${debian_chroot:+($debian_chroot)──}'$cyan'('$gold'\u'$cyan')'$green'─'$cyan'['$white'$HPWD'$cyan']\n'$green'└─'$gold'\$ '$white
-
-PS1=$gold'\u '$cyan'$HPWD'"\n"$gold'\$'$white' '
+PS1=$green'┌──${debian_chroot:+($debian_chroot)──}'$cyan'('$gold'\u'$cyan')'$green'─'$cyan'['$white'$HPWD'$cyan']\n'$green'└─'$gold'\$ '$white
 
 
 # == Visuals ==
