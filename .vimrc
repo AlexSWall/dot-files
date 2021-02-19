@@ -484,6 +484,8 @@
 
 		nnoremap <Leader>z :tab sp<CR>
 
+		nnoremap <leader>. @@
+
 	" -- Plugins --
 
 		" -- Bufexplorer (<Leader>b[etsv]) --
