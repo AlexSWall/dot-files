@@ -436,6 +436,7 @@
 	" -- Tab = 4 Spaces --
 	autocmd Filetype haskell    setlocal ts=4 sw=4 sts=4 expandtab
 	autocmd Filetype yaml       setlocal ts=4 sw=4 sts=4 expandtab
+	autocmd Filetype markdown   setlocal ts=4 sw=4 sts=4 expandtab
 
 
 " == Key Mappings ==
