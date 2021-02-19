@@ -48,21 +48,17 @@ PROMPT_COMMAND='case $PWD in
 		/*/*/*)    HPWD="${PWD#"${PWD%/*/*}/"}";;
 		 *)        HPWD="$PWD";;
 	esac'
-PS1='\[\e[0;33m\]\u\[\e[0;33m\] @ \[\e[0;36m\]$HPWD'"\n"'\[\e[0;33m\]\$\[\e[0m\] '
-# PS1='\[\e[0;33m\]\u\[\e[0;33m\] @ \[\e[0;36m\]$HPWD \[\e[0;33m\](\[\e[0;36m\]CentOS\[\e[0;33m\])'"\n"'\[\e[0;33m\]\$\[\e[0m\] '
 
+# green='\[\033[0;32m\]'
+gold='\[\033[0;33m\]'
+cyan='\[\033[0;36m\]'
+white='\[\033[0;0m\]'
 
 # set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
+# if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then debian_chroot=$(cat /etc/debian_chroot); fi
+# PS1=$green'┌──${debian_chroot:+($debian_chroot)──}('$cyan'\u@\h'$green')-['$white$HPWD$green']\n'$green'└─'$cyan'\$'$white' '
 
-green='\[\033[0;32m\]'
-cyan='\[\033[0;36m\]'
-white='\[\033[0;1m\]'
-maybe_white='\[\033[0m\]'
-
-PS1=$green'┌──${debian_chroot:+($debian_chroot)──}('$cyan'\u@\h'$green')-['$white$HPWD$green']\n'$green'└─'$cyan'\$'$maybe_white' '
+PS1=$gold'\u '$cyan'$HPWD'"\n"$gold'\$'$white' '
 
 
 # == Visuals ==

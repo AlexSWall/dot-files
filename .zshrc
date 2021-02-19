@@ -52,7 +52,8 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-PROMPT=$'%F{green}┌──${debian_chroot:+($debian_chroot)──}(%B%F{cyan}%n%b%F{green})-[%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{green}]\n└─%B%F{blue}$%b%F{reset} '
+# PROMPT=$'%F{green}┌──${debian_chroot:+($debian_chroot)──}(%B%F{cyan}%n%b%F{green})-[%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{green}]\n└─%B%F{blue}$%b%F{reset} '
+PROMPT=$'%F{3}%n %F{cyan}%(6~.%-1~/…/%4~.%5~)\n%F{3}$%F{reset} '
 
 # RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
 
