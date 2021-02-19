@@ -431,6 +431,7 @@
 
 	" -- Tab = 3 Spaces --
 	autocmd Filetype cpp        setlocal ts=3 sw=3 sts=3 noexpandtab
+	autocmd Filetype zsh        setlocal ts=3 sw=3 sts=3 noexpandtab
 
 	" -- Tab = 4 Spaces --
 	autocmd Filetype haskell    setlocal ts=4 sw=4 sts=4 expandtab
