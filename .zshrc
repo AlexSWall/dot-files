@@ -1,5 +1,10 @@
 # == General zsh setup ==
 
+# Ascend
+alias vim='nvim'
+export VISUAL=nvim
+export EDITOR="$VISUAL"
+
 # Configure key keybindings
 bindkey -v               # emacs key bindings
 bindkey ' ' magic-space  # do history expansion on space
