@@ -44,6 +44,9 @@ compinit -d ~/.cache/zcompdump
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case-insensitive tab completion
 
+bindkey -v
+bindkey '^R' history-incremental-search-backward
+
 # Auto-suggestions based on the history
 if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
 	. /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
