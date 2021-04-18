@@ -483,6 +483,9 @@
 		nnoremap <Leader>j 10j
 		nnoremap <Leader>k 10k
 
+		" Easy pasting previous yank
+		nnoremap <Leader>p "0p
+
 		nnoremap <Leader>z :tab sp<CR>
 
 		nnoremap <leader>. @@
