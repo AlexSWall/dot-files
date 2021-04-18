@@ -89,12 +89,13 @@ if [ -x "$(command -v dircolors)" ]; then
 	# -- Linux --
 	export CLICOLOR=1
 	eval "$(dircolors -b)"
-	export LS_COLORS='gxBxhxDxfxhxhxhxhxcxcx:di=0;35:'
+	export LS_COLORS='di=36:ln=1;31:so=37:pi=1;33:ex=35:bd=37:cd=37:su=37:sg=37:tw=32:ow=32'
 else
 	# -- MacOS --
 	export CLI_COLOR=1
-	export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+	export LSCOLORS='gxBxhxDxfxhxhxhxhxcxcx'
 fi
+alias ls='ls --color=auto'
 
 # Set color of auto-suggestions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999'
