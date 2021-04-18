@@ -177,3 +177,8 @@ alias history="history 0"
 [ -f ~/.aliases ]       && source ~/.aliases
 [ -f ~/.local_aliases ] && source ~/.local_aliases
 # [ -f ~/.fzf.bash ]      && source ~/.fzf.bash
+
+. ${HOME}/.zshenv
+
+TERM=xterm
+export TERM=xterm
