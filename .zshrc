@@ -98,7 +98,8 @@ else
 	export CLI_COLOR=1
 	export LSCOLORS='gxBxhxDxfxhxhxhxhxcxcx'
 fi
-alias ls='ls --color=auto'
+
+alias ls='ls -G'
 
 # Set color of auto-suggestions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999'
