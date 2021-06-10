@@ -185,6 +185,5 @@ alias history="history 0"
 [ -f ~/.zshenv ]        && source ~/.zshenv
 [ -f ~/.aliases ]       && source ~/.aliases
 [ -f ~/.local_aliases ] && source ~/.local_aliases
-[ -f ~/.zshenv ]        && source ~/.zshenv
 # [ -f ~/.fzf.bash ]      && source ~/.fzf.bash
 
