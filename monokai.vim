@@ -72,15 +72,14 @@ endfunction
 let s:white       = { "gui": "#d0d0d0", "cterm": "252" }
 let s:white2      = { "gui": "#bcbcbc", "cterm": "250" }
 let s:white3      = { "gui": "#949494", "cterm": "246" }
-let s:lightgrey   = { "gui": "#808080", "cterm": "243" }
-let s:warmgrey    = { "gui": "#6a6a5a", "cterm": "59"  }
-let s:grey        = { "gui": "#4e4e4e", "cterm": "239" }
-let s:darkgrey    = { "gui": "#3a3a3a", "cterm": "237" }
-let s:lightblack2 = { "gui": "#303030", "cterm": "236" }
-let s:lightblack  = { "gui": "#262626", "cterm": "235" }
-let s:lightblack0 = { "gui": "#1c1c1c", "cterm": "234" }
-let s:black       = { "gui": "#121212", "cterm": "233" }
-let s:darkblack   = { "gui": "#080808", "cterm": "232" }
+let s:lightgrey   = { "gui": "#767676", "cterm": "243" }
+let s:warmgrey    = { "gui": "#666666", "cterm": "242" }
+let s:grey        = { "gui": "#444444", "cterm": "238" }
+let s:darkgrey    = { "gui": "#303030", "cterm": "236" }
+let s:lightblack2 = { "gui": "#262626", "cterm": "235" }
+let s:lightblack  = { "gui": "#1c1c1c", "cterm": "234" }
+let s:lightblack0 = { "gui": "#121212", "cterm": "233" }
+let s:black       = { "gui": "#080808", "cterm": "232" }
 
 let s:pink        = { "gui": "#F92772", "cterm": "197" }
 let s:green       = { "gui": "#A6E22D", "cterm": "148" }
@@ -137,13 +136,6 @@ call s:h("StatusLineNC",  { "fg": s:lightblack0,"bg": s:white3,       "format": 
 call s:h("TabLineSel",    { "fg": s:white,      "bg": s:lightblack })
 call s:h("TabLine",       { "fg": s:lightgrey,       "bg": s:black })
 call s:h("TabLineFill",   { "fg": s:lightgrey,       "bg": s:black })
-"origin's statusline:
-" call s:h("StatusLine",    { "fg": s:black,      "bg": s:darkgrey })
-" call s:h("StatusLineNC",  { "fg": s:darkgrey,  "bg": s:black })
-" call s:h("TabLine",       { "fg": s:darkgrey,  "bg": s:lightblack })
-" call s:h("TabLineSel",    { "fg": s:darkblack,  "bg": s:warmgrey,     "format": "bold" })
-" call s:h("TabLineFill",   { "bg": s:lightblack })
-
 call s:h("User1",         { "fg": s:yellow,     "bg": s:darkgrey,    "format": "bold" })
 call s:h("User2",         { "fg": s:orange,     "bg": s:darkgrey,    "format": "bold" })
 call s:h("User3",         { "fg": s:purple,     "bg": s:darkgrey,    "format": "bold" })
