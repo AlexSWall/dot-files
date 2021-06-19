@@ -381,13 +381,15 @@
 		" Check whether vim-gitbranch is loaded (which gives gitbranch#name()) before continuing.
 		if exists("*gitbranch#name")
 			let l:branchname = gitbranch#name()
-			return strlen(l:branchname) > 0 ? '  '.l:branchname.' ' : ''
+			return strlen(l:branchname) > 0 ? '('.l:branchname.')' : ''
 		else
 			return ''
 		endif
 	endfunction
 
-	set statusline=%#Visual#%{StatuslineGit()}%#StatusLineNC#\ %f\ \ %y\ \ %{&fileencoding?&fileencoding:&encoding}:%{&fileformat}\ \ %h%w%m%r%=%12.(%l,%c%V%)\ 
+	set statusline=%#StatusLine#\ %{StatuslineGit()}\ %f\ %y\ %{&fileencoding?&fileencoding:&encoding}:%{&fileformat}\ %h%w%m%r\ %#StatusLineNC#%=-%12.(%#StatusLine#\ %l,%c%V%)\ 
+	set fillchars+=stl:-
+	set fillchars+=stlnc:-
 
 	colorscheme monokai
 	set t_Co=256
