@@ -413,6 +413,8 @@
 	set showbreak=↪\        " What to show to indent wrapped lines
 	set shortmess-=S        " Ensure we show the number of matches for '/'
 
+	let g:markdown_fenced_languages = ['html', 'python', 'vim']
+
 
 " == Indentation ==
 
