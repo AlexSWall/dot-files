@@ -1,0 +1,20 @@
+Startup:
+	Default Profile: Ubuntu
+Appearance:
+	Theme: Dark
+	Always show tabs: Off
+	Hide the title bar: On
+	Use active terminal title as application title: Off
+Color Schemes:
+	Background: #080808
+Profiles:
+	Ubuntu:
+		Appearance:
+			Color scheme: Campbell
+			Font face: Cascadia Code
+			Font size: 11
+			Font weight: Light
+			Window Padding: 0
+			Scrollbar Visibility: Hidden
+		Advanced:
+			Bell notification style: None
