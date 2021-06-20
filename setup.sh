@@ -4,59 +4,69 @@ PWD="$(pwd)"
 OLD="$(pwd)/old"
 mkdir -p "$OLD"
 
-# == Home directory dotfiles ==
+create_symlink () {
+	# Arguments
+	local FILE="$1"
+	local DESTINATION_DIR="$2"
+
+	# Create destination directory if needed
+	mkdir -p "$DESTINATION_DIR"
+
+	# If non-symlink file exists, move to $OLD
+	if [ -e "$DESTINATION_DIR/$FILE" ]; then
+		mv "$DESTINATION_DIR/$FILE" "$OLD/$FILE"
+
+	# Else if a symlink exists, delete it
+	elif [ -L "$DESTINATION_DIR/$FILE" ]; then
+		rm "$DESTINATION_DIR/$FILE"
+	fi
+
+	# Create symlink
+	ln -s "$PWD/$FILE" "$DESTINATION_DIR/$FILE"
+}
+
+create_git_repo () {
+	# Arguments
+	local REPO_URL="$1"
+	local DESTINATION_DIR="$2"
+
+	if [ ! -d "$DESTINATION_DIR" ]; then
+		git clone "$REPO_URL" "$DESTINATION_DIR"
+	fi
+}
+
+# == Symlinks ==
+
+# Bash, Zsh, Vim, Tmux, and Git
 for f in .bashrc .zshrc .vimrc .tmux.conf .tmux.remote.conf .gitconfig
 do
-	if [ -e "$HOME/$f" ]; then
-		mv "$HOME/$f" "$OLD/$f"
-	elif [ -L "$HOME/$f" ]; then
-		rm "$HOME/$f"
-	fi
-	ln -s "$PWD/$f" "$HOME/$f"
+	create_symlink "$f" "$HOME"
 done
 
-# == Monokai ==
-mkdir -p "$HOME/.vim/colors"
-if [ -e "$HOME/.vim/colors/monokai.vim" ]; then
-	mv "$HOME/.vim/colors/monokai.vim" "$OLD/monokai.vim"
-elif [ -L "$HOME/.vim/colors/monokai.vim" ]; then
-	rm "$HOME/.vim/colors/monokai.vim"
-fi
-ln -s "$PWD/monokai.vim" "$HOME/.vim/colors/monokai.vim"
+# Vim/Neovim Monokai
+create_symlink "monokai.vim" "$HOME/.vim/colors"
 
-# == Neovim ==
-mkdir -p "$HOME/.config/nvim"
-# init.vim
-if [ -e "$HOME/.config/nvim/init.vim" ]; then
-	mv "$HOME/.config/nvim/init.vim" "$OLD/init.vim"
-elif [ -L "$HOME/.config/nvim/init.vim" ]; then
-	rm "$HOME/.config/nvim/init.vim"
-fi
-ln -s "$PWD/init.vim" "$HOME/.config/nvim/init.vim"
+# Neovim
+create_symlink "init.vim" "$HOME/.config/nvim"
+create_symlink "coc-settings.json" "$HOME/.config/nvim"
 
-# coc-settings.json
-if [ -e "$HOME/.config/nvim/coc-settings.json" ]; then
-	mv "$HOME/.config/nvim/coc-settings.json" "$OLD/coc-settings.json"
-elif [ -L "$HOME/.config/nvim/coc-settings.json" ]; then
-	rm "$HOME/.config/nvim/coc-settings.json"
-fi
-ln -s "$PWD/coc-settings.json" "$HOME/.config/nvim/coc-settings.json"
 
-# == Neovim plugins ==
-# mkdir -p "$HOME/.local/share/nvim/site"
+# == Git Repositories ==
 
-# if [ -e "$HOME/.local/share/nvim/site/autoload/plug.vim" ]; then
-# 	ln -s "$HOME/.vim/autoload" "$HOME/.local/share/nvim/site/autoload"
-# fi
+# Zsh Plugin: zsh-autosuggestions
+create_git_repo "https://github.com/zsh-users/zsh-autosuggestions" "$HOME/.zsh/zsh-autosuggestions"
+
+# Zsh Plugin: zsh-syntax-highlighting
+create_git_repo "https://github.com/zsh-users/zsh-syntax-highlighting" "$HOME/.zsh/zsh-syntax-highlighting"
+
+# Tmux Package Manager (TPM)
+create_git_repo "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm"
+
+
+# == Neovim Plugins ==
 
 if [ ! -e "$HOME/.vim/autoload/plug.vim" ]; then
-	curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
-		 https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 	echo "Install nodejs, npm, and yarn for neovim"
 fi
 
-# == Tmux plugins ==
-
-if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-fi

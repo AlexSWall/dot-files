@@ -176,6 +176,12 @@ alias history="history 0"
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
+# == Zsh Plugins ==
+
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
 # == Aliases ==
 
 # Alias clear to clear the 'new line before prompt' environment variable to
