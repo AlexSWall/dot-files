@@ -465,6 +465,10 @@
 		nnoremap <Leader>q :q<CR>
 		nnoremap <Leader><Leader>q :q!<CR>
 
+		" Quickly create splits
+		nnoremap <leader>- :sp<CR>
+		nnoremap <leader><Bar> :vs<CR>
+
 		" Switch between vim tabs
 		nnoremap <leader>1 1gt
 		nnoremap <leader>2 2gt
