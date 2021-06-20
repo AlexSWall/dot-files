@@ -9,7 +9,7 @@ export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 # Configure key keybindings
-bindkey -v               # emacs key bindings
+bindkey -v '^?' backward-delete-char  # vim key bindings with normal backspace
 bindkey ' ' magic-space  # do history expansion on space
 
 # Configure zsh shell
