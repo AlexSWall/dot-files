@@ -198,6 +198,20 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 
+alias pushtmp='pushd "$(mktemp -d)"'
+
+poptmp () {
+	if popd
+	then
+		OLD_LEVEL_TWO_DIR="$(sed -E "s/(\/tmp\/tmp[^\/]*\/).*/\1/g" <<< $OLDPWD)"
+		if [[ "$OLD_LEVEL_TWO_DIR" =~ "/tmp/.*" ]]
+		then
+			rm -rf "$OLD_LEVEL_TWO_DIR"
+		else
+			echo '$OLDPWD not in /tmp/; will not delete directory'
+		fi
+	fi
+}
 
 # == Includes ==
 
