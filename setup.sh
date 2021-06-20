@@ -5,7 +5,7 @@ OLD="$(pwd)/old"
 mkdir -p "$OLD"
 
 # == Home directory dotfiles ==
-for f in .bashrc .zshrc .aliases .vimrc .tmux.conf .tmux.remote.conf .gitconfig
+for f in .bashrc .zshrc .vimrc .tmux.conf .tmux.remote.conf .gitconfig
 do
 	if [ -e "$HOME/$f" ]; then
 		mv "$HOME/$f" "$OLD/$f"

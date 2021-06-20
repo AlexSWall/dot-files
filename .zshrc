@@ -35,7 +35,7 @@ WORDCHARS=${WORDCHARS//\/}  # Don't consider certain characters part of the word
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 	xterm*|rxvt*)
-		TERM_TITLE=$'\e]0;${debian_chroot:+($debian_chroot)}%n@%m: %~\a'
+		TERM_TITLE=$'\e]0;%n@%m: %~\a'
 		;;
 	*)
 		;;
@@ -58,19 +58,6 @@ fi
 
 # == Prompt ==
 
-# Set variable identifying the chroot for PROMPT
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-PROMPT=$'%F{3}%n %F{cyan}%(6~.%-1~/…/%4~.%5~)\n%F{3}$%F{reset} '
-PROMPT=$'%F{green}┌──${debian_chroot:+($debian_chroot)──}%F{cyan}(%F{3}%n%F{cyan})%F{green}─%F{cyan}[%F{reset}%(6~.%-1~/…/%4~.%5~)%F{cyan}]\n%F{green}└─%F{3}$%F{reset} '
-
-# RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
-
-# Hide EOL sign ('%')
-PROMPT_EOL_MARK=""
-
 precmd() {
 	# Print the previously configured title
 	print -Pnr -- "$TERM_TITLE"
@@ -83,10 +70,20 @@ precmd() {
 	fi
 }
 
-# Alias clear to clear the 'new line before prompt' environment variable to
-# avoid new line at the top.
-alias clear='clear; unset _NEW_LINE_BEFORE_PROMPT'
+# Hide EOL sign ('%')
+PROMPT_EOL_MARK=""
 
+# Set variable identifying the chroot for PROMPT
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+PROMPT=''
+PROMPT+=$'%F{green}┌──${debian_chroot:+($debian_chroot)──}%F{cyan}(%F{3}%n%F{cyan})%F{green}─%F{cyan}[%F{reset}%(6~.%-1~/…/%4~.%5~)%F{cyan}]\n'
+PROMPT+=$'%F{green}└─%F{3}$%F{reset} '
+
+# One-line prompt if needed:
+#PROMPT=$'%F{3}%n %F{cyan}%(6~.%-1~/…/%4~.%5~)\n%F{3}$%F{reset} '
 
 # == Visuals ==
 
@@ -179,11 +176,26 @@ alias history="history 0"
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
+# == Aliases ==
+
+# Alias clear to clear the 'new line before prompt' environment variable to
+# avoid new line at the top.
+alias clear='unset _NEW_LINE_BEFORE_PROMPT; clear'
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias diff='diff --color=auto'
+alias ip='ip --color=auto'
+
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+
+
 # == Includes ==
 
 [ -f ~/.profile ]       && source ~/.profile
 [ -f ~/.zshenv ]        && source ~/.zshenv
-[ -f ~/.aliases ]       && source ~/.aliases
 [ -f ~/.local_aliases ] && source ~/.local_aliases
-# [ -f ~/.fzf.bash ]      && source ~/.fzf.bash
 

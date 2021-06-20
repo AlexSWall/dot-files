@@ -41,24 +41,27 @@ fi
 # == Prompt ==
 
 # For the command prompt to including the previous directory nicely when considering root (/) and home (~):
-PROMPT_COMMAND='case $PWD in
-		$HOME)     HPWD="~";;
-		$HOME/*/*) HPWD="${PWD#"${PWD%/*/*}/"}";;
-		$HOME/*)   HPWD="~/${PWD##*/}";;
-		/*/*/*)    HPWD="${PWD#"${PWD%/*/*}/"}";;
-		 *)        HPWD="$PWD";;
-	esac'
+PROMPT_COMMAND='
+	if [ -z $_NEW_LINE_BEFORE_PROMPT ]
+	then
+		export _NEW_LINE_BEFORE_PROMPT=1
+	else
+		printf "\n"
+	fi'
 
 green='\[\033[0;32m\]'
 gold='\[\033[0;33m\]'
 cyan='\[\033[0;36m\]'
 white='\[\033[0;0m\]'
 
-PS1=$gold'\u '$cyan'$HPWD'"\n"$gold'\$'$white' '
+# PS1=$gold'\u '$cyan'$HPWD'"\n"$gold'\$'$white' '
 
 # set variable identifying the chroot you work in (used in the prompt below)
-# if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then debian_chroot=$(cat /etc/debian_chroot); fi
-PS1=$green'┌──${debian_chroot:+($debian_chroot)──}'$cyan'('$gold'\u'$cyan')'$green'─'$cyan'['$white'$HPWD'$cyan']\n'$green'└─'$gold'\$ '$white
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then debian_chroot=$(cat /etc/debian_chroot); fi
+
+PS1=''
+PS1+=$green'┌──${debian_chroot:+($debian_chroot)──}'$cyan'('$gold'\u'$cyan')'$green'─'$cyan'['$white'$PWD'$cyan']\n'
+PS1+=$green'└─'$gold'\$ '$white
 
 
 # == Visuals ==
@@ -88,9 +91,24 @@ export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 
+# == Aliases ==
+
+# Alias clear to clear the 'new line before prompt' environment variable to
+# avoid new line at the top.
+alias clear='unset _NEW_LINE_BEFORE_PROMPT; clear'
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias diff='diff --color=auto'
+alias ip='ip --color=auto'
+
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+
+
 # == Includes ==
 
-[ -f ~/.bash_aliases ]  && source ~/.bash_aliases
-[ -f ~/.aliases ]       && source ~/.aliases
 [ -f ~/.local_aliases ] && source ~/.local_aliases
-# [ -f ~/.fzf.bash ]      && source ~/.fzf.bash
+
