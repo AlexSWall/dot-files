@@ -49,6 +49,7 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case-insensitive ta
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward
+bindkey '^[[Z' reverse-menu-complete  # Allows shift-tab to go backwards in search
 
 
 # == Prompt ==
