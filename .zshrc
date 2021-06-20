@@ -50,11 +50,6 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case-insensitive ta
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 
-# Auto-suggestions based on the history
-if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-	. /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-
 
 # == Prompt ==
 
@@ -85,6 +80,7 @@ PROMPT+=$'%F{green}└─%F{3}$%F{reset} '
 # One-line prompt if needed:
 #PROMPT=$'%F{3}%n %F{cyan}%(6~.%-1~/…/%4~.%5~)\n%F{3}$%F{reset} '
 
+
 # == Visuals ==
 
 # Set LS_COLORS
@@ -99,14 +95,6 @@ else
 	export LSCOLORS='gxBxhxDxfxhxhxhxhxcxcx'
 fi
 
-alias ls='ls -G'
-
-# Set color of auto-suggestions
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999'
-
-# Take advantage of $LS_COLORS for completion
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
 # GCC colours
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
@@ -119,9 +107,34 @@ export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
-# Enable syntax-highlighting
-if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-	. /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# == Misc ==
+
+# force zsh to show the complete history
+alias history="history 0"
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+
+# == Zsh Plugins ==
+
+if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+	# Source plugin
+	source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+	# Set color of auto-suggestions
+	ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999'
+
+	# Take advantage of $LS_COLORS for completion
+	zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+fi
+
+if [ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+	# Source plugin
+	source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+	# Plugin Configuration
 	ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 	ZSH_HIGHLIGHT_STYLES[default]=none
 	ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red,bold
@@ -167,21 +180,6 @@ if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
 fi
 
 
-# == Misc ==
-
-# force zsh to show the complete history
-alias history="history 0"
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-
-# == Zsh Plugins ==
-
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-
 # == Aliases ==
 
 # Alias clear to clear the 'new line before prompt' environment variable to
@@ -194,6 +192,7 @@ alias egrep='egrep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip --color=auto'
 
+alias ls='ls --color=auto'
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
