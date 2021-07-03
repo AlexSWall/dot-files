@@ -657,6 +657,8 @@
 	" " Get coc-css to add @ to iskeyword
 	" autocmd FileType scss setl iskeyword+=@-@
 
+	" Help debug syntax by providing `:call SynGroup()` to get the syntax
+	" group.
 	function! SynGroup()
 		let l:s = synID(line('.'), col('.'), 1)
 		echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
