@@ -119,8 +119,8 @@
 			autocmd FileType nerdtree setlocal nonumber relativenumber  " use relative line numbers
 
 			" Start up nerdtree for empty vim instances
-			autocmd StdinReadPre * let s:std_in=1
-			autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+			"autocmd StdinReadPre * let s:std_in=1
+			"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 			" NERDTress File highlighting
 			function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
