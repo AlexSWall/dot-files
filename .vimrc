@@ -498,6 +498,9 @@
 
 		nnoremap <leader>. @@
 
+		nnoremap <leader>0 :set nonumber norelativenumber nolinebreak nobreakindent signcolumn=no showbreak= <CR>:GitGutterDisable<CR>
+		nnoremap <leader><Leader>0 :set number relativenumber linebreak breakindent signcolumn=yes showbreak=↪\ <CR>:GitGutterEnable<CR>
+
 	" -- Plugins --
 
 		" -- Bufexplorer (<Leader>b[etsv]) --
