@@ -193,7 +193,7 @@ alias egrep='egrep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip --color=auto'
 
-alias ls='ls --color=auto'
+alias ls='ls -G'
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
