@@ -158,7 +158,7 @@
 
 		Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }  " Adds `:Clap <X>` commands (<Leader>c[bcfglt])
 
-			" For example, `blines`,`commits`,`files`,`grep`,`lines`,`tags` 
+			" For example, `blines`,`commits`,`files`,`grep`,`lines`,`tags`
 
 			" The bang version of `install-binary` will try to download the prebuilt binary if cargo does not exist.
 
@@ -643,7 +643,7 @@
 			" nnoremap <Leader>t :Vista!!<CR>
 
 
-" == Hooks == 
+" == Hooks ==
 
 	augroup vimrc_hooks
 		 au!
