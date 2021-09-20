@@ -417,6 +417,17 @@
 
 	let g:markdown_fenced_languages = ['html', 'python', 'vim']
 
+	" Add highlighting to trailing whitespace and spaces before tabs, but not
+	" when typing on that line.
+	highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
+	match ExtraWhitespace /\s\+$\| \+\ze\t/
+
+	" Wizardry to prevent errors appearing while typing.
+	autocmd BufWinEnter * match ExtraWhitespace /\s\+$\| \+\ze\t/
+	autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$\| \+\ze\t\%#\@<!/
+	autocmd InsertLeave * match ExtraWhitespace /\s\+$\| \+\ze\t/
+	autocmd BufWinLeave * call clearmatches()
+
 
 " == Indentation ==
 
