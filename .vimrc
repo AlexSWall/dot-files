@@ -189,7 +189,7 @@
 				" let g:endwise_no_mappings = v:true  " disable mapping to not break coc.nvim
 
 
-	" -- Colours --
+	" -- Visuals --
 
 		Plug 'octol/vim-cpp-enhanced-highlight'  " improves C++ syntax highlighting
 
@@ -210,7 +210,7 @@
 		Plug 'tbastos/vim-lua'  " Makes Lua syntax highlight not terribly buggy
 
 		Plug 'luochen1990/rainbow'  " Rainbow parentheses matching
-		let g:rainbow_active = 1
+			let g:rainbow_active = 1
 
 
 	" -- Miscellaneous --
