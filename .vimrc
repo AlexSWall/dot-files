@@ -57,9 +57,6 @@
 		" 		return !col || getline('.')[col - 1]  =~# '\s'
 		" 	endfunction
 
-		" 	" Use <c-space> to trigger completion.
-		" 	inoremap <silent><expr> <c-space> coc#refresh()
-
 		" 	" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 		" 	" " position. Coc only does snippet and additional edit on confirm.
 		" 	if has('patch8.1.1068')
@@ -69,39 +66,15 @@
 		" 		imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 		" 	endif
 
-		" 	" Use `[g` and `]g` to navigate diagnostics
-		" 	nmap <silent> [g <Plug>(coc-diagnostic-prev)
-		" 	nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-		" 	" GoTo code navigation.
-		" 	nmap <silent> gd <Plug>(coc-definition)
-		" 	nmap <silent> gy <Plug>(coc-type-definition)
-		" 	nmap <silent> gi <Plug>(coc-implementation)
-		" 	nmap <silent> gr <Plug>(coc-references)
-
-		" 	" Use K to show documentation in preview window.
-		" 	nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-		" 	function! s:show_documentation()
-		" 		if (index(['vim','help'], &filetype) >= 0)
-		" 			execute 'h '.expand('<cword>')
-		" 		else
-		" 			call CocAction('doHover')
-		" 		endif
-		" 	endfunction
-
-		" Plug 'hyhugh/coc-erlang_ls', {'do': 'yarn install --frozen-lockfile'}
-
-		"Plug 'dense-analysis/ale'  " Linting for many languages
-
-	" -- Visual Interface Plugins --
-
 		" Plug 'liuchengxu/vista.vim'  " <Leader>t
 
 		" 	let g:vista#executives = ['coc']
 		" 	let g:vista_default_executive = 'coc'
 		" 	let g:vista#renderer#enable_icon = 0
 		" 	let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+
+
+	" -- Visual Interface Plugins --
 
 		Plug 'preservim/nerdtree'  " :NERDTreeToggle, or <Leader>nf (remapped)
 
@@ -520,8 +493,8 @@
 	" -- Plugins --
 
 		" -- Bufexplorer (<Leader>b[etsv]) --
-
-			" <Leader>b[etsv] (open/toggle/-split/|split); then b<Num> switches to buffer
+			" By default, adds:
+			"    <Leader>b[etsv]  (open/toggle/-split/|split); then b<Num> switches to buffer
 
 
 		" -- Clap (<Leader>c[bcfgt]) --
@@ -579,7 +552,8 @@
 
 		" -- Easymotion --
 
-			" <Leader><Leader>[swef...]
+			" By default, adds:
+			"    <Leader><Leader>[swef...]
 
 
 		" -- FZF (<Leader>f[abfgl], <Leader>f![abfgl]) --
@@ -605,9 +579,10 @@
 
 		" -- Gitgutter --
 
-			" nunmap <Space>hp
-			" nunmap <Space>hu
-			" nunmap <Space>hs
+			" Commented out to not conflict with <Leader>h...
+			" nunmap <Leader>hp
+			" nunmap <Leader>hu
+			" nunmap <Leader>hs
 
 
 		" -- NERDTree (<Leader>n[fv], -) --
@@ -668,7 +643,7 @@
 
 		" -- Vista (<Leader>t) --
 
-			" nnoremap <Leader>t :Vista!!<CR>
+			nnoremap <Leader>t :Vista!!<CR>
 
 
 " == Hooks ==
