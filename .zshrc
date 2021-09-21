@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # == General zsh setup ==
 
 export TERM=xterm-256color
@@ -111,10 +113,10 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # == Misc ==
 
-# force zsh to show the complete history
+# Force zsh to show the complete history
 alias history="history 0"
 
-# make less more friendly for non-text input files, see lesspipe(1)
+# Make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
@@ -181,41 +183,10 @@ if [ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
 fi
 
 
-# == Aliases ==
-
-# Alias clear to clear the 'new line before prompt' environment variable to
-# avoid new line at the top.
-alias clear='unset _NEW_LINE_BEFORE_PROMPT; clear'
-
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-alias diff='diff --color=auto'
-alias ip='ip --color=auto'
-
-alias ls='ls -G'
-alias ll='ls -l'
-alias la='ls -A'
-alias l='ls -CF'
-
-alias pushtmp='pushd "$(mktemp -d)"'
-
-poptmp () {
-	if popd
-	then
-		OLD_LEVEL_TWO_DIR="$(sed -E "s/(\/tmp\/tmp[^\/]*\/).*/\1/g" <<< $OLDPWD)"
-		if [[ "$OLD_LEVEL_TWO_DIR" =~ "/tmp/.*" ]]
-		then
-			rm -rf "$OLD_LEVEL_TWO_DIR"
-		else
-			echo '$OLDPWD not in /tmp/; will not delete directory'
-		fi
-	fi
-}
-
 # == Includes ==
 
 [ -f ~/.profile ]       && source ~/.profile
 [ -f ~/.zshenv ]        && source ~/.zshenv
+[ -f ~/.aliases ]       && source ~/.aliases
 [ -f ~/.local_aliases ] && source ~/.local_aliases
 

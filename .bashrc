@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # == General bash setup ==
 
 case $- in
@@ -91,24 +93,9 @@ export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 
-# == Aliases ==
-
-# Alias clear to clear the 'new line before prompt' environment variable to
-# avoid new line at the top.
-alias clear='unset _NEW_LINE_BEFORE_PROMPT; clear'
-
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-alias diff='diff --color=auto'
-alias ip='ip --color=auto'
-
-alias ll='ls -l'
-alias la='ls -A'
-alias l='ls -CF'
-
-
 # == Includes ==
 
+[ -f ~/.profile ]       && source ~/.profile
+[ -f ~/.aliases ]       && source ~/.aliases
 [ -f ~/.local_aliases ] && source ~/.local_aliases
 
