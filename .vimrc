@@ -175,8 +175,6 @@
 
 		Plug 'jtdowney/vimux-cargo', { 'branch': 'main' }  " Adds <Leader>r[cabf] for cargo run/test all/unit test current file/focused
 
-		Plug 'tmux-plugins/vim-tmux-focus-events'  " restores Focus{Gained,Lost} events for vim inside tmux
-
 		Plug 'tmux-plugins/vim-tmux'  " .tmux.conf: Syntax highlighting, correct comment string, `K` for `man tmux` jump to word under cursor, `:make`
 
 
@@ -391,6 +389,10 @@
 	set fillchars+=stl:-
 	set fillchars+=stlnc:-
 
+	set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+	set colorcolumn=100
+	set list
+
 	colorscheme monokai
 	set t_Co=256
 	set notermguicolors
@@ -494,9 +496,12 @@
 		" List buffers and prepare to move to one
 		nnoremap gb :ls<cr>:b<space>
 
-		" Previous and next Buffers
+		" 'Previous' and 'next' Buffers
 		nnoremap <Leader>h :bprev<CR>
 		nnoremap <Leader>l :bnext<CR>
+
+		" Go to most recent buffer
+		nnoremap <Leader>bb :b#<CR>
 
 		" Fast up-down movement
 		nnoremap <Leader>j 10j
@@ -532,12 +537,35 @@
 		" -- Coc ([g,]g) --
 
 			" " Use `[g` and `]g` to navigate diagnostics
-			" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-			" nmap <silent> ]g <Plug>(coc-diagnostic-next)
+			nmap <Leader>[ <Plug>(coc-diagnostic-prev)
+			nmap <Leader>] <Plug>(coc-diagnostic-next)
 
 			" " Formatting selected code.
 			" xmap <leader>f  <Plug>(coc-format-selected)
 			" nmap <leader>f  <Plug>(coc-format-selected)
+
+			" Use <c-space> to trigger completion.
+			inoremap <silent><expr> <c-space> coc#refresh()
+
+			" GoTo code navigation.
+			nmap <silent> gd <Plug>(coc-definition)
+			nmap <silent> gy <Plug>(coc-type-definition)
+			nmap <silent> gi <Plug>(coc-implementation)
+			nmap <silent> gr <Plug>(coc-references)
+
+			" Use K to show documentation in preview window.
+			nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+			function! s:show_documentation()
+				if (index(['vim','help'], &filetype) >= 0)
+					execute 'h '.expand('<cword>')
+				else
+					call CocAction('doHover')
+				endif
+			endfunction
+
+			" Remap for rename current word
+			nmap <leader>rn <Plug>(coc-rename)
 
 
 		" -- Easy Align --
