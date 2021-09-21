@@ -17,3 +17,6 @@
 
 [color]
 	ui = true
+
+[init]
+	defaultBranch = main
