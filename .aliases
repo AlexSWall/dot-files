@@ -15,6 +15,8 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 
+alias docker-container-rm-all='docker rm -f $(docker ps -a -q)'
+
 alias pushtmp='pushd "$(mktemp -d)"'
 
 poptmp () {
@@ -32,5 +34,36 @@ poptmp () {
 
 up() {
 	cd $(printf '../%.0s' $(seq 1 $1))
+}
+
+vimopen() {
+	if [[ "$#" -eq 1 ]]
+	then
+		DIRECTORY='.'
+		REGEX_OR_GLOB="$1"
+	elif [[ "$#" -eq 2 ]]
+	then
+		DIRECTORY="$1"
+		REGEX_OR_GLOB="$2"
+	else
+		echo 'Usage: vimdiff [directory] regex-or-glob-string'
+		echo 'Number of arguments given:' $#
+		return 1
+	fi
+
+	# Try regex
+	FILES="$(find -E "$DIRECTORY" -regex "$REGEX_OR_GLOB" -type f 2>/dev/null)"
+	if [[ -z "$FILES" ]]
+	then
+		# Try glob
+		FILES="$(find "$DIRECTORY" -name "$REGEX_OR_GLOB" -type f 2>/dev/null)"
+	fi
+
+	if [[ ! -z "$FILES" ]]
+	then
+		vim $(echo $FILES)
+	else
+		echo 'No matches'
+	fi
 }
 
