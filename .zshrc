@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+HOST='<host>'
+
 # == General zsh setup ==
 
 export TERM=xterm-256color
@@ -13,7 +15,7 @@ export EDITOR="$VISUAL"
 
 # Configure key keybindings
 bindkey -v '^?' backward-delete-char  # vim key bindings with normal backspace
-bindkey ' ' magic-space  # do history expansion on space
+bindkey ' ' magic-space               # do history expansion on space
 
 # Configure zsh shell
 setopt autocd               # change directory just by typing its name
@@ -48,14 +50,21 @@ esac
 autoload -Uz compinit
 compinit -d ~/.cache/zcompdump
 zstyle ':completion:*:*:*:*:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case-insensitive tab completion
+
+# Case-insensitive tab completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward
-bindkey '^[[Z' reverse-menu-complete  # Allows shift-tab to go backwards in search
+
+# Allows shift-tab to go backwards in search
+bindkey '^[[Z' reverse-menu-complete
 
 
 # == Prompt ==
+
+# Hide EOL sign ('%')
+PROMPT_EOL_MARK=""
 
 precmd() {
 	# Print the previously configured title
@@ -69,16 +78,13 @@ precmd() {
 	fi
 }
 
-# Hide EOL sign ('%')
-PROMPT_EOL_MARK=""
-
 # Set variable identifying the chroot for PROMPT
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 PROMPT=''
-PROMPT+=$'%F{green}┌──${debian_chroot:+($debian_chroot)──}%F{cyan}(%F{3}%n%F{cyan})%F{green}─%F{cyan}[%F{reset}%(6~.%-1~/…/%4~.%5~)%F{cyan}]\n'
+PROMPT+=$'%F{green}┌──${debian_chroot:+($debian_chroot)──}%F{cyan}(%F{3}%n%F{grey}@%F{3}${HOST}%F{cyan})%F{green}─%F{cyan}[%F{reset}%(6~.%-1~/…/%4~.%5~)%F{cyan}]\n'
 PROMPT+=$'%F{green}└─%F{3}$%F{reset} '
 
 # One-line prompt if needed:
@@ -93,6 +99,20 @@ if [ -x "$(command -v dircolors)" ]; then
 	export CLICOLOR=1
 	eval "$(dircolors -b)"
 	export LS_COLORS='di=36:ln=1;31:so=37:pi=1;33:ex=35:bd=37:cd=37:su=37:sg=37:tw=32:ow=32'
+
+	LS_COLORS=''
+	LS_COLORS+='di=01;34':    # Directories:                                    Bold; Blue;
+	LS_COLORS+='ln=01;36':    # Symbolic Links:                                 Bold; Cyan;
+	LS_COLORS+='so=01;35':    # Sockets:                                        Bold; Purple;
+	LS_COLORS+='pi=33;40':    # Named Pipes:                                          Orange;   Grey Background;
+	LS_COLORS+='ex=01;32':    # Executable Files:                               Bold; Green;
+	LS_COLORS+='bd=33;40':    # Block Devices:                                        Orange;   Grey Background;
+	LS_COLORS+='cd=33;40':    # Character Devices:                                    Orange;   Grey Background;
+	LS_COLORS+='su=37;41':    # File that is setuid (u+s)                             Black;     Red Background;
+	LS_COLORS+='sg=30;43':    # File that is setgid (g+s)                             Black;  Orange Background;
+	LS_COLORS+='tw=01;34;40': # Stick, Otherwise-Writable Directories (+t,o+w): Bold; Blue;     Grey Background;
+	LS_COLORS+='ow=01;34;40': # Otherwise-Writable Directories (o+w):           Bold; Blue;     Grey Background;
+	export LS_COLORS
 else
 	# -- MacOS --
 	export CLI_COLOR=1

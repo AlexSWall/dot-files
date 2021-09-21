@@ -125,7 +125,17 @@
 			let g:fzf_prefer_tmux = 0
 
 			" Ignore file names when searching with Ag
-			command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
+			" Ag command with various options being passed to fzf
+			"   > --preview \"<command to run>\"
+			"       This gives a preview window to the right; we run preview.sh
+			"       and pass it to the file to preview
+			"   > --bind \"<command>\"
+			"       Toggle preview with ctrl-/
+			"   > --delimiter :
+			"       Set colon to be the delimiter
+			"   > --nth 4..
+			"       Ignores file names, somehow
+			command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--preview "${HOME}/.vim/plug-plugins/fzf.vim/bin/preview.sh {}" --bind "ctrl-/:toggle-preview" --delimiter : --nth 4..'}, <bang>0)
 
 		Plug 'jlanzarotta/bufexplorer'  " <Leader>b[etsv] (open/toggle/-split/|split); then b<Num> switches to buffer
 
@@ -159,6 +169,13 @@
 			let g:gitgutter_map_keys=0
 			nmap [c <Plug>GitGutterPrevHunk
 			nmap ]c <Plug>GitGutterNextHunk
+
+			let g:gitgutter_max_signs = 500  " default value
+			set updatetime=100  " increase speed of updating
+
+			highlight GitGutterAdd    guifg=#009900 ctermfg=2
+			highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+			highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
 		Plug 'itchyny/vim-gitbranch'  " Gives `gitbranch#name()`
 
@@ -197,13 +214,13 @@
 			let g:php_var_selector_is_identifier = 1
 
 		Plug 'neovimhaskell/haskell-vim'
-			let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
-			let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
-			let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
-			let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
-			let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
-			let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
-			let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+			let g:haskell_enable_quantification   = 1  " to enable highlighting of `forall`
+			let g:haskell_enable_recursivedo      = 1  " to enable highlighting of `mdo` and `rec`
+			let g:haskell_enable_arrowsyntax      = 1  " to enable highlighting of `proc`
+			let g:haskell_enable_pattern_synonyms = 1  " to enable highlighting of `pattern`
+			let g:haskell_enable_typeroles        = 1  " to enable highlighting of type roles
+			let g:haskell_enable_static_pointers  = 1  " to enable highlighting of `static`
+			let g:haskell_backpack                = 1  " to enable highlighting of backpack keywords
 
 		Plug 'pangloss/vim-javascript'
 
@@ -297,8 +314,19 @@
 
 	" Set the closest the cursor can get to the top/bottom before scrolling
 	set scrolloff=3
+
 	" Set the closest the cursor can get to the left/right before scrolling
 	set sidescrolloff=5
+
+	" Increase maximum number of tabs to 50
+	set tabpagemax=50
+
+	" Remove 'insert mode -> command mode' lag after pressing escape
+	"set noesckeys
+
+	" Store temporary files in a central spot
+	"let &backupdir = $HOME . '/.vim/backup//'
+	"let &directory = $HOME . '/.vim/swapfiles//'
 
 	" Don't pass messages to |ins-completion-menu| ?
 	set shortmess-=c
@@ -340,19 +368,31 @@
 	" Fold based on indentation
 	set foldmethod=indent
 	set foldminlines=0
+	set foldlevel=99
 
 	" Default split positions
 	set splitbelow
 	set splitright
 
+	set viminfo='100,<1000,s100,h
+	" '100  = Remember marks for the last 100 edited files.
+	" <1000 = Limit the number of lines saved for each register to 1000 lines.
+	"         If a register contains more than 1000 lines, only the first 1000
+	"         lines are saved.
+	" s100  = Skip registers with more than 100KB of text.
+	" h     = Disable search highlighting when vim starts.
+
+	set nofixendofline
+
 
 " == Visuals ==
 
 	function! StatuslineGit()
-		" Check whether vim-gitbranch is loaded (which gives gitbranch#name()) before continuing.
+		" Check whether vim-gitbranch is loaded (which gives gitbranch#name())
+		" before continuing.
 		if exists("*gitbranch#name")
 			let l:branchname = gitbranch#name()
-			return strlen(l:branchname) > 0 ? '('.l:branchname.')' : ''
+			return strlen(l:branchname) > 0 ? '  ' . l:branchname . ' ' : ''
 		else
 			return ''
 		endif
@@ -362,10 +402,7 @@
 	set fillchars+=stl:-
 	set fillchars+=stlnc:-
 
-	set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
-	set colorcolumn=100
-	set list
-
+	" colorscheme codedark
 	colorscheme monokai
 	set t_Co=256
 	set notermguicolors
@@ -375,12 +412,35 @@
 	hi MatchParen cterm=italic gui=italic
 
 	syntax enable
-	filetype on  " The 'filetype' option gets set on loading a file
-	filetype plugin on  " Can use ~/.vim/ftplugin/ to add filetype-specific setup
-	" filetype indent on  " Can change the indentation depending on filetype
+	filetype on          " The 'filetype' option gets set on loading a file
+	filetype plugin on   " Can use ~/.vim/ftplugin/ to add filetype-specific setup
+	" filetype indent on " Can change the indentation depending on filetype
 	filetype indent off  " Fix annoying auto-indent bug
 
 	set number relativenumber
+
+	" Automatically toggle relativenumber when leaving/entering insert mode
+	augroup numbertoggle
+		autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+		autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+	augroup END
+
+	function! MyFoldText()
+		let line = getline(v:foldstart)
+
+		let nucolwidth = &fdc + &number * &numberwidth
+		let windowwidth = winwidth(0) - nucolwidth - 3
+
+		let foldedlinecount = v:foldend - v:foldstart
+
+		let line = strpart(line, 0, windowwidth - 40 - len(foldedlinecount))
+		let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+
+		"return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+		"return '      ' . repeat("-",windowwidth - 9) . '      '
+		return ' ' . repeat("-",windowwidth - 9) . ' '
+	endfunction
+	"set foldtext=MyFoldText()
 
 	set wrap                " Wrap lines (default)
 	set nolist              " Don't show invisible characters (default)
@@ -390,6 +450,11 @@
 	set showbreak=↪\        " What to show to indent wrapped lines
 	set shortmess-=S        " Ensure we show the number of matches for '/'
 
+	set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+	set colorcolumn=100
+	set list
+
+	" Syntax highlighting in markdown
 	let g:markdown_fenced_languages = ['html', 'python', 'vim']
 
 	" Add highlighting to trailing whitespace and spaces before tabs, but not
@@ -410,10 +475,7 @@
 	set nocindent cinkeys-=0#
 
 	" Defaults
-	set noexpandtab
-	set shiftwidth=3
-	set softtabstop=3
-	set tabstop=3
+	set noexpandtab shiftwidth=3 tabstop=3 softtabstop=3
 
 	" -- Tab = 2 Spaces --
 	"autocmd Filetype json       setlocal ts=2 sw=2 sts=2 noexpandtab
@@ -445,15 +507,19 @@
 		" Set <Esc> to its normal job when in terminal mode, instead of C-\,C-n
 		tnoremap <Esc> <C-\><C-n>
 
-		" Convenience <Leader> maps
+		" Write and quit
 		nnoremap <Leader>w :w<CR>
 		nnoremap <Leader><Leader>w :w!<CR>
+		nnoremap <Leader><Leader><Leader>w :w!!<CR>
 		nnoremap <Leader>q :q<CR>
 		nnoremap <Leader><Leader>q :q!<CR>
 
+		" Open in new tab  (alternatively ':tabnew %<CR>')
+		nnoremap <Leader>z :tab sp<CR>
+
 		" Quickly create splits
-		nnoremap <leader>- :sp<CR>
-		nnoremap <leader><Bar> :vs<CR>
+		nnoremap <Leader>- :sp<CR>
+		nnoremap <Leader><Bar> :vs<CR>
 
 		" Switch between vim tabs
 		nnoremap <leader>1 1gt
@@ -467,7 +533,7 @@
 		nnoremap <leader>9 9gt
 
 		" List buffers and prepare to move to one
-		nnoremap gb :ls<cr>:b<space>
+		nnoremap gb :ls<CR>:b<space>
 
 		" 'Previous' and 'next' Buffers
 		nnoremap <Leader>h :bprev<CR>
@@ -483,12 +549,24 @@
 		" Easy pasting previous yank
 		nnoremap <Leader>p "0p
 
-		nnoremap <Leader>z :tab sp<CR>
-
+		" Redo last macro
 		nnoremap <leader>. @@
 
+		" Toggle GUI for multi-line copying of vim contents by external program
 		nnoremap <leader>0 :set nonumber norelativenumber nolinebreak nobreakindent signcolumn=no showbreak= <CR>:GitGutterDisable<CR>
 		nnoremap <leader><Leader>0 :set number relativenumber linebreak breakindent signcolumn=yes showbreak=↪\ <CR>:GitGutterEnable<CR>
+
+		" Quickly toggle fold
+		nnoremap <Leader>t za
+		nnoremap <Leader>T zA
+
+		" Create two marks, q and w, to set current location and top row of view
+		" respectively, then format the entire file, and finally move back to the
+		" location of the cursor mark while setting the top of the view to the
+		" same place as before.
+		" This therefore overwrites marks q and w.
+		nnoremap <Leader>= mqHmwgg=G`wzt`q
+
 
 	" -- Plugins --
 
@@ -509,7 +587,7 @@
 
 		" -- Coc ([g,]g) --
 
-			" " Use `[g` and `]g` to navigate diagnostics
+			" Use `[g` and `]g` to navigate diagnostics
 			nmap <Leader>[ <Plug>(coc-diagnostic-prev)
 			nmap <Leader>] <Plug>(coc-diagnostic-next)
 
@@ -539,6 +617,23 @@
 
 			" Remap for rename current word
 			nmap <leader>rn <Plug>(coc-rename)
+
+			" Easily toggle diagnostics
+			nnoremap <Leader>ct :call CocAction('diagnosticToggle')<CR>
+
+			" Formatting selected code.
+			xmap <leader>f=  <Plug>(coc-format-selected)
+			nmap <leader>f=  <Plug>(coc-format-selected)
+
+			" Use <Leader>gs to switch between hpp and cpp.
+			function! s:EditAlternative()
+				let l:alter = CocRequest('clangd', 'textDocument/switchSourceHeader', {'uri': 'file://' . expand("%:p")})
+
+				" Remove file:// from response
+				let l:alter = substitute(l:alter, "file://", "", "")
+
+				execute 'edit ' . l:alter
+			endfunction
 
 
 		" -- Easy Align --
@@ -593,6 +688,8 @@
 			" Find current file being editted in NERDTree with <Leader>v
 			nnoremap <silent> <Leader>nv :NERDTreeFind<CR>
 
+			" Press - in command mode to go up one directory.
+			" For some reason this currently isn't working...
 			nnoremap <silent> - :silent edit <C-R>=empty(expand('%')) ? '.' : fnameescape(expand('%:p:h'))<CR><CR>
 
 
@@ -617,11 +714,11 @@
 
 			let g:tmux_navigator_no_mappings = 1
 
-			nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
-			nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
-			nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
-			nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
-			nnoremap <silent> <M-\> :TmuxNavigatePrevious<cr>
+			nnoremap <silent> <M-h> :TmuxNavigateLeft<CR>
+			nnoremap <silent> <M-j> :TmuxNavigateDown<CR>
+			nnoremap <silent> <M-k> :TmuxNavigateUp<CR>
+			nnoremap <silent> <M-l> :TmuxNavigateRight<CR>
+			nnoremap <silent> <M-\> :TmuxNavigatePrevious<CR>
 
 
 		" -- Undotree (<Leader>u) --
@@ -671,8 +768,9 @@
 	autocmd FileType lua :RainbowToggleOff
 	autocmd FileType php :RainbowToggleOff
 
-	" " Get coc-css to add @ to iskeyword
-	" autocmd FileType scss setl iskeyword+=@-@
+	" Get coc-css to add @ to iskeyword
+	" (Might cause problems? Was commented out.)
+	autocmd FileType scss setl iskeyword+=@-@
 
 	" Help debug syntax by providing `:call SynGroup()` to get the syntax
 	" group.
