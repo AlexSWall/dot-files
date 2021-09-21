@@ -6,11 +6,6 @@
 			"filetypes": ["sh"],
 			"ignoredRootPaths": ["~"]
 		},
-		"erlang_ls": {
-			"command": "/Users/Alex/.language_servers/erlang_ls/_build/default/bin/erlang_ls",
-			"args": ["-t stdio"],
-			"filetypes": ["erlang"]
-		},
 		"haskell": {
 			"command": "hie-wrapper",
 			"args": ["--lsp"],
@@ -43,9 +38,11 @@
 			"args": ["-E", "-e", "LANG='en'", "/Users/Alex/.language_servers/lua-language-server/main.lua"],
 			"filetypes": ["lua"],
 			"cwd": "/Users/Alex/.language_servers/lua-language-server"
+		},
+		"erlang": {
+			"command": "erlang_ls",
+			"filetypes": ["erlang"]
 		}
 	},
-	"erlang_ls.erlang_ls_path": "/Users/Alex/.language_servers/erlang_ls/_build/default/bin/erlang_ls",
-	"erlang_ls.trace.server": "off",
 	"suggest.minTriggerInputLength": 3
 }
