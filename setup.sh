@@ -38,7 +38,7 @@ create_git_repo () {
 # == Symlinks ==
 
 # Bash, Zsh, Vim, Tmux, and Git
-for f in .bashrc .zshrc .aliases .vimrc .tmux.conf .tmux.remote.conf .gitconfig
+for f in .bashrc .zshrc .aliases .vimrc .tmux.conf .tmux.remote.conf .tmux.reset.conf .gitconfig
 do
 	create_symlink "$f" "$HOME"
 done
