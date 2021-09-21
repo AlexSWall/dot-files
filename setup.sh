@@ -70,3 +70,8 @@ if [ ! -e "$HOME/.vim/autoload/plug.vim" ]; then
 	echo "Install nodejs, npm, and yarn for neovim"
 fi
 
+
+# == Miscellaneous ==
+
+touch ~/.hushlogin
+
