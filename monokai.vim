@@ -72,6 +72,7 @@ endfunction
 let s:white1      = { "gui": "#d0d0d0", "cterm": "252" }
 let s:white2      = { "gui": "#bcbcbc", "cterm": "250" }
 let s:white3      = { "gui": "#a8a8a8", "cterm": "248" }
+let s:grey3       = { "gui": "#8a8a8a", "cterm": "245" }
 let s:grey2       = { "gui": "#767676", "cterm": "243" }
 let s:grey1       = { "gui": "#666666", "cterm": "242" }
 let s:darkgrey    = { "gui": "#444444", "cterm": "238" }
@@ -239,17 +240,20 @@ call s:h("SyntasticWarningSign",    { "fg": s:dark3, "bg": s:orange })
 
 hi! link CocErrorSign Error
 call s:h("CocErrorHighlight",       { "fg": s:red,                   "format": "underline" })
-call s:h("CocErrorFloat",           { "fg": s:red,    "bg": s:dark3                        })
+call s:h("CocErrorFloat",           { "fg": s:red,    "bg": s:dark1                        })
 
-call s:h("CocWarningSign",          { "fg": s:orange, "bg": s:dark3                        })
+call s:h("CocWarningSign",          { "fg": s:orange, "bg": s:dark1                        })
 call s:h("CocWarningHighlight",     {                                "format": "underline" })
-call s:h("CocWarningFloat",         { "fg": s:orange, "bg": s:dark3                        })
+call s:h("CocWarningFloat",         { "fg": s:orange, "bg": s:dark1                        })
 
-call s:h("CocInfoSign",             { "fg": s:yellow, "bg": s:dark3                        })
+call s:h("CocInfoSign",             { "fg": s:yellow, "bg": s:dark1                        })
 call s:h("CocInfoHighlight",        {                                "format": "underline" })
 
-call s:h("CocHintSign",             { "fg": s:white1, "bg": s:dark3                        })
+call s:h("CocHintSign",             { "fg": s:grey2,  "bg": s:dark1                        })
 call s:h("CocHintHighlight",        {                                "format": "underline" })
+
+" Used by coc for unused variables
+call s:h("Conceal",                 { "fg": s:grey3,                                       })
 
 " Language highlight
 " ------------------
