@@ -10,6 +10,7 @@ esac # Only run if interactive
 # Ascend
 set -o vi
 alias vim='nvim'
+alias vimdiff='nvim -d'
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 

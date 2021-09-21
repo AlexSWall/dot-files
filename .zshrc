@@ -7,6 +7,7 @@ export TERM=xterm-256color
 
 # Ascend
 alias vim='nvim'
+alias vimdiff='nvim -d'
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
