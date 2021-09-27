@@ -1,3 +1,5 @@
+" == Notes ==
+"
 " Buffers:
 " - A buffer is the in-memory text of a file.
 " - A window is a viewport on a buffer.
@@ -5,28 +7,15 @@
 "
 " Commands:
 " :e <filename> (open file into new buffer, e.g. `:e src/**/F*Bar.js`)
-" :ls (list)
-" :b <n> (open buffer number, or last buffer if <n> = #)
-" :b <filename> (switch to open file buffer)
-" :bn (next)
-" :bp (previous)
-" :bd (delete)
 " :bw (wipe (from RAM))
-" :sp (split -)
-" :vp (vertical split |)
 " <Leader>b[etsv] (open/toggle/-split/|split); then b<Num> switches to buffer (bufexplorer)
 " gb - custom keybinding for listing buffers and then going to a buffer quickly
 " :mksession! ~/today.ses  ->  vim -S ~/today.ses
 
-" Maybe Add:
-"   - cscope and/or ctags (maybe via `apt`)?
-" Other:
-"   - Consider replacing clangd with CCLS? Or compile clangd from source?
-
 
 " == Prep ==
 
-	set nocompatible  " Break vi compatibility to behave in a more useful way
+	set nocompatible  " Break vi compatibility to behave in a more useful way.
 	set runtimepath^=~/.vim
 	let &packpath=&runtimepath
 
@@ -41,7 +30,7 @@
 			autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 		endif
 
-	call plug#begin('~/.vim/plug-plugins')
+		call plug#begin('~/.vim/plug-plugins')
 
 
 	" -- Code Comprehension Plugins --
@@ -57,8 +46,8 @@
 		" 		return !col || getline('.')[col - 1]  =~# '\s'
 		" 	endfunction
 
-		" 	" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-		" 	" " position. Coc only does snippet and additional edit on confirm.
+		" 	" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+		" 	" position. Coc only does snippet and additional edit on confirm.
 		" 	if has('patch8.1.1068')
 		" 		" Use `complete_info` if your (Neo)Vim version supports it.
 		" 		"inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -76,37 +65,33 @@
 
 	" -- Visual Interface Plugins --
 
-		Plug 'preservim/nerdtree'  " :NERDTreeToggle, or <Leader>nf (remapped)
+		Plug 'preservim/nerdtree'  " :NERDTreeToggle, or <Leader>nf (remapped).
 
-			let g:NERDTreeStatusline = '%#NonText#'  " No status line in NERDTree split
-			let g:NERDTreeShowLineNumbers=1  " enable line numbers
-			let g:NERDTreeMinimalUI = 1  " Remove '" Press ? for help' text
-			let g:NERDTreeWinSize=31  " The default is 31; this is here for later modification
-			let g:NERDTreeMouseMode=2  " Single-click to toggle directory nodes, double-click to open non-directory nodes.
+			let g:NERDTreeStatusline = '%#NonText#'  " No status line in NERDTree split.
+			let g:NERDTreeShowLineNumbers=1          " Enable line numbers.
+			let g:NERDTreeMinimalUI = 1              " Remove '" Press ? for help' text.
+			let g:NERDTreeWinSize=31                 " The default is 31; this is here for later
+			                                         "     modification.
+			let g:NERDTreeMouseMode=2                " Single-click to toggle directory nodes,
+			                                         "     double-click to open non-directory nodes.
 			let g:NERDTreeCreatePrefix='silent keepalt keepjumps'
 
 			" Ignore certain files by name in NERDTree.
 			set wildignore+=*.pyc,*.o,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.min.*
 			let NERDTreeRespectWildIgnore=1
 
-			autocmd FileType nerdtree setlocal nonumber relativenumber  " use relative line numbers
+			autocmd FileType nerdtree setlocal nonumber relativenumber  " Use relative line numbers
 
-			" Start up nerdtree for empty vim instances
-			"autocmd StdinReadPre * let s:std_in=1
-			"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-			" NERDTress File highlighting
-			function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-				exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-				exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-			endfunction
+			" NERDTree file highlighting
+			"function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+			"	exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+			"	exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+			"endfunction
 
 			" Examples
-			call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-			call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-			call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-
-		" Plug 'Xuyuanp/nerdtree-git-plugin'  " Adds git flag visuals to nerdtree
+			"call NERDTreeHighlightFile('md',   'blue',   'none', '#3366FF', '#151515')
+			"call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow',  '#151515')
+			"call NERDTreeHighlightFile('styl', 'cyan',   'none', 'cyan',    '#151515')
 
 		Plug 'mbbill/undotree'  " Browse the undo tree via <Leader>u
 
@@ -141,16 +126,18 @@
 
 		Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }  " Adds `:Clap <X>` commands (<Leader>c[bcfglt])
 
-			" For example, `blines`,`commits`,`files`,`grep`,`lines`,`tags`
+			" For example, `blines`,`commits`,`files`,`grep`,`lines`,`tags`.
 
-			" The bang version of `install-binary` will try to download the prebuilt binary if cargo does not exist.
+			" The bang version of `install-binary` will try to download the
+			" prebuilt binary if cargo does not exist.
 
-			" Then run `call :clap#installer#build_all()` if `cargo` exists for full Clap tooling
+			" Then run `call :clap#installer#build_all()` if `cargo` exists for
+			" full Clap tooling
 
 
 	" -- Vim-Tmux Interaction --
 
-		Plug 'christoomey/vim-tmux-navigator'  " Adds ctrl-[hjkl\]
+		Plug 'christoomey/vim-tmux-navigator'  " Adds vim-tmux navigation commands
 
 		Plug 'tpope/vim-tbone'  " Adds Tyank, Tput, etc., and also <Leader>y
 
@@ -170,8 +157,8 @@
 			nmap [c <Plug>GitGutterPrevHunk
 			nmap ]c <Plug>GitGutterNextHunk
 
-			let g:gitgutter_max_signs = 500  " default value
-			set updatetime=100  " increase speed of updating
+			let g:gitgutter_max_signs = 500  " Default value
+			set updatetime=100  " Increase speed of updating
 
 			highlight GitGutterAdd    guifg=#009900 ctermfg=2
 			highlight GitGutterChange guifg=#bbbb00 ctermfg=3
@@ -184,49 +171,49 @@
 
 		" -- Manual --
 
-			Plug 'easymotion/vim-easymotion'  " Adds <Leader><Leader>[swef...]
+			Plug 'easymotion/vim-easymotion'  " Adds <Leader><Leader>[swef...].
 
 			Plug 'tpope/vim-surround'  " ysiw) cs)] ds] etc.
 
-			Plug 'junegunn/vim-easy-align'  " gaip + =,*=,<space>,
+			Plug 'junegunn/vim-easy-align'  " gaip + =,*=,<space>.
 
-			Plug 'tpope/vim-commentary'  " gcc for line, gc otherwise (cmd-/ remapped too)
+			Plug 'tpope/vim-commentary'  " gcc for line, gc otherwise (cmd-/ remapped too).
 
-			Plug 'andymass/vim-matchup'  " Extends % and adds [g[]zia]%
+			Plug 'andymass/vim-matchup'  " Extends % and adds [g[]zia]%.
 
 
 		" -- Automatic --
 
-			Plug 'tpope/vim-repeat'  " Enables repeating surrounds and some other plugins
+			Plug 'tpope/vim-repeat'  " Enables repeating surrounds and some other plugins.
 
 			" Plug 'jiangmiao/auto-pairs'  " Automatically adds and removes paired brackets etc.
 
-			" Plug 'tpope/vim-endwise'  " Automatically add endings
+			" Plug 'tpope/vim-endwise'  " Automatically add endings.
 
-				" let g:endwise_no_mappings = v:true  " disable mapping to not break coc.nvim
+				" let g:endwise_no_mappings = v:true  " disable mapping to not break coc.nvim.
 
 
 	" -- Visuals --
 
-		Plug 'octol/vim-cpp-enhanced-highlight'  " improves C++ syntax highlighting
+		Plug 'octol/vim-cpp-enhanced-highlight'  " Improves C++ syntax highlighting.
 
-		Plug 'StanAngeloff/php.vim'  " improves PHP syntax highlighting
+		Plug 'StanAngeloff/php.vim'  " Improves PHP syntax highlighting.
 			let g:php_var_selector_is_identifier = 1
 
 		Plug 'neovimhaskell/haskell-vim'
-			let g:haskell_enable_quantification   = 1  " to enable highlighting of `forall`
-			let g:haskell_enable_recursivedo      = 1  " to enable highlighting of `mdo` and `rec`
-			let g:haskell_enable_arrowsyntax      = 1  " to enable highlighting of `proc`
-			let g:haskell_enable_pattern_synonyms = 1  " to enable highlighting of `pattern`
-			let g:haskell_enable_typeroles        = 1  " to enable highlighting of type roles
-			let g:haskell_enable_static_pointers  = 1  " to enable highlighting of `static`
-			let g:haskell_backpack                = 1  " to enable highlighting of backpack keywords
+			let g:haskell_enable_quantification   = 1  " Enables highlighting of `forall`.
+			let g:haskell_enable_recursivedo      = 1  " Enables highlighting of `mdo` and `rec`.
+			let g:haskell_enable_arrowsyntax      = 1  " Enables highlighting of `proc`.
+			let g:haskell_enable_pattern_synonyms = 1  " Enables highlighting of `pattern`.
+			let g:haskell_enable_typeroles        = 1  " Enables highlighting of type roles.
+			let g:haskell_enable_static_pointers  = 1  " Enables highlighting of `static`.
+			let g:haskell_backpack                = 1  " Enables highlighting of backpack keywords.
 
 		Plug 'pangloss/vim-javascript'
 
-		Plug 'tbastos/vim-lua'  " Makes Lua syntax highlight not terribly buggy
+		Plug 'tbastos/vim-lua'  " Makes Lua syntax highlight not terribly buggy.
 
-		Plug 'luochen1990/rainbow'  " Rainbow parentheses matching
+		Plug 'luochen1990/rainbow'  " Rainbow parentheses matching.
 			let g:rainbow_active = 1
 
 
@@ -234,7 +221,8 @@
 
 		" Plug 'tpope/vim-sensible'
 
-			" Manually pasting parts of vim-sensible to remove 'filetype indent on' and other things I later set myself
+			" Manually pasting parts of vim-sensible to remove
+			" 'filetype indent on' and other things I later set myself.
 
 			set complete-=i
 			set smarttab
@@ -260,12 +248,8 @@
 
 			set encoding=utf-8
 
-			if &listchars ==# 'eol:$'
-			  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-			endif
-
 			if v:version > 703 || v:version == 703 && has("patch541")
-			  set formatoptions+=j " Delete comment character when joining commented lines
+			  set formatoptions+=j " Delete comment character when joining commented lines.
 			endif
 
 			if has('path_extra')
@@ -280,10 +264,6 @@
 
 			if &history < 1000
 			  set history=1000
-			endif
-
-			if &tabpagemax < 50
-			  set tabpagemax=50
 			endif
 
 			if !empty(&viminfo)
@@ -309,50 +289,50 @@
 	" Set update time for gitgutter, swap file, etc.
 	set updatetime=1000
 
-	" Hide, instead of unloading, abandoned buffers
+	" Hide, instead of unloading, abandoned buffers.
 	set hidden
 
-	" Set the closest the cursor can get to the top/bottom before scrolling
+	" Set the closest the cursor can get to the top/bottom before scrolling.
 	set scrolloff=3
 
-	" Set the closest the cursor can get to the left/right before scrolling
+	" Set the closest the cursor can get to the left/right before scrolling.
 	set sidescrolloff=5
 
-	" Increase maximum number of tabs to 50
+	" Increase maximum number of tabs to 50.
 	set tabpagemax=50
 
-	" Remove 'insert mode -> command mode' lag after pressing escape
+	" Remove 'insert mode -> command mode' lag after pressing escape.
 	"set noesckeys
 
-	" Store temporary files in a central spot
+	" Store temporary files in a central spot.
 	"let &backupdir = $HOME . '/.vim/backup//'
 	"let &directory = $HOME . '/.vim/swapfiles//'
 
-	" Don't pass messages to |ins-completion-menu| ?
+	" Don't pass messages to |ins-completion-menu|?
 	set shortmess-=c
 
 	" Always show the signcolumn, otherwise it would shift the text each time
 	" diagnostics appear/become resolved.
 	set signcolumn=yes
 
-	" A yank command can be redone with '.'
+	" A yank command can be redone with '.'.
 	set cpoptions+=y
 
-	" View keyword help with K
+	" View keyword help with K.
 	set keywordprg=:help
 
-	" highlight all search results
+	" highlight all search results.
 	set hlsearch
 
-	"  Do case-insensitive search
+	"  Do case-insensitive search.
 	set ignorecase
 
-	" Show incremental search results as you type
+	" Show incremental search results as you type.
 	set incsearch
 
 	" -- Input --
 
-	" Enable mouse resizing splits
+	" Enable mouse resizing splits.
 	set mouse=n
 	if !has('nvim')
 		set ttymouse=xterm2
@@ -360,17 +340,17 @@
 
 	" -- Usability --
 
-	" Allow backspacing over all of these
+	" Allow backspacing over all of these.
 	set backspace=indent,eol,start
 
 	" -- Misc. --
 
-	" Fold based on indentation
+	" Fold based on indentation.
 	set foldmethod=indent
 	set foldminlines=0
 	set foldlevel=99
 
-	" Default split positions
+	" Default split positions.
 	set splitbelow
 	set splitright
 
@@ -412,14 +392,14 @@
 	hi MatchParen cterm=italic gui=italic
 
 	syntax enable
-	filetype on          " The 'filetype' option gets set on loading a file
-	filetype plugin on   " Can use ~/.vim/ftplugin/ to add filetype-specific setup
-	" filetype indent on " Can change the indentation depending on filetype
-	filetype indent off  " Fix annoying auto-indent bug
+	filetype on          " The 'filetype' option gets set on loading a file.
+	filetype plugin on   " Can use ~/.vim/ftplugin/ to add filetype-specific setup.
+	" filetype indent on " Can change the indentation depending on filetype.
+	filetype indent off  " Fix annoying auto-indent bug.
 
 	set number relativenumber
 
-	" Automatically toggle relativenumber when leaving/entering insert mode
+	" Automatically toggle relativenumber when leaving/entering insert mode.
 	augroup numbertoggle
 		autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 		autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
@@ -442,19 +422,23 @@
 	endfunction
 	"set foldtext=MyFoldText()
 
-	set wrap                " Wrap lines (default)
-	set nolist              " Don't show invisible characters (default)
-	set linebreak           " Break between words, not in the middle of words
-	set breakindent         " Visually indent wrapped lines
-	set breakindentopt=sbr  " Visually indent with the 'showbreak' option value
-	set showbreak=↪\        " What to show to indent wrapped lines
-	set shortmess-=S        " Ensure we show the number of matches for '/'
+	set wrap                " Wrap lines (default).
+	set nolist              " Don't show invisible characters (default).
+	set linebreak           " Break between words, not in the middle of words.
+	set breakindent         " Visually indent wrapped lines.
+	set breakindentopt=sbr  " Visually indent with the 'showbreak' option value.
+	set showbreak=↪\        " What to show to indent wrapped lines.
+	set shortmess-=S        " Ensure we show the number of matches for '/'.
 
+	" Sets which characters to show in the place of whitespace when using `:set
+	" list`.
 	set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
-	set colorcolumn=100
-	set list
+	"set list
 
-	" Syntax highlighting in markdown
+	" Display a coloured column at 100 characters.
+	set colorcolumn=100
+
+	" Syntax highlighting in markdown.
 	let g:markdown_fenced_languages = ['html', 'python', 'vim']
 
 	" Add highlighting to trailing whitespace and spaces before tabs, but not
@@ -495,33 +479,34 @@
 
 	" -- In-built --
 
-		" Set <Leader> to be <Space>
+		" Set <Leader> to be <Space>.
 		let mapleader = " "
 
-		" Swap : and ;
+		" Swap ':' and ';'.
 		nnoremap ; :
 		vnoremap ; :
 		nnoremap : ;
 		vnoremap : ;
 
-		" Set <Esc> to its normal job when in terminal mode, instead of C-\,C-n
+		" Set <Esc> to its normal job when in terminal mode, instead of
+		" 'C-\,C-n'.
 		tnoremap <Esc> <C-\><C-n>
 
-		" Write and quit
+		" Write and quit.
 		nnoremap <Leader>w :w<CR>
 		nnoremap <Leader><Leader>w :w!<CR>
 		nnoremap <Leader><Leader><Leader>w :w!!<CR>
 		nnoremap <Leader>q :q<CR>
 		nnoremap <Leader><Leader>q :q!<CR>
 
-		" Open in new tab  (alternatively ':tabnew %<CR>')
+		" Open in new tab.
 		nnoremap <Leader>z :tab sp<CR>
 
-		" Quickly create splits
+		" Quickly create splits.
 		nnoremap <Leader>- :sp<CR>
 		nnoremap <Leader><Bar> :vs<CR>
 
-		" Switch between vim tabs
+		" Switch between vim tabs.
 		nnoremap <leader>1 1gt
 		nnoremap <leader>2 2gt
 		nnoremap <leader>3 3gt
@@ -532,31 +517,31 @@
 		nnoremap <leader>8 8gt
 		nnoremap <leader>9 9gt
 
-		" List buffers and prepare to move to one
+		" List buffers and prepare to move to one.
 		nnoremap gb :ls<CR>:b<space>
 
-		" 'Previous' and 'next' Buffers
+		" 'Previous' and 'next' Buffers.
 		nnoremap <Leader>h :bprev<CR>
 		nnoremap <Leader>l :bnext<CR>
 
-		" Go to most recent buffer
+		" Go to most recent buffer.
 		nnoremap <Leader>bb :b#<CR>
 
-		" Fast up-down movement
+		" Fast up-down movement.
 		nnoremap <Leader>j 10j
 		nnoremap <Leader>k 10k
 
-		" Easy pasting previous yank
+		" Easy pasting previous yank.
 		nnoremap <Leader>p "0p
 
-		" Redo last macro
+		" Redo last macro.
 		nnoremap <leader>. @@
 
-		" Toggle GUI for multi-line copying of vim contents by external program
+		" Toggle GUI for multi-line copying of vim contents by external program.
 		nnoremap <leader>0 :set nonumber norelativenumber nolinebreak nobreakindent signcolumn=no showbreak= <CR>:GitGutterDisable<CR>
 		nnoremap <leader><Leader>0 :set number relativenumber linebreak breakindent signcolumn=yes showbreak=↪\ <CR>:GitGutterEnable<CR>
 
-		" Quickly toggle fold
+		" Quickly toggle fold.
 		nnoremap <Leader>t za
 		nnoremap <Leader>T zA
 
@@ -587,7 +572,7 @@
 
 		" -- Coc ([g,]g) --
 
-			" Use `[g` and `]g` to navigate diagnostics
+			" Use `[g` and `]g` to navigate diagnostics.
 			nmap <Leader>[ <Plug>(coc-diagnostic-prev)
 			nmap <Leader>] <Plug>(coc-diagnostic-next)
 
@@ -615,10 +600,10 @@
 				endif
 			endfunction
 
-			" Remap for rename current word
+			" Remap for rename current word.
 			nmap <leader>rn <Plug>(coc-rename)
 
-			" Easily toggle diagnostics
+			" Easily toggle diagnostics.
 			nnoremap <Leader>ct :call CocAction('diagnosticToggle')<CR>
 
 			" Formatting selected code.
@@ -626,22 +611,24 @@
 			nmap <leader>f=  <Plug>(coc-format-selected)
 
 			" Use <Leader>gs to switch between hpp and cpp.
-			function! s:EditAlternative()
+			function! s:EditAlternate()
 				let l:alter = CocRequest('clangd', 'textDocument/switchSourceHeader', {'uri': 'file://' . expand("%:p")})
 
-				" Remove file:// from response
+				" Remove file:// from response.
 				let l:alter = substitute(l:alter, "file://", "", "")
 
 				execute 'edit ' . l:alter
 			endfunction
 
+			autocmd FileType cpp nnoremap <silent> <leader>gs :call <SID>EditAlternate()<CR>
+
 
 		" -- Easy Align --
 
-			" Start interactive EasyAlign in visual mode (e.g. vipga)
+			" Start interactive EasyAlign in visual mode (e.g. vipga).
 			xmap ga <Plug>(EasyAlign)
 
-			" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+			" Start interactive EasyAlign for a motion/text object (e.g. gaip).
 			nmap ga <Plug>(EasyAlign)
 
 
@@ -682,10 +669,10 @@
 
 		" -- NERDTree (<Leader>n[fv], -) --
 
-			" Toggle NERDTree with <Leader>f
+			" Toggle NERDTree with <Leader>nf.
 			nnoremap <silent> <Leader>nf :NERDTreeToggle<CR>
 
-			" Find current file being editted in NERDTree with <Leader>v
+			" Find current file being editted in NERDTree with <Leader>nv.
 			nnoremap <silent> <Leader>nv :NERDTreeFind<CR>
 
 			" Press - in command mode to go up one directory.
@@ -728,13 +715,13 @@
 
 		" -- Vimux (<Leader>v[rli]) --
 
-			" Prompt for a command to run
+			" Prompt for a command to run.
 			nnoremap <Leader>vr :VimuxPromptCommand<CR>
 
-			" Prompt for rereun last command
+			" Prompt for rereun last command.
 			nnoremap <Leader>vl :VimuxRunLastCommand<CR>
 
-			" Inspect runner pane
+			" Inspect runner pane.
 			nnoremap <Leader>vi :VimuxInspectRunner<CR>
 
 
@@ -747,7 +734,8 @@
 
 	augroup vimrc_hooks
 		 au!
-		 autocmd bufwritepost .vimrc source ~/.vimrc  " Source .vimrc after writing .vimrc
+		" Source .vimrc after writing .vimrc.
+		 autocmd bufwritepost .vimrc source ~/.vimrc
 	augroup END
 
 	function! s:attempt_select_last_file() abort
@@ -764,11 +752,12 @@
 		augroup END
 	endif
 
-	" Disable Rainbow bracket matching for Lua: it messes up comments of the form [[ ... ' ... ]]
+	" Disable Rainbow bracket matching for Lua, as it messes up comments of the
+	" form [[ ... ' ... ]].
 	autocmd FileType lua :RainbowToggleOff
 	autocmd FileType php :RainbowToggleOff
 
-	" Get coc-css to add @ to iskeyword
+	" Get coc-css to add @ to iskeyword.
 	" (Might cause problems? Was commented out.)
 	autocmd FileType scss setl iskeyword+=@-@
 

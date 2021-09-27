@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Alias clear to clear the 'new line before prompt' environment variable to
 # avoid new line at the top.

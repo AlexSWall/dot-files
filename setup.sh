@@ -38,7 +38,7 @@ create_git_repo () {
 # == Symlinks ==
 
 # Bash, Zsh, Vim, Tmux, and Git
-for f in .bashrc .zshrc .aliases .vimrc .tmux.conf .tmux.remote.conf .tmux.reset.conf .gitconfig
+for f in .profile .bash_profile .zshenv .shrc .bashrc .zshrc .aliases .vimrc .tmux.conf .tmux.remote.conf .tmux.reset.conf .gitconfig
 do
 	create_symlink "$f" "$HOME"
 done
@@ -74,4 +74,29 @@ fi
 # == Miscellaneous ==
 
 touch ~/.hushlogin
+
+
+# == Finished ==
+echo '-----'
+echo 'You may now need to install git, neovim, tmux, nodejs, npm, and yarn.'
+echo ''
+read -p 'If/when these are installed, please press enter...'
+echo '-----'
+echo 'Done!'
+echo ''
+echo 'If italics are not working within tmux, you may need to run'
+echo ''
+echo '```'
+echo '$ cat <<EOF|tic -x -'
+echo 'tmux|tmux terminal multiplexer,'
+echo '        ritm=\E[23m, rmso=\E[27m, sitm=\E[3m, smso=\E[7m, Ms@,'
+echo '        use=xterm+tmux, use=screen,'
+echo ''
+echo 'tmux-256color|tmux with 256 colors,'
+echo '        use=xterm+256setaf, use=tmux,'
+echo 'EOF'
+echo '```'
+echo ''
+echo "and ensure 'set -g default-terminal \"tmux\"' is in our ~/.tmux.conf"
+echo '-----'
 
