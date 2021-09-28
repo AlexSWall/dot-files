@@ -4,38 +4,65 @@
 # avoid new line at the top.
 alias clear='unset _NEW_LINE_BEFORE_PROMPT; clear'
 
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-alias ip='ip --color=auto'
+case "$(uname -s)" in
+	'Darwin')
+		alias ls='ls -Gh'
+		;;
 
-alias ls='ls -G'
-alias ll='ls -l'
-alias la='ls -A'
-alias l='ls -CF'
+	'Linux')
+		alias ls='ls --color=auto --group-directories-first -h'
+		alias ip='ip --color=auto'
+		;;
+
+	*)
+		;;
+esac
+
+alias grep='grep --color=auto'
 
 alias docker-container-rm-all='docker rm -f $(docker ps -a -q)'
 
 alias pushtmp='pushd "$(mktemp -d)"'
 
-poptmp () {
+function poptmp () {
 	if popd
 	then
-		OLD_LEVEL_TWO_DIR="$(sed -E "s/(\/tmp\/tmp[^\/]*\/).*/\1/g" <<< $OLDPWD)"
-		if [[ "$OLD_LEVEL_TWO_DIR" =~ "/tmp/.*" ]]
+		# Location of temporary folders varies between OSes, so set regex for
+		# checking whether path is in temporary files/folders directory.
+		case "$(uname -s)" in
+			'Darwin')
+				REGEX="/var/folders/[a-zA-Z0-9]{2}/[^/]+/[a-zA-Z0-9]/tmp\.[^/]*"
+				;;
+
+			'Linux')
+				REGEX="/tmp/tmp[^/]*/"
+				;;
+
+			*)
+				echo 'OS is neither Darwin nor Linux; cannot check for temp folder.'
+				return
+				;;
+		esac
+
+		# Check this regex matches the previous directory path
+		MATCH="$(echo "$OLDPWD" | grep -oE "$REGEX")"
+		if [[ $MATCH ]]
 		then
-			rm -rf "$OLD_LEVEL_TWO_DIR"
+			# It matches, so delete the extracted regex match
+			rm -rf "$MATCH"
+			echo 'Deleted temporary folder.'
 		else
-			echo '$OLDPWD not in /tmp/; will not delete directory'
+			# No matches
+			echo '$OLDPWD not in a temporary folder; will not delete directory'
 		fi
 	fi
 }
 
-up() {
+function up () {
 	cd $(printf '../%.0s' $(seq 1 $1))
 }
 
-vimopen() {
+function vimopen () {
 	if [[ "$#" -eq 1 ]]
 	then
 		DIRECTORY='.'
