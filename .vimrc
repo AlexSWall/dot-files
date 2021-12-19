@@ -576,10 +576,6 @@
 			nmap <Leader>[ <Plug>(coc-diagnostic-prev)
 			nmap <Leader>] <Plug>(coc-diagnostic-next)
 
-			" " Formatting selected code.
-			" xmap <leader>f  <Plug>(coc-format-selected)
-			" nmap <leader>f  <Plug>(coc-format-selected)
-
 			" Use <c-space> to trigger completion.
 			inoremap <silent><expr> <c-space> coc#refresh()
 
