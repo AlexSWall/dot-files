@@ -529,15 +529,15 @@
 		nnoremap <Leader><Bar> :vs<CR>
 
 		" Switch between vim tabs.
-		nnoremap <leader>1 1gt
-		nnoremap <leader>2 2gt
-		nnoremap <leader>3 3gt
-		nnoremap <leader>4 4gt
-		nnoremap <leader>5 5gt
-		nnoremap <leader>6 6gt
-		nnoremap <leader>7 7gt
-		nnoremap <leader>8 8gt
-		nnoremap <leader>9 9gt
+		nnoremap <Leader>1 1gt
+		nnoremap <Leader>2 2gt
+		nnoremap <Leader>3 3gt
+		nnoremap <Leader>4 4gt
+		nnoremap <Leader>5 5gt
+		nnoremap <Leader>6 6gt
+		nnoremap <Leader>7 7gt
+		nnoremap <Leader>8 8gt
+		nnoremap <Leader>9 9gt
 
 		" List buffers and prepare to move to one.
 		nnoremap gb :ls<CR>:b<space>
@@ -561,15 +561,24 @@
 		vnoremap <Leader>P "0p
 
 		" Redo last macro.
-		nnoremap <leader>. @@
+		nnoremap <Leader>. @@
+
+		" Run q macro easily.
+		" This allows for qq<macro recording>q followed by Q.
+		" Overwrites initial Q mapping, which starts Ex mode.
+		nnoremap Q @q
+		vnoremap Q :norm @q<CR>
 
 		" Toggle GUI for multi-line copying of vim contents by external program.
-		nnoremap <leader>0 :set nonumber norelativenumber nolinebreak nobreakindent signcolumn=no showbreak= <CR>:GitGutterDisable<CR>
-		nnoremap <leader><Leader>0 :set number relativenumber linebreak breakindent signcolumn=yes showbreak=↪\ <CR>:GitGutterEnable<CR>
+		nnoremap <Leader>0 :set nonumber norelativenumber nolinebreak nobreakindent signcolumn=no showbreak= <CR>:GitGutterDisable<CR>
+		nnoremap <Leader><Leader>0 :set number relativenumber linebreak breakindent signcolumn=yes showbreak=↪\ <CR>:GitGutterEnable<CR>
 
 		" Quickly toggle fold.
 		nnoremap <Leader>t za
 		nnoremap <Leader>T zA
+
+		" Toggle 'paste' setting with.
+		nnoremap <Leader>tp :set paste!<CR>
 
 		" Create two marks, q and w, to set current location and top row of view
 		" respectively, then format the entire file, and finally move back to the
@@ -582,7 +591,7 @@
 		vnoremap J :m '>+1<CR>gv=gv
 		vnoremap K :m '<-2<CR>gv=gv
 
-		" Set <Leader>no to remove highlighting.
+		" Remove highlighting.
 		nnoremap <Leader>no :noh<CR>
 
 
@@ -630,14 +639,14 @@
 			endfunction
 
 			" Remap for rename current word.
-			nmap <leader>rn <Plug>(coc-rename)
+			nmap <Leader>rn <Plug>(coc-rename)
 
 			" Easily toggle diagnostics.
 			nnoremap <Leader>ct :call CocAction('diagnosticToggle')<CR>
 
 			" Formatting selected code.
-			xmap <leader>f=  <Plug>(coc-format-selected)
-			nmap <leader>f=  <Plug>(coc-format-selected)
+			xmap <Leader>f=  <Plug>(coc-format-selected)
+			nmap <Leader>f=  <Plug>(coc-format-selected)
 
 			" Use <Leader>gs to switch between hpp and cpp.
 			function! s:EditAlternate()
@@ -649,7 +658,7 @@
 				execute 'edit ' . l:alter
 			endfunction
 
-			autocmd FileType cpp nnoremap <silent> <leader>gs :call <SID>EditAlternate()<CR>
+			autocmd FileType cpp nnoremap <silent> <Leader>gs :call <SID>EditAlternate()<CR>
 
 
 		" -- Easy Align --
@@ -723,7 +732,7 @@
 				call delete(tempfile)
 			endfunction
 
-			vnoremap <silent> <leader>y :call <sid>tmux_load_buffer()<CR>
+			vnoremap <silent> <Leader>y :call <sid>tmux_load_buffer()<CR>
 
 
 		" -- Tmux Navigator (Alt-[hjkl]) --
