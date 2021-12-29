@@ -198,9 +198,11 @@
 		Plug 'octol/vim-cpp-enhanced-highlight'  " Improves C++ syntax highlighting.
 
 		Plug 'StanAngeloff/php.vim'  " Improves PHP syntax highlighting.
+
 			let g:php_var_selector_is_identifier = 1
 
 		Plug 'neovimhaskell/haskell-vim'
+
 			let g:haskell_enable_quantification   = 1  " Enables highlighting of `forall`.
 			let g:haskell_enable_recursivedo      = 1  " Enables highlighting of `mdo` and `rec`.
 			let g:haskell_enable_arrowsyntax      = 1  " Enables highlighting of `proc`.
@@ -214,7 +216,22 @@
 		Plug 'tbastos/vim-lua'  " Makes Lua syntax highlight not terribly buggy.
 
 		Plug 'luochen1990/rainbow'  " Rainbow parentheses matching.
+
 			let g:rainbow_active = 1
+
+		Plug 'unblevable/quick-scope'
+
+			" Trigger a highlight in the appropriate direction when pressing these keys:
+			let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+			" augroup qs_colors
+			" 	autocmd!
+			" 	autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+			" 	autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+			" augroup END
+
+			" let g:qs_lazy_highlight = 1
+			" let g:qs_delay = 0
 
 
 	" -- Miscellaneous --
@@ -225,6 +242,7 @@
 			" 'filetype indent on' and other things I later set myself.
 
 			set complete-=i
+
 			set smarttab
 
 			set nrformats-=octal
@@ -284,85 +302,89 @@
 	call plug#end()
 
 
-" == General setup . ==
+" == General setup ==
 
-	" Set update time for gitgutter, swap file, etc.
-	set updatetime=1000
+	" -- General --
 
-	" Hide, instead of unloading, abandoned buffers.
-	set hidden
+		" Set update time for gitgutter, swap file, etc.
+		set updatetime=1000
 
-	" Set the closest the cursor can get to the top/bottom before scrolling.
-	set scrolloff=3
+		" Hide, instead of unloading, abandoned buffers.
+		set hidden
 
-	" Set the closest the cursor can get to the left/right before scrolling.
-	set sidescrolloff=5
+		" Set the closest the cursor can get to the top/bottom before scrolling.
+		set scrolloff=3
 
-	" Increase maximum number of tabs to 50.
-	set tabpagemax=50
+		" Set the closest the cursor can get to the left/right before scrolling.
+		set sidescrolloff=5
 
-	" Remove 'insert mode -> command mode' lag after pressing escape.
-	"set noesckeys
+		" Increase maximum number of tabs to 50.
+		set tabpagemax=50
 
-	" Store temporary files in a central spot.
-	"let &backupdir = $HOME . '/.vim/backup//'
-	"let &directory = $HOME . '/.vim/swapfiles//'
+		" Remove 'insert mode -> command mode' lag after pressing escape.
+		"set noesckeys
 
-	" Don't pass messages to |ins-completion-menu|?
-	set shortmess-=c
+		" Store temporary files in a central spot.
+		"let &backupdir = $HOME . '/.vim/backup//'
+		"let &directory = $HOME . '/.vim/swapfiles//'
 
-	" Always show the signcolumn, otherwise it would shift the text each time
-	" diagnostics appear/become resolved.
-	set signcolumn=yes
+		" Don't pass messages to |ins-completion-menu|?
+		set shortmess-=c
 
-	" A yank command can be redone with '.'.
-	set cpoptions+=y
+		" Always show the signcolumn, otherwise it would shift the text each
+		" time diagnostics appear/become resolved.
+		set signcolumn=yes
 
-	" View keyword help with K.
-	set keywordprg=:help
+		" Add 'yank' (y) to commands that can be repeated with '.'.
+		set cpoptions+=y
 
-	" highlight all search results.
-	set hlsearch
+		" highlight all search results.
+		set hlsearch
 
-	"  Do case-insensitive search.
-	set ignorecase
+		"  Do case-insensitive search.
+		set ignorecase
 
-	" Show incremental search results as you type.
-	set incsearch
+		" Show incremental search results as you type.
+		set incsearch
+
+		" Change from default of menu,preview
+		set completeopt=menuone,noinsert,noselect
+
+		" Fold based on indentation.
+		set foldmethod=indent
+		set foldminlines=0
+		set foldlevel=99
+
+		" Default split positions.
+		set splitbelow
+		set splitright
+
+		set viminfo='100,<1000,s100,h
+			" '100  = Remember marks for the last 100 edited files.
+			" <1000 = Limit the number of lines saved for each register to 1000 lines.
+			"         If a register contains more than 1000 lines, only the first 1000
+			"         lines are saved.
+			" s100  = Skip registers with more than 100KB of text.
+			" h     = Disable search highlighting when vim starts.
+
+		" Allow backspacing over all of these.
+		set backspace=indent,eol,start
+
+		" Preserve line ending currently existing in a file.
+		set nofixendofline
 
 	" -- Input --
 
-	" Enable mouse resizing splits.
-	set mouse=n
-	if !has('nvim')
-		set ttymouse=xterm2
-	endif
-
-	" -- Usability --
-
-	" Allow backspacing over all of these.
-	set backspace=indent,eol,start
+		" Enable mouse in all modes
+		set mouse=a
+		if !has('nvim')
+			set ttymouse=xterm2
+		endif
 
 	" -- Misc. --
 
-	" Fold based on indentation.
-	set foldmethod=indent
-	set foldminlines=0
-	set foldlevel=99
-
-	" Default split positions.
-	set splitbelow
-	set splitright
-
-	set viminfo='100,<1000,s100,h
-	" '100  = Remember marks for the last 100 edited files.
-	" <1000 = Limit the number of lines saved for each register to 1000 lines.
-	"         If a register contains more than 1000 lines, only the first 1000
-	"         lines are saved.
-	" s100  = Skip registers with more than 100KB of text.
-	" h     = Disable search highlighting when vim starts.
-
-	set nofixendofline
+		" View keyword help in vimrc with K.
+		set keywordprg=:help
 
 
 " == Visuals ==
@@ -436,7 +458,7 @@
 	"set list
 
 	" Display a coloured column at 100 characters.
-	set colorcolumn=100
+	set colorcolumn=80,100,120
 
 	" Syntax highlighting in markdown.
 	let g:markdown_fenced_languages = ['html', 'python', 'vim']
@@ -533,6 +555,10 @@
 
 		" Easy pasting previous yank.
 		nnoremap <Leader>p "0p
+		nnoremap <Leader>P "0P
+		" Include this when pasting in visual mode (e.g. over selected text)
+		vnoremap <Leader>p "0p
+		vnoremap <Leader>P "0p
 
 		" Redo last macro.
 		nnoremap <leader>. @@
@@ -551,6 +577,13 @@
 		" same place as before.
 		" This therefore overwrites marks q and w.
 		nnoremap <Leader>= mqHmwgg=G`wzt`q
+
+		" Move highlighted text (in visual mode) up and down using J and K.
+		vnoremap J :m '>+1<CR>gv=gv
+		vnoremap K :m '<-2<CR>gv=gv
+
+		" Set <Leader>no to remove highlighting.
+		nnoremap <Leader>no :noh<CR>
 
 
 	" -- Plugins --
@@ -752,6 +785,9 @@
 	" form [[ ... ' ... ]].
 	autocmd FileType lua :RainbowToggleOff
 	autocmd FileType php :RainbowToggleOff
+
+	" Set comment string to // instead of /* */ when suitable.
+	autocmd FileType c,cpp,cs,java,javascript setlocal commentstring=//\ %s
 
 	" Get coc-css to add @ to iskeyword.
 	" (Might cause problems? Was commented out.)
