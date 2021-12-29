@@ -1,5 +1,11 @@
 #!/bin/bash
 
+echo '-----'
+echo 'You need to ensure git and curl are installed.'
+echo ''
+read -p 'If/when these are installed, please press enter...'
+echo '-----'
+
 PWD="$(pwd)"
 OLD="$(pwd)/old"
 mkdir -p "$OLD"
@@ -78,11 +84,10 @@ touch ~/.hushlogin
 
 # == Finished ==
 echo '-----'
-echo 'You may now need to install git, neovim, tmux, nodejs, npm, and yarn.'
-echo ''
-read -p 'If/when these are installed, please press enter...'
-echo '-----'
 echo 'Done!'
+echo ''
+echo 'You may now need to install: zsh, neovim, tmux, nodejs, npm, and yarn.'
+echo ''
 echo ''
 echo 'If italics are not working within tmux, you may need to run'
 echo ''
