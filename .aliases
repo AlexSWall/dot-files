@@ -4,6 +4,8 @@
 # avoid new line at the top.
 alias clear='unset _NEW_LINE_BEFORE_PROMPT; clear'
 
+alias clear-vim-cache='rm -rf ~/.local/share/nvim/swap/*'
+
 case "$(uname -s)" in
 	'Darwin')
 		alias ls='ls -Gh'
