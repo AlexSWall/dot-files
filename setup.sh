@@ -44,10 +44,13 @@ create_git_repo () {
 # == Symlinks ==
 
 # Bash, Zsh, Vim, Tmux, and Git
-for f in .profile .bash_profile .zshenv .shrc .bashrc .zshrc .aliases .vimrc .tmux.conf .tmux.remote.conf .tmux.reset.conf .gitconfig
+for f in .profile .bash_profile .zshenv .shrc .bashrc .zshrc .fishrc .aliases .vimrc .tmux.conf .tmux.remote.conf .tmux.reset.conf .gitconfig
 do
 	create_symlink "$f" "$HOME"
 done
+
+# Fish
+create_symlink "fish" "$HOME/.config"
 
 # Vim/Neovim Monokai
 create_symlink "monokai.vim" "$HOME/.vim/colors"
@@ -86,7 +89,7 @@ touch ~/.hushlogin
 echo '-----'
 echo 'Done!'
 echo ''
-echo 'You may now need to install: zsh, neovim, tmux, nodejs, npm, and yarn.'
+echo 'You may now need to install: fish, zsh, neovim, tmux, nodejs, npm, and yarn.'
 echo ''
 echo ''
 echo 'If italics are not working within tmux, you may need to run'

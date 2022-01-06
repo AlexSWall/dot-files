@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+# For prompt.
+set -g HOST 'MacBook Air'
+
+
+: # General Shell Setup
+  # -------------------
+
+	: # Set TERM.
+	set -gx TERM xterm-256color
+
+	# Ascend.
+	alias vim='nvim'
+	alias vimdiff='nvim -d'
+	set -gx VISUAL 'nvim'
+	set -gx EDITOR 'nvim'
+	set -gx GIT_EDITOR 'nvim'
+
+	# History.
+	set -gx HISTSIZE 10000           # Number of commands.
+	set -gx HISTFILESIZE 20000       # Number of lines.
+	set -gx SAVEHIST 20000           # Number of lines. (Zsh)
+	set -gx HISTCONTROL ignoreboth   # Ignore duplicate lines and lines starting with a space.
+
+
+: # General Visuals
+  # ---------------
+
+	: # Set CLI COLOR and LS COLORS
+	if [ -x "(command -v dircolors)" ]
+		# -- Linux --
+		set -gx CLICOLOR 1
+		eval "(dircolors -b)"
+
+		set LS_COLORS ''
+		set LS_COLORS $LS_COLORS 'di=01;34'     # Directories:                                  Bold;  Blue;
+		set LS_COLORS $LS_COLORS 'ln=01;36'     # Symbolic Links:                               Bold;  Cyan;
+		set LS_COLORS $LS_COLORS 'so=01;35'     # Sockets:                                      Bold;  Purple;
+		set LS_COLORS $LS_COLORS 'pi=33;40'     # Named Pipes:                                         Orange;   Grey Background;
+		set LS_COLORS $LS_COLORS 'ex=01;32'     # Executable Files:                             Bold;  Green;
+		set LS_COLORS $LS_COLORS 'bd=33;40'     # Block Devices:                                       Orange;   Grey Background;
+		set LS_COLORS $LS_COLORS 'cd=33;40'     # Character Devices:                                   Orange;   Grey Background;
+		set LS_COLORS $LS_COLORS 'su=37;41'     # File that is setuid (u+s):                           Black;     Red Background;
+		set LS_COLORS $LS_COLORS 'sg=30;43'     # File that is setgid (g+s):                           Black;  Orange Background;
+		set LS_COLORS $LS_COLORS 'tw=01;34;40'  # Sticky, Other-Writable Directories (+t,o+w):  Bold;  Blue;     Grey Background;
+		set LS_COLORS $LS_COLORS 'ow=01;34;40'  # Other-Writable Directories (o+w):             Bold;  Blue;     Grey Background;
+
+		set LS_COLORS (string join ':' $LS_COLORS)
+		set -gx LS_COLORS
+	else
+		# -- MacOS --
+		set -gx CLI_COLOR 1
+		set -gx LSCOLORS 'gxBxhxDxfxhxhxhxhxcxcx'
+	end
+
+	# GCC colours
+	set -gx GCC_COLORS 'error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+	# Add colours to man pages, etc.
+	set -gx LESS_TERMCAP_mb \e'[1;31m'     # begin blink
+	set -gx LESS_TERMCAP_md \e'[1;36m'     # begin bold
+	set -gx LESS_TERMCAP_me \e'[0m'        # reset bold/blink
+	set -gx LESS_TERMCAP_so \e'[01;33m'    # begin reverse video
+	set -gx LESS_TERMCAP_se \e'[0m'        # reset reverse video
+	set -gx LESS_TERMCAP_us \e'[1;32m'     # begin underline
+	set -gx LESS_TERMCAP_ue \e'[0m'        # reset underline
+
+
+: # Prompt
+  # ------
+
+	: # Set variable identifying the chroot.
+	if [ -r /etc/debian_chroot ]
+		 set debian_chroot "(cat /etc/debian_chroot)"
+	end
+
+
+: # Programming Languages
+  # ---------------------
+
+	: # On starting python, runs .pythonstartup.py, which will add tab-completion
+	# possibly amongst other things.
+	set -gx PYTHONSTARTUP "$HOME/.pythonstartup.py"
+
+
+: # Miscellaneous
+  # -------------
+
+	: # Make less more friendly for non-text input files, see lesspipe(1)
+	[ -x /usr/bin/lesspipe ] && eval "(SHELL=/bin/sh lesspipe)"
+
+
+: # Includes
+  # --------
+
+	# [ -f ~/.profile ]       && source ~/.profile
+	# [ -f ~/.aliases ]       && source ~/.aliases
+	# [ -f ~/.local_aliases ] && source ~/.local_aliases
+
