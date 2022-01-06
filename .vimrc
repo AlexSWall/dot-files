@@ -19,6 +19,11 @@
 	set runtimepath^=~/.vim
 	let &packpath=&runtimepath
 
+	" Change vim shell to zsh if current shell is fish.
+	if &shell =~# 'fish$'
+		set shell=zsh
+	endif
+
 
 " == Plugins ==
 
@@ -214,6 +219,8 @@
 		Plug 'pangloss/vim-javascript'
 
 		Plug 'tbastos/vim-lua'  " Makes Lua syntax highlight not terribly buggy.
+
+		Plug 'blankname/vim-fish'  " Improves vim experience on .fish files
 
 		Plug 'luochen1990/rainbow'  " Rainbow parentheses matching.
 

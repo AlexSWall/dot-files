@@ -15,5 +15,5 @@ export PATH
 if [[ -r "$HOME/.local_profile" ]]; then source "$HOME/.local_profile"; fi
 
 # Export UID and GID
-export UID=$(id -u)
+export UID=$(id -u) 2> /dev/null # Fish already has done this and will complain.
 export GID=$(id -g)
