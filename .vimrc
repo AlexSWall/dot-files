@@ -40,32 +40,32 @@
 
 	" -- Code Comprehension Plugins --
 
-		" Plug 'neoclide/coc.nvim', {'branch': 'release'}  " LSP support
+		Plug 'neoclide/coc.nvim', {'branch': 'release'}  " LSP support
 
-		" 	" Use tab for trigger completion with characters ahead and navigate.
-		" 	inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
-		" 	inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+			" Use tab for trigger completion with characters ahead and navigate.
+			inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
+			inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-		" 	function! s:check_back_space() abort
-		" 		let col = col('.') - 1
-		" 		return !col || getline('.')[col - 1]  =~# '\s'
-		" 	endfunction
+			function! s:check_back_space() abort
+				let col = col('.') - 1
+				return !col || getline('.')[col - 1]  =~# '\s'
+			endfunction
 
-		" 	" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-		" 	" position. Coc only does snippet and additional edit on confirm.
-		" 	if has('patch8.1.1068')
-		" 		" Use `complete_info` if your (Neo)Vim version supports it.
-		" 		"inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-		" 	else
-		" 		imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-		" 	endif
+			" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+			" position. Coc only does snippet and additional edit on confirm.
+			if has('patch8.1.1068')
+				" Use `complete_info` if your (Neo)Vim version supports it.
+				"inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+			else
+				imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+			endif
 
-		" Plug 'liuchengxu/vista.vim'  " <Leader>t
+		Plug 'liuchengxu/vista.vim'  " <Leader>t
 
-		" 	let g:vista#executives = ['coc']
-		" 	let g:vista_default_executive = 'coc'
-		" 	let g:vista#renderer#enable_icon = 0
-		" 	let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+			let g:vista#executives = ['coc']
+			let g:vista_default_executive = 'coc'
+			let g:vista#renderer#enable_icon = 0
+			let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 
 
 	" -- Visual Interface Plugins --
@@ -82,7 +82,7 @@
 			let g:NERDTreeCreatePrefix='silent keepalt keepjumps'
 
 			" Ignore certain files by name in NERDTree.
-			set wildignore+=*.pyc,*.o,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.min.*
+			set wildignore+=*.pyc,*.o,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.min.*,__pycache__,*.egg-info
 			let NERDTreeRespectWildIgnore=1
 
 			autocmd FileType nerdtree setlocal nonumber relativenumber  " Use relative line numbers
@@ -521,6 +521,9 @@
 		" 'C-\,C-n'.
 		tnoremap <Esc> <C-\><C-n>
 
+		" Edit .vimrc
+		nnoremap <Leader>ev :e ~/.vimrc<CR>
+
 		" Write and quit.
 		nnoremap <Leader>w :w<CR>
 		nnoremap <Leader><Leader>w :w!<CR>
@@ -560,6 +563,13 @@
 		nnoremap <Leader>j 10j
 		nnoremap <Leader>k 10k
 
+		" Set <Leader>n to search for the next instance of the word under the
+		" cursor; much easier to do than *
+		nnoremap <silent> <Leader>n *
+
+		" While in visual mode, use // to search for the selected text search
+		vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
 		" Easy pasting previous yank.
 		nnoremap <Leader>p "0p
 		nnoremap <Leader>P "0P
@@ -584,8 +594,12 @@
 		nnoremap <Leader>t za
 		nnoremap <Leader>T zA
 
-		" Toggle 'paste' setting with.
-		nnoremap <Leader>tp :set paste!<CR>
+		" :noh shortcut
+		nnoremap <Leader>no :noh<CR>
+
+		" Use <Leader>d with selected text to insert it into the yank register
+		" before deleting it.
+		vnoremap <Leader>d d:let @0=@"<CR>
 
 		" Create two marks, q and w, to set current location and top row of view
 		" respectively, then format the entire file, and finally move back to the
@@ -600,6 +614,9 @@
 
 		" Remove highlighting.
 		nnoremap <Leader>no :noh<CR>
+
+		" Toggle paste
+		nnoremap <Leader>tp :set paste!<CR>
 
 
 	" -- Plugins --
@@ -711,14 +728,22 @@
 			" nunmap <Leader>hu
 			" nunmap <Leader>hs
 
+			" Add floating preview window for <Leader>gg
+			let g:gitgutter_preview_win_floating = 1
+
+			nnoremap <Leader>gh :GitGutterPrevHunk<CR>
+			nnoremap <Leader>gl :GitGutterNextHunk<CR>
+			nnoremap <Leader>gg :GitGutterPreviewHunk<CR>
+			nnoremap <Leader>gu :GitGutterUndoHunk<CR>
+
 
 		" -- NERDTree (<Leader>n[fv], -) --
 
-			" Toggle NERDTree with <Leader>nf.
-			nnoremap <silent> <Leader>nf :NERDTreeToggle<CR>
+			" Toggle NERDTree with <Leader><Leader>nf.
+			nnoremap <silent> <Leader><Leader>nf :NERDTreeToggle<CR>
 
-			" Find current file being editted in NERDTree with <Leader>nv.
-			nnoremap <silent> <Leader>nv :NERDTreeFind<CR>
+			" Find current file being editted in NERDTree with <Leader><Leader>nv.
+			nnoremap <silent> <Leader><Leader>nv :NERDTreeFind<CR>
 
 			" Press - in command mode to go up one directory.
 			" For some reason this currently isn't working...
@@ -772,7 +797,7 @@
 
 		" -- Vista (<Leader>t) --
 
-			nnoremap <Leader>t :Vista!!<CR>
+			nnoremap <Leader><Leader>t :Vista!!<CR>
 
 
 " == Hooks ==

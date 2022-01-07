@@ -1,48 +1,5 @@
 {
 	"languageserver": {
-		"bash": {
-			"command": "bash-language-server",
-			"args": ["start"],
-			"filetypes": ["sh"],
-			"ignoredRootPaths": ["~"]
-		},
-		"haskell": {
-			"command": "hie-wrapper",
-			"args": ["--lsp"],
-			"rootPatterns": [
-				"*.cabal",
-				"stack.yaml",
-				"cabal.project",
-				"package.yaml"
-			],
-			"filetypes": [
-				"hs",
-				"lhs",
-				"haskell"
-			],
-			"initializationOptions": {
-				"haskell": {
-				}
-			}
-		},
-		"intelephense": {
-			"command": "intelephense",
-			"args": ["--stdio"],
-			"filetypes": ["php"],
-			"initializationOptions": {
-				"storagePath": "/tmp/intelephense"
-			}
-		},
-		"lua-language-server": {
-			"command": "/Users/Alex/.language_servers/lua-language-server/bin/macOS/lua-language-server",
-			"args": ["-E", "-e", "LANG='en'", "/Users/Alex/.language_servers/lua-language-server/main.lua"],
-			"filetypes": ["lua"],
-			"cwd": "/Users/Alex/.language_servers/lua-language-server"
-		},
-		"erlang": {
-			"command": "erlang_ls",
-			"filetypes": ["erlang"]
-		}
-	},
+	}
 	"suggest.minTriggerInputLength": 3
 }

@@ -3,6 +3,7 @@
 # Alias clear to clear the 'new line before prompt' environment variable to
 # avoid new line at the top.
 alias clear='unset _NEW_LINE_BEFORE_PROMPT; clear'
+alias cls='clear; ls'
 
 alias clear-vim-cache='rm -rf ~/.local/share/nvim/swap/*'
 
@@ -22,7 +23,11 @@ esac
 
 alias grep='grep --color=auto'
 
+alias git-resolve='vim $(git conflicts)'
+
 alias docker-container-rm-all='docker rm -f $(docker ps -a -q)'
+
+alias bstack='f() { git reflog | grep "checkout:" | cut -d " " -f 8 | cat -n | sort -uk2 | sort -n | cut -f2- | head -${1} | cat -n }; f'
 
 alias pushtmp='pushd "$(mktemp -d)"'
 
@@ -95,3 +100,25 @@ function vimopen () {
 	fi
 }
 
+function viewpem () {
+	dir=$(mktemp -d)
+	outfiles=()
+	IFS=$'\n'
+	set -f
+	for file in "$@"
+	do
+		# Create a name for the temporary file by taking the file, removing any
+		# leading dot, and replacing any slashes with underscores.
+		outfile=${file#.}
+		outfile=${outfile//\//__}
+
+		# Save the output of the command for this file to its temporary file.
+		openssl x509 -in "$file" -inform pem -noout -text > "${dir}/${outfile}"
+
+		# Accumulate all of the temporary output files
+		outfiles+=("${dir}/${outfile}")
+	done
+
+	vim "${outfiles[@]}"
+	rm -r "${dir}"
+}
