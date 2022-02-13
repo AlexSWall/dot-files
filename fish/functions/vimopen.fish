@@ -37,7 +37,7 @@ function vimopen
 	end
 
 	if test ! -z "$FILES"
-		vim (echo $FILES)
+		vim $FILES
 	else
 		echo 'No matches'
 	end
