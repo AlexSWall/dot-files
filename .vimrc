@@ -38,78 +38,16 @@
 		call plug#begin('~/.vim/plug-plugins')
 
 
-	" -- Code Comprehension Plugins --
+	" -- LSP Plugins --
 
-		Plug 'neoclide/coc.nvim', {'branch': 'release'}  " LSP support
-
-			" Use tab for trigger completion with characters ahead and navigate.
-			inoremap <silent> <expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
-			inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-			function! s:check_back_space() abort
-				let col = col('.') - 1
-				return !col || getline('.')[col - 1]  =~# '\s'
-			endfunction
-
-			" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-			" position. Coc only does snippet and additional edit on confirm.
-			if has('patch8.1.1068')
-				" Use `complete_info` if your (Neo)Vim version supports it.
-				inoremap <expr> <CR> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-			else
-				inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-			endif
-
-			let g:coc_global_extensions = [
-				\ 'coc-css',
-				\ 'coc-diagnostic',
-				\ 'coc-emmet',
-				\ 'coc-eslint',
-				\ 'coc-html',
-				\ 'coc-json',
-				\ 'coc-pairs',
-				\ 'coc-phpls',
-				\ 'coc-php-cs-fixer',
-				\ 'coc-prettier',
-				\ 'coc-sh',
-				\ 'coc-snippets',
-				\ 'coc-sql',
-				\ 'coc-tsserver',
-			\ ]
-
-		Plug 'liuchengxu/vista.vim'  " <Leader>t
-
-			let g:vista#executives = ['coc']
-			let g:vista_default_executive = 'coc'
-			let g:vista#renderer#enable_icon = 0
-			let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 
 
 	" -- Visual Interface Plugins --
-
-		Plug 'preservim/nerdtree'  " :NERDTreeToggle, or <Leader>nf (remapped).
-
-			let g:NERDTreeStatusline = '%#NonText#'  " No status line in NERDTree split.
-			let g:NERDTreeShowLineNumbers=1          " Enable line numbers.
-			let g:NERDTreeMinimalUI = 1              " Remove '" Press ? for help' text.
-			let g:NERDTreeWinSize=31                 " The default is 31; this is here for later
-			                                         "     modification.
-			let g:NERDTreeMouseMode=2                " Single-click to toggle directory nodes,
-			                                         "     double-click to open non-directory nodes.
-			let g:NERDTreeCreatePrefix='silent keepalt keepjumps'
-
-			" Ignore certain files by name in NERDTree.
-			set wildignore+=*.pyc,*.o,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.min.*,__pycache__,*.egg-info
-			let NERDTreeRespectWildIgnore=1
-
-			"autocmd FileType nerdtree setlocal nonumber relativenumber  " Use relative line numbers
 
 		Plug 'mbbill/undotree'  " Browse the undo tree via <Leader>u
 
 			" Fixing bug I seem to get complaining that this isn't defined.
 			let g:undotree_CursorLine = 1
-
-		" Plug 'monkoose/fzf-hoogle.vim'  " Gives :Hoogle
 
 		Plug 'kassio/neoterm'  " Create and dismiss a (persistent) terminal
 
@@ -639,9 +577,6 @@
 				nnoremap <Leader>ve :e ~/.vimrc<CR>
 
 				" Reload .vimrc
-				nnoremap <Leader>vc :e ~/.config/nvim/coc-settings.json<CR>
-
-				" Reload .vimrc
 				nnoremap <Leader>vr :so ~/.vimrc<CR>
 
 				" Allow gf to edit non-existent files too
@@ -742,62 +677,6 @@
 			nnoremap <Leader>cg :Clap tags<CR>
 
 
-		" -- Coc ([g,]g) --
-
-			" -- Functions --
-
-				function! s:show_documentation()
-					if (index(['vim','help'], &filetype) >= 0)
-						execute 'h '.expand('<cword>')
-					else
-						call CocAction('doHover')
-					endif
-				endfunction
-
-				function! s:EditAlternate()
-					let l:alter = CocRequest('clangd', 'textDocument/switchSourceHeader', {'uri': 'file://' . expand("%:p")})
-
-					" Remove file:// from response.
-					let l:alter = substitute(l:alter, "file://", "", "")
-
-					execute 'edit ' . l:alter
-				endfunction
-
-
-			" -- Keymappings I Remember... --
-
-				" Use `[g` and `]g` to navigate diagnostics.
-				nnoremap <Leader>[ <Plug>(coc-diagnostic-prev)
-				nnoremap <Leader>] <Plug>(coc-diagnostic-next)
-
-				" GoTo code navigation.
-				nnoremap <silent> gd <Plug>(coc-definition)
-				nnoremap <silent> gy <Plug>(coc-type-definition)
-				nnoremap <silent> gi <Plug>(coc-implementation)
-				nnoremap <silent> gr <Plug>(coc-references)
-
-				" Use K to show documentation in preview window.
-				nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-			" -- Keymappings I Forget... --
-
-				" Use <c-space> to trigger completion.
-				inoremap <silent> <expr>  <c-space> coc#refresh()
-
-				" Remap for rename current word.
-				nnoremap <Leader>rn  <Plug>(coc-rename)
-
-				" Easily toggle diagnostics.
-				nnoremap <Leader>ct  :call CocAction('diagnosticToggle')<CR>
-
-				" Formatting selected code (normal + visual).
-				nnoremap <silent> <Leader>c=  <Plug>(coc-format-selected)
-				xnoremap <silent> <Leader>c=  <Plug>(coc-format-selected)
-
-				" Use <Leader>gs to switch between hpp and cpp.
-				autocmd FileType cpp nnoremap <silent> <Leader>gs :call <SID>EditAlternate()<CR>
-
-
 		" -- Easy Align --
 
 			" Start interactive EasyAlign in visual mode (e.g. vipga).
@@ -863,19 +742,6 @@
 			nnoremap <Leader>m :MaximizerToggle!<CR>
 
 
-		" -- NERDTree (<Leader>n[fv], -) --
-
-			" Toggle NERDTree with <Leader>nf.
-			nnoremap <silent> <Leader>nf :NERDTreeToggle<CR>
-
-			" Find current file being editted in NERDTree with <Leader>nv.
-			nnoremap <silent> <Leader>nv :NERDTreeFind<CR>
-
-			" Press - in command mode to go up one directory.
-			" For some reason this currently isn't working...
-			nnoremap <silent> - :silent edit <C-R>=empty(expand('%')) ? '.' : fnameescape(expand('%:p:h'))<CR><CR>
-
-
 		" -- Neoformat (<Leader>F) --
 
 			nnoremap <Leader>F :Neoformat prettier<CR>
@@ -935,11 +801,6 @@
 			nnoremap <silent> <Leader><Leader>vi :VimuxInspectRunner<CR>
 
 
-		" -- Vista (<Leader><Leader>t) --
-
-			nnoremap <silent> <Leader><Leader>t :Vista!!<CR>
-
-
 " == Hooks ==
 
 	function! s:attempt_select_last_file() abort
@@ -948,13 +809,6 @@
 			call search('\v<' . l:previous . '>')
 		endif
 	endfunction
-
-	if has('autocmd')
-		augroup WincentNERDTree
-			autocmd!
-			autocmd User NERDTreeInit call s:attempt_select_last_file()
-		augroup END
-	endif
 
 	" Allow one to exit fzf using <Esc>
 	if has('nvim')
@@ -970,8 +824,9 @@
 	" Set comment string to // instead of /* */ when suitable.
 	autocmd FileType c,cpp,cs,java,javascript,php setlocal commentstring=//\ %s
 
-	" Get coc-css to add @ to iskeyword.
+	" Add @ to iskeyword.
 	" (Might cause problems? Was commented out.)
+	" (Might not be needed? Was originally for coc-css.)
 	autocmd FileType scss setl iskeyword+=@-@
 
 	" Help debug syntax by providing `:call SynGroup()` to get the syntax
