@@ -104,18 +104,6 @@
 
 		Plug 'jlanzarotta/bufexplorer'  -- <Leader>b[etsv] (open/toggle/-split/|split); then b<Num> switches to buffer
 
-		-- local opts = {}
-		-- opts['do'] = ':Clap install-binary!'
-		-- Plug('liuchengxu/vim-clap', opts)  -- Adds `:Clap <X>` commands (<Leader>c[bcfglt])
-
-			-- For example, `blines`,`commits`,`files`,`grep`,`lines`,`tags`.
-
-			-- The bang version of `install-binary` will try to download the
-			-- prebuilt binary if cargo does not exist.
-
-			-- Then run `call :clap#installer#build_all()` if `cargo` exists for
-			-- full Clap tooling
-
 
 	-- Vim-Tmux Interaction
 
