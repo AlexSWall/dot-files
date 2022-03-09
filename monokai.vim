@@ -80,6 +80,7 @@ let s:dark5       = { "gui": "#303030", "cterm": "236" }
 let s:dark4       = { "gui": "#262626", "cterm": "235" }
 let s:dark3       = { "gui": "#1c1c1c", "cterm": "234" }
 let s:dark2       = { "gui": "#121212", "cterm": "233" }
+let s:dark12      = { "gui": "#0d0d0d", "cterm": "233" }
 let s:dark1       = { "gui": "#080808", "cterm": "232" }
 let s:black       = { "gui": "#000000", "cterm": "0"   }
 
@@ -114,7 +115,7 @@ let s:br_white    = { "gui": "#FFFFFF" }
 
 " editor
 call s:h("Normal",        { "fg": s:white1,     "bg": s:dark1                                    })
-call s:h("ColorColumn",   {                     "bg": s:dark3                                    })
+call s:h("ColorColumn",   {                     "bg": s:dark12                                   })
 call s:h("Cursor",        { "fg": s:dark1,      "bg": s:white1                                   })
 call s:h("CursorColumn",  {                     "bg": s:dark4                                    })
 call s:h("CursorLine",    {                     "bg": s:dark4                                    })
