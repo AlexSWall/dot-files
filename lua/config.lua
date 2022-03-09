@@ -223,10 +223,11 @@
 		'cssls',         -- CSS
 		'dockerls',      -- Docker
 		'erlangls',      -- Erlang
+		'hls',           -- Haskell
 		'html',          -- HTML
 		'intelephense',  -- PHP
 		'pyright',       -- Python
-		'remark_ls',     -- Markdown
+		--'remark_ls',     -- Markdown
 		'rust_analyzer', -- Rust
 		'sumneko_lua',   -- Lua
 		'taplo',         -- Toml
@@ -249,7 +250,7 @@
 
 		-- Default options used for setting up all servers
 		local opts = {
-			on_attach = on_attach,
+			--on_attach = on_attach,
 		}
 
 		if server.name == 'sumneko_lua' then
