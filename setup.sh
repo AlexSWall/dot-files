@@ -57,7 +57,7 @@ create_symlink "monokai.vim" "$HOME/.vim/colors"
 
 # Neovim
 create_symlink "init.vim" "$HOME/.config/nvim"
-create_symlink "coc-settings.json" "$HOME/.config/nvim"
+create_symlink "lua"      "$HOME/.config/nvim"
 
 
 # == Git Repositories ==
