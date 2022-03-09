@@ -382,7 +382,7 @@
 
 -- Visuals
 
-	function status_line_git()
+	vim.g.StatusLineGit = function()
 
 		if vim.fn.exists('*gitbranch#name') then
 
@@ -396,9 +396,7 @@
 		return ''
 	end
 
-	vim.g.status_line_git = status_line_git
-
-	vim.opt.statusline = "%#StatusLine# %{status_line_git()} %f %y %{&fileencoding?&fileencoding:&encoding}:%{&fileformat} %h%w%m%r %#StatusLineNC#%=-%12.(%#StatusLine# %l,%c%V%) "
+	vim.opt.statusline = "%#StatusLine# %{StatusLineGit()} %f %y %{&fileencoding?&fileencoding:&encoding}:%{&fileformat} %h%w%m%r %#StatusLineNC#%=-%12.(%#StatusLine# %l,%c%V%) "
 	-- Use hyphens to fill the statusline of current and non-current windows
 	vim.opt.fillchars = vim.opt.fillchars + 'stl:-'
 	vim.opt.fillchars = vim.opt.fillchars + 'stlnc:-'
@@ -410,7 +408,7 @@
 	vim.g.monokai_term_italic = 1
 	vim.g.monokai_gui_italic = 1
 
-	vim.cmd('hi MatchParen cterm=italic gui=italic')
+	vim.cmd('highlight MatchParen cterm=italic gui=italic')
 
 	vim.cmd('syntax enable')
 	vim.cmd('filetype on')          -- The 'filetype' option gets set on loading a file.
@@ -733,6 +731,11 @@
 			     ':GitGutterEnable<CR>' ..
 			     ':set number relativenumber linebreak breakindent signcolumn=yes showbreak=↪\\ <CR>' ..
 			     ':call SetNumberToggle(\'enable\')<CR>')
+
+		-- Visual
+
+			nmap('<Leader><Leader>l', ':highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue<CR>')
+			nmap('<Leader><Leader>L', ':highlight ExtraWhitespace NONE<CR>')
 
 		-- Misc
 
