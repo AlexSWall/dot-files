@@ -42,7 +42,7 @@
 	-- LSP Plugins --
 
 		Plug 'neovim/nvim-lspconfig'
-		-- Plug 'williamboman/nvim-lsp-installer'
+		Plug 'williamboman/nvim-lsp-installer'
 
 
 	-- Visual Interface Plugins
@@ -214,28 +214,54 @@
 
 -- LSP Support
 
-	-- local lsp_installer = require("nvim-lsp-installer")
+	local lsp_installer = require "nvim-lsp-installer"
 
-	-- -- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
-	-- -- or if the server is already installed).
-	-- lsp_installer.on_server_ready(function(server)
-	-- 	 local opts = {}
+	local servers = {
+		'bashls',        -- bash
+		'clangd',        -- C, C++
+		'cmake',         -- CMake
+		'cssls',         -- CSS
+		'dockerls',      -- Docker
+		'erlangls',      -- Erlang
+		'html',          -- HTML
+		'intelephense',  -- PHP
+		'pyright',       -- Python
+		'remark_ls',     -- Markdown
+		'rust_analyzer', -- Rust
+		'sumneko_lua',   -- Lua
+		'taplo',         -- Toml
+		'texlab',        -- LaTeX
+		'tsserver',      -- Typescript, Javascript
+		'vimls',         -- Vimscript
+		'yamlls'         -- Yaml
+	}
 
-	-- 	 -- (optional) Customize the options passed to the server
-	-- 	 -- if server.name == "tsserver" then
-	-- 	 --     opts.root_dir = function() ... end
-	-- 	 -- end
+	-- Install any LSP servers we want which aren't installed.
+	for _, name in pairs(servers) do
+		local server_is_found, server = lsp_installer.get_server(name)
+		if server_is_found and not server:is_installed() then
+			print("Installing " .. name)
+			server:install()
+		end
+	end
 
-	-- 	 -- This setup() function will take the provided server configuration and decorate it with the necessary properties
-	-- 	 -- before passing it onwards to lspconfig.
-	-- 	 -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-	-- 	 server:setup(opts)
-	-- end)
+	lsp_installer.on_server_ready(function(server)
 
-	-- -- lua require'lspconfig'.tsserver.setup{ on_attach=require'completion'.on_attach }
-	-- -- lua require('lspconfig').tsserver.setup{}
-	-- -- lua require('lspconfig').pyright.setup{}
-	-- -- lua require('lspconfig').html.setup{}
+		-- Default options used for setting up all servers
+		local opts = {
+			on_attach = on_attach,
+		}
+
+		if server.name == 'sumneko_lua' then
+			opts.settings = {
+				Lua = {
+					diagnostics = { globals = {  'vim' } }
+					}
+				}
+			end
+
+		server:setup(opts)
+	end)
 
 
 -- General Setup
