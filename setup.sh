@@ -49,6 +49,10 @@ do
 	create_symlink "$f" "$HOME"
 done
 
+# Prompt host string
+touch "./host.txt"
+create_symlink "host.txt" "$HOME/.config"
+
 # Fish
 create_symlink "fish" "$HOME/.config"
 

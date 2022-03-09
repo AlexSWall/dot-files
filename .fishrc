@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # For prompt.
-set -g HOST '??'
+set -g HOST (cat ~/.config/host.txt)
 
 
 : # General Shell Setup
