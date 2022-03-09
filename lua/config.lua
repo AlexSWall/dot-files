@@ -369,11 +369,10 @@
 -- Visuals
 
 	function status_line_git()
+
 		if vim.fn.exists('*gitbranch#name') then
 
-			-- TODO: fix
-			-- local branch_name = vim.fn['*gitbranch#name']()
-			local branch_name = ''
+			local branch_name = vim.fn['gitbranch#name']()
 
 			if string.len(branch_name) > 0 then
 				return '  ' .. branch_name .. ' '
@@ -425,8 +424,8 @@
 	vim.opt.listchars = 'eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣'
 	--set list
 
-	-- Display a coloured column at 100 characters.
-	vim.opt.colorcolumn = '80,100,120'
+	-- Display a coloured column at 80, 100, and 120 characters.
+	vim.opt.colorcolumn = {80, 100, 120}
 
 	-- Syntax highlighting in markdown.
 	vim.g.markdown_fenced_languages = {'html', 'python', 'vim'}
@@ -644,10 +643,10 @@
 			-- Files --
 
 				-- Edit .vimrc
-				nmap('<Leader>ve', ':e ~/.vimrc<CR>')
+				nmap('<Leader>ve', ':e ~/.config/nvim/lua/config.lua<CR>')
 
 				-- Reload .vimrc
-				nmap('<Leader>vr', ':so ~/.vimrc<CR>')
+				nmap('<Leader>vr', ':so ~/.config/nvim/lua/config.lua<CR>')
 
 				-- Allow gf to edit non-existent files too
 				nmap('gf', ':edit <cfile><CR>')
