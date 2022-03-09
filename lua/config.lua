@@ -920,7 +920,7 @@
 	vim.cmd('autocmd FileType php :RainbowToggleOff')
 
 	-- Set comment string to // instead of /* */ when suitable.
-	vim.cmd('autocmd FileType c,cpp,cs,java,javascript,php setlocal commentstring=// %s')
+	vim.cmd('autocmd FileType c,cpp,cs,java,javascript,php setlocal commentstring=//\\ %s')
 
 	-- Add @ to iskeyword.
 	-- (Might cause problems? Was commented out.)
