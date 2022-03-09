@@ -22,6 +22,15 @@
 
 		Load a session.
 
+	LSP:
+		'gd'    - definition()
+		'gh'    - hover()
+		'gH'    - code_action()
+		'gD'    - implementation()
+		'gr'    - references()
+		'gR'    - rename()
+
+		'<C-k>' - signature_help()
 	--]]
 
 
@@ -803,6 +812,7 @@
 			-- inoremap <expr> <C-x><C-f> fzf#vim#complete#path(
 			-- 	\ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
 			-- 	\ fzf#wrap({'dir': expand('%:p:h')}))
+
 
 		-- FZF-Hoogle
 
