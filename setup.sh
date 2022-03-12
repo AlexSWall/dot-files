@@ -60,8 +60,9 @@ create_symlink "fish" "$HOME/.config"
 create_symlink "monokai.vim" "$HOME/.vim/colors"
 
 # Neovim
-create_symlink "init.vim" "$HOME/.config/nvim"
-create_symlink "lua"      "$HOME/.config/nvim"
+create_symlink "init.vim"    "$HOME/.config/nvim"
+create_symlink "lua"         "$HOME/.config/nvim"
+create_symlink "vscode.nvim" "$HOME/.config/nvim/plug-plugins"
 
 
 # == Git Repositories ==
