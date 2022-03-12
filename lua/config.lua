@@ -54,6 +54,26 @@
 		Plug 'williamboman/nvim-lsp-installer'
 
 
+	-- Completion
+
+		Plug 'hrsh7th/nvim-cmp'
+
+		Plug 'hrsh7th/cmp-buffer'
+		Plug 'hrsh7th/cmp-path'
+		Plug 'hrsh7th/cmp-nvim-lua'
+		Plug 'hrsh7th/cmp-nvim-lsp'
+		Plug 'hrsh7th/cmp-cmdline'
+
+		Plug 'L3MON4D3/LuaSnip'
+		Plug 'saadparwaiz1/cmp_luasnip'
+
+		Plug 'onsails/lspkind-nvim'
+
+		Plug 'folke/lua-dev.nvim'
+
+		Plug 'ray-x/lsp_signature.nvim'
+
+
 	-- Visual Interface Plugins
 
 		Plug 'mbbill/undotree'  -- Browse the undo tree via <Leader>u
@@ -165,10 +185,12 @@
 
 			Plug 'tpope/vim-repeat'  -- Enables repeating surrounds and some other plugins.
 
-			Plug 'jiangmiao/auto-pairs'  -- Automatically adds and removes paired brackets etc.
+			Plug 'windwp/nvim-autopairs'  -- Automatically adds and removes paired brackets etc.
 
 
 	-- Visuals
+
+		Plug 'Mofiqul/vscode.nvim'
 
 		Plug 'octol/vim-cpp-enhanced-highlight'  -- Improves C++ syntax highlighting.
 
@@ -223,8 +245,6 @@
 
 -- LSP Support
 
-	local lsp_installer = require "nvim-lsp-installer"
-
 	local servers = {
 		'bashls',        -- bash
 		'clangd',        -- C, C++
@@ -235,7 +255,7 @@
 		'hls',           -- Haskell
 		'html',          -- HTML
 		'intelephense',  -- PHP
-		'pyright',       -- Python
+		'pylsp',         -- Python
 		--'remark_ls',     -- Markdown
 		'rust_analyzer', -- Rust
 		'sumneko_lua',   -- Lua
@@ -246,6 +266,8 @@
 		'yamlls'         -- Yaml
 	}
 
+	local lsp_installer = require('nvim-lsp-installer')
+
 	-- Install any LSP servers we want which aren't installed.
 	for _, name in pairs(servers) do
 		local server_is_found, server = lsp_installer.get_server(name)
@@ -255,23 +277,158 @@
 		end
 	end
 
+	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+	local function on_attach(_, _)
+		local function keymap(from, to)
+			vim.keymap.set('n', from, to, { buffer = 0 } )
+		end
+
+		keymap('K',          vim.lsp.buf.hover)
+		keymap('gd',         vim.lsp.buf.definition)
+		keymap('gt',         vim.lsp.buf.type_definition)
+		keymap('gi',         vim.lsp.buf.implementation)
+		keymap('gr',         vim.lsp.buf.references)
+		keymap('<Leader>rn', vim.lsp.buf.rename)
+		keymap('<Leader>dn', vim.diagnostic.goto_next)
+		keymap('<Leader>dp', vim.diagnostic.goto_prev)
+		keymap('<Leader>dl', '<cmd>Telescope diagnostics<CR>')
+
+		-- keymap('gH', vim.lsp.buf.code_action)
+		-- keymap('<C-k>', vim.lsp.buf.signature_help)
+	end
+
+	local enhance_server_opts = {
+		['sumneko_lua'] = function(opts)
+
+			opts.settings = {
+				Lua = {
+					diagnostics = {
+						globals = {
+							'vim'
+						}
+					},
+					completion = {
+						callSnippet = 'Replace',
+					}
+				}
+			}
+
+			-- Add lua-dev to the mix
+			local luadev = require("lua-dev").setup({})
+			for k,v in pairs(luadev) do opts[k] = v end
+		end,
+
+		['pylsp'] = function(opts)
+			opts.settings = {
+				pylsp = {
+					plugins = {
+						jedi_completion = {
+							include_params = true,
+						}
+					}
+				}
+			}
+		end
+	}
+
 	lsp_installer.on_server_ready(function(server)
 
 		-- Default options used for setting up all servers
 		local opts = {
-			--on_attach = on_attach,
+			on_attach = on_attach,
+			capabilities = capabilities
 		}
 
-		if server.name == 'sumneko_lua' then
-			opts.settings = {
-				Lua = {
-					diagnostics = { globals = {  'vim' } }
-					}
-				}
-			end
+		-- Add LSP Server-specific options
+		if enhance_server_opts[server.name] then
+			enhance_server_opts[server.name](opts)
+		end
 
 		server:setup(opts)
 	end)
+
+	local cmp = require('cmp')
+	local luasnip = require('luasnip')
+
+	luasnip.config.set_config({
+			history = true,
+			updateevents = 'TextChanged,TextChangedI',
+			-- enable_autosnippets = true,
+		})
+
+	local fmt = require('luasnip.extras.fmt').fmt
+	local s = luasnip.s
+	local i = luasnip.insert_node
+	local rep = require('luasnip.extras').rep
+
+	luasnip.snippets = {
+		-- Available in any filetype
+		all = {
+		},
+
+		-- Available in Lua files only
+		lua = {
+			luasnip.parser.parse_snippet('expand', '-- This is what was expanded'),
+			luasnip.parser.parse_snippet('lf', 'local $1 = function($2)\n\t$0\nend'),
+			s('req', fmt("local {} = require('{}')", { i(1, "default"), rep(1) }))
+		}
+	}
+
+	cmp.setup({
+			mapping = {
+				['<C-y>'] = cmp.mapping.confirm({
+						behavior = cmp.ConfirmBehavior.Insert,
+						select = true,
+					}),
+				['<C-e>'] = cmp.mapping.close(),
+				['<C-c>'] = cmp.mapping.abort(),
+				['<C-d>'] = cmp.mapping.scroll_docs(-4),
+				['<C-f>'] = cmp.mapping.scroll_docs(4),
+				['<C-Space>'] = cmp.mapping.complete(),
+				-- <C-p> and <C-n> for previous and next already work by default
+			},
+
+			sources = cmp.config.sources({
+					{ name = 'nvim_lsp' },
+					{ name = 'luasnip' },
+					{ name = 'buffer', keyword_length = 5 },
+				}),
+
+			snippet = {
+				expand = function(args)
+					require('luasnip').lsp_expand(args.body)
+				end,
+			},
+
+			formatting = {
+				format = require('lspkind').cmp_format({
+						with_text = true,
+						mode = 'text',
+						menu = {
+							buffer   = '[buf]',
+							nvim_lsp = '[LSP]',
+							nvim_lua = '[api]',
+							path     = '[path]',
+							luasnip  = '[snip]'
+						}
+				})
+			},
+
+			experimental = {
+				ghost_text = {
+					hl_group = 'CmpGhostText'
+				}
+			}
+	})
+
+	require "lsp_signature".setup({
+		-- TODO?
+	})
+
+	require('nvim-autopairs').setup({
+		-- TODO?
+	})
 
 
 -- General Setup
@@ -411,12 +568,19 @@
 	vim.opt.fillchars = vim.opt.fillchars + 'stl:-'
 	vim.opt.fillchars = vim.opt.fillchars + 'stlnc:-'
 
-	-- colorscheme codedark
-	vim.cmd('colorscheme monokai')
+	-- Colour scheme
+
 	vim.cmd('set t_Co=256')
 	vim.opt.termguicolors = true
-	vim.g.monokai_term_italic = 1
-	vim.g.monokai_gui_italic = 1
+
+	-- vim.g.monokai_term_italic = 1
+	-- vim.g.monokai_gui_italic = 1
+	-- vim.cmd('colorscheme monokai')
+
+	vim.g.vscode_style = 'dark'
+	vim.g.vscode_italic_comment = 1
+	vim.g.codedark_italics = true
+	vim.cmd('colorscheme vscode')
 
 	vim.cmd('highlight MatchParen cterm=italic gui=italic')
 
@@ -429,12 +593,15 @@
 	vim.opt.number = true
 	vim.opt.relativenumber = true
 
-	vim.opt.wrap = true             -- Wrap lines (default).
-	vim.opt.list = false            -- Don't show invisible characters (default).
+	vim.opt.wrap = true
+	vim.opt.list = false
 	vim.opt.linebreak = true        -- Break between words, not in the middle of words.
 	vim.opt.breakindent = true      -- Visually indent wrapped lines.
 	vim.opt.breakindentopt = 'sbr'  -- Visually indent with the 'showbreak' option value.
 	vim.opt.showbreak = '↪ '        -- What to show to indent wrapped lines.
+
+	vim.opt.pumblend = 20
+	vim.opt.pumheight = 20
 
 	-- Ensure we show the number of matches for '/'.
 	-- vim.opt.shortmess = string.gsub(vim.opt.shortmess, 'S', '')
@@ -837,15 +1004,25 @@
 			nmap('<Leader>gu', ':GitGutterUndoHunk<CR>')
 
 
-		-- Lspconfig
+		-- LuaSnip
 
-			nmap('gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-			nmap('gh', '<cmd>lua vim.lsp.buf.hover()<CR>')
-			nmap('gH', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-			nmap('gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-			nmap('<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-			nmap('gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-			nmap('gR', '<cmd>lua vim.lsp.buf.rename()<CR>')
+			vim.keymap.set({'i', 's'}, '<C-k>', function()
+				if luasnip.expand_or_jumpable() then
+					luasnip.expand_or_jump()
+				end
+			end, { silent = true })
+
+			vim.keymap.set({'i', 's'}, '<C-j>', function()
+				if luasnip.jumpable(-1) then
+					luasnip.jump(-1)
+				end
+			end, { silent = true })
+
+			vim.keymap.set('i', '<C-l>', function()
+				if luasnip.choice_active() then
+					luasnip.change_choice(1)
+				end
+			end, { silent = true })
 
 
 		-- Maximizer (<Leader>m)
@@ -999,3 +1176,25 @@
 			return tostring(o)
 		end
 	end
+
+
+vim.cmd([[
+" gray
+highlight CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
+" blue
+highlight CmpItemAbbrMatch guibg=NONE guifg=#569CD6
+highlight CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
+" light blue
+highlight CmpItemKindVariable guibg=NONE guifg=#9CDCFE
+highlight CmpItemKindInterface guibg=NONE guifg=#9CDCFE
+highlight CmpItemKindText guibg=NONE guifg=#9CDCFE
+" pink
+highlight CmpItemKindFunction guibg=NONE guifg=#C586C0
+highlight CmpItemKindMethod guibg=NONE guifg=#C586C0
+" front
+highlight CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
+highlight CmpItemKindProperty guibg=NONE guifg=#D4D4D4
+highlight CmpItemKindUnit guibg=NONE guifg=#D4D4D4
+highlight CmpItemKind guibg=NONE guifg=#D4D4D4
+	]])
+
