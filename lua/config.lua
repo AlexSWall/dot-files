@@ -48,11 +48,15 @@
 
 	vim.call('plug#begin', '~/.config/nvim/plug-plugins')
 
+	-- Meta --
+
+		Plug 'nvim-lua/plenary.nvim'
+		Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
+
 	-- LSP Plugins --
 
 		Plug 'neovim/nvim-lspconfig'
 		Plug 'williamboman/nvim-lsp-installer'
-
 
 	-- Completion
 
@@ -76,6 +80,8 @@
 
 	-- Visual Interface Plugins
 
+		Plug 'kyazdani42/nvim-tree.lua'
+
 		Plug 'mbbill/undotree'  -- Browse the undo tree via <Leader>u
 
 			-- Fixing bug I seem to get complaining that this isn't defined.
@@ -91,45 +97,21 @@
 
 		Plug 'szw/vim-maximizer'  -- Maximize and unmaximize a split
 
+		Plug 'simrat39/symbols-outline.nvim'
+
+			vim.g.symbols_outline = {
+				show_guides = false,
+				show_symbol_details = false,
+			}
+
 
 	-- Finders
 
-		Plug 'junegunn/fzf'  -- Gives :FZF[!] --preview=head\ -10\ {}, fzf#run, and fzf#wrap; Ctrl-[XV] to select into split/vsplit
-		Plug 'junegunn/fzf.vim'  -- Gives :Ag, :Files, :Buffers, :Lines, :Tags
+		Plug 'nvim-telescope/telescope.nvim'
 
-			vim.g.fzf_layout = { window = { width = 0.9, height = 0.6 } }
-			vim.g.fzf_prefer_tmux = 0
+		Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' })
 
-			-- Ignore file names when searching with Ag
-			--   > command!
-			--	      This allows us to redefine a command, here 'Ag'.
-			--	      Without the !, we'd get an error for redefining it, as we'd
-			--	      only be allowed to define a command for the first time.
-			--	  > -bang
-			--	      Allows us to add a ! to the end of the command (e.g. 'Ag!')
-			--	      This is then passed as a boolean later via '<bang>0'.
-			--	  > -nargs=*
-			--	      Allows for any number of arguments to be passed; these are
-			--	      passed later via '<q-args>'.
-			--	  > Ag call fzf#vim#ag(...)
-			--	      We are defining the command Ag, and it'll simply call the
-			--	      function fzf#vim#ag with the arguments we passed to this
-			--	      command (quoted) followed by some options and then whether
-			--	      a bang was provided.
-			--
-			-- Ag command with various options being passed to fzf
-			--   > --preview \"<command to run>\"
-			--       This gives a preview window to the right; we run preview.sh
-			--       and pass it to the file to preview
-			--   > --bind \"<command>\"
-			--       Toggle preview with ctrl-/
-			--   > --delimiter :
-			--       Set colon to be the delimiter
-			--   > --nth 4..
-			--       Ignores file names, somehow
-			vim.cmd([[
-			command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--preview "${HOME}/.vim/plug-plugins/fzf.vim/bin/preview.sh {}" --bind "ctrl-/:toggle-preview" --delimiter : --nth 4..'}, <bang>0)
-			]])
+		Plug 'nvim-telescope/telescope-ui-select.nvim'
 
 		Plug 'jlanzarotta/bufexplorer'  -- <Leader>b[etsv] (open/toggle/-split/|split); then b<Num> switches to buffer
 
@@ -149,19 +131,7 @@
 
 	-- Vim-Git Interaction
 
-		Plug 'airblade/vim-gitgutter'  -- Displays git symbols next to lines (]c, [c to navigate)
-
-			vim.g.gitgutter_max_signs = 500
-			vim.opt.updatetime = 100
-
-			-- Get rid of <Leader>h-
-			vim.g.gitgutter_map_keys = 0
-
-			vim.cmd([[
-			highlight GitGutterAdd    guifg=#009900 ctermfg=2 guibg=#aa0000 ctermbg=20
-			highlight GitGutterChange guifg=#bbbb00 ctermfg=3 guibg=#aa0000 ctermbg=20
-			highlight GitGutterDelete guifg=#ff2222 ctermfg=1 guibg=#aa0000 ctermbg=20
-			]])
+		Plug 'lewis6991/gitsigns.nvim'
 
 		Plug 'itchyny/vim-gitbranch'  -- Gives `gitbranch#name()`
 
@@ -190,13 +160,13 @@
 
 	-- Visuals
 
+		Plug 'RRethy/vim-illuminate'
+
+		Plug 'p00f/nvim-ts-rainbow'
+
 		Plug 'Mofiqul/vscode.nvim'
 
-		Plug 'octol/vim-cpp-enhanced-highlight'  -- Improves C++ syntax highlighting.
-
-		Plug 'StanAngeloff/php.vim'  -- Improves PHP syntax highlighting.
-
-			vim.g.php_var_selector_is_identifier = 1
+		Plug 'narutoxy/dim.lua'
 
 		Plug 'neovimhaskell/haskell-vim'
 
@@ -208,15 +178,7 @@
 			vim.g.haskell_enable_static_pointers  = 1  -- Enables highlighting of `static`.
 			vim.g.haskell_backpack                = 1  -- Enables highlighting of backpack keywords.
 
-		Plug 'pangloss/vim-javascript'
-
-		Plug 'tbastos/vim-lua'  -- Makes Lua syntax highlight not terribly buggy.
-
 		Plug 'blankname/vim-fish'  -- Improves vim experience on .fish files
-
-		Plug 'luochen1990/rainbow'  -- Rainbow parentheses matching.
-
-			vim.g.rainbow_active = 1
 
 		Plug 'unblevable/quick-scope'
 
@@ -234,6 +196,8 @@
 
 
 	-- Miscellaneous
+
+		Plug 'antoinemadec/FixCursorHold.nvim'  -- Fix neovim cursor hold issue
 
 		Plug 'lambdalisue/suda.vim'  -- Add SudaRead and SudaWrite for sudo reads and writes
 
@@ -279,7 +243,10 @@
 
 	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-	local function on_attach(_, _)
+	local function on_attach(client, _)
+
+		-- require 'illuminate'.on_attach(client)
+
 		local function keymap(from, to)
 			vim.keymap.set('n', from, to, { buffer = 0 } )
 		end
@@ -423,13 +390,79 @@
 	})
 
 	require "lsp_signature".setup({
-		-- TODO?
+		hint_enable = false,
+		floating_window_above_cur_line = false,
+		transparency = 30,
+		toggle_key = nil, -- TODO
+		floating_window_off_y = -4,
+	})
+
+	require('nvim-treesitter.configs').setup({
+		ensure_installed = 'maintained',
+		highlight = {
+			enable = true,
+			-- use_languagetree = true
+			additional_vim_regex_highlighting = false
+		},
+		indent = {
+			enable = true,
+			disable = { 'yaml' }
+		},
+		matchup = {
+			enable = true
+		},
+		rainbow = {
+			enable = true,
+			extended_mode = true
+		}
+	})
+
+	require('telescope').setup({
+		extensions = {
+			["ui-select"] = {
+				require("telescope.themes").get_dropdown({})
+			}
+		}
+	})
+
+	require('telescope').load_extension('fzf')
+	require('telescope').load_extension('ui-select')
+
+	require'nvim-tree'.setup({})
+
+	require('gitsigns').setup({
+		on_attach = function(bufnr)
+			local gs = package.loaded.gitsigns
+
+			local function map(l, r, opts)
+				opts = opts or {}
+				opts.buffer = bufnr
+				vim.keymap.set('n', l, r, opts)
+			end
+
+			-- Navigation
+			map(']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+			map('[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+			map('<Leader>]', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+			map('<Leader>[', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+			map('<leader>gr', gs.reset_hunk)
+			map('<leader>gp', gs.preview_hunk)
+			map('<leader>gd', gs.diffthis)
+			map('<leader>gb', gs.toggle_current_line_blame)
+			map('<leader>gd', gs.toggle_deleted)
+		end
 	})
 
 	require('nvim-autopairs').setup({
 		-- TODO?
 	})
 
+	vim.g.Illuminate_delay = 100
+
+	-- vim.opt.foldmethod = 'expr'
+	-- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+
+	require('dim').setup({})
 
 -- General Setup
 
@@ -454,7 +487,7 @@
 	-- General
 
 		-- Set update time for gitgutter, swap file, etc.
-		vim.opt.updatetime = 1000
+		vim.opt.updatetime = 100
 
 		-- Hide, instead of unloading, abandoned buffers.
 		vim.opt.hidden = true
@@ -583,6 +616,7 @@
 	vim.cmd('colorscheme vscode')
 
 	vim.cmd('highlight MatchParen cterm=italic gui=italic')
+	vim.cmd('highlight MatchWord guifg=#C586C0 guibg=#121212 cterm=bold,underline gui=bold,underline')
 
 	vim.cmd('syntax enable')
 	vim.cmd('filetype on')          -- The 'filetype' option gets set on loading a file.
@@ -621,7 +655,7 @@
 
 	-- Add highlighting to trailing whitespace and spaces before tabs, but not
 	-- when typing on that line.
-	vim.cmd('highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue')
+	vim.cmd('highlight ExtraWhitespace ctermbg=LightRed guibg=#223E55')    
 	vim.cmd('match ExtraWhitespace /\\s\\+$\\| \\+\\ze\\t/')
 
 	-- Wizardry to prevent errors appearing while typing.
@@ -672,6 +706,26 @@
 	]])
 	-- Not working:
 	--vim.opt.foldtext = 'MyFoldText'
+
+	vim.cmd([[
+		" gray
+		highlight CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
+		" blue
+		highlight CmpItemAbbrMatch guibg=NONE guifg=#569CD6
+		highlight CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
+		" light blue
+		highlight CmpItemKindVariable guibg=NONE guifg=#9CDCFE
+		highlight CmpItemKindInterface guibg=NONE guifg=#9CDCFE
+		highlight CmpItemKindText guibg=NONE guifg=#9CDCFE
+		" pink
+		highlight CmpItemKindFunction guibg=NONE guifg=#C586C0
+		highlight CmpItemKindMethod guibg=NONE guifg=#C586C0
+		" front
+		highlight CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
+		highlight CmpItemKindProperty guibg=NONE guifg=#D4D4D4
+		highlight CmpItemKindUnit guibg=NONE guifg=#D4D4D4
+		highlight CmpItemKind guibg=NONE guifg=#D4D4D4
+	]])
 
 
 -- Indentation
@@ -763,7 +817,6 @@
 
 			-- Set <Esc> to its normal job when in terminal mode (which can be
 			-- emulated using Ctrl-\ Ctrl-n), instead of closing the terminal
-			-- (except in fzf terminal; see autocmds).
 			tmap('<Esc>', '<C-\\><C-n>')
 
 			-- Write and quit.
@@ -953,55 +1006,22 @@
 			--    <Leader><Leader>[swef...]
 
 
-		-- FZF (<Leader>f[abfgl], <Leader>f![abfgl])
+		-- Telescope (<Leader>f[abfgl], <Leader>f![abfgl])
 
 			-- (:FZF = :Files)
-			nmap('<Leader>fa', ':Ag<CR>')
-			nmap('<Leader>fb', ':BLines<CR>')
-			nmap('<Leader>ff', ':GFiles<CR>')
-			nmap('<Leader>fg', ':Files<CR>')
-			nmap('<Leader>fl', ':Lines<CR>')
-			nmap('<Leader>fr', ':Rg<CR>')
+			nmap('<Leader>fa', ':Telescope live_grep<CR>')
+			nmap('<Leader>fb', ':Telescope buffers<CR>')
+			nmap('<Leader>ff', ':Telescope find_files<CR>')
+			nmap('<Leader>fg', ':Telescope git_files<CR>')
+			nmap('<Leader>fv', ':Telescope grep_string<CR>')
+			nmap('<Leader>fr', ':Telescope registers<CR>')
 
-			nmap('<Leader>f!a', ':Ag!<CR>')
-			nmap('<Leader>f!b', ':BLines!<CR>')
-			nmap('<Leader>f!f', ':GFiles!<CR>')
-			nmap('<Leader>f!g', ':Files!<CR>')
-			nmap('<Leader>f!l', ':Lines!<CR>')
-			nmap('<Leader>f!r', ':Rg!<CR>')
+			_G.telescope_live_grep_in_path = function(path)
+				local _path = path or vim.fn.input('Dir: ', '',  'dir')
+				require('telescope.builtin').live_grep({search_dirs = {_path}})
+			end
 
-			-- Use <Ctrl-x><Ctrl-f> while in insert mode to auto-complete the path
-			-- that the cursor is currently on using fzf.
-			imap_expr('<C-x><C-f>', 'fzf#vim#complete#path(' ..
-						 '"find . -path \'*/\\.*\' -prune -o -print \\| sed \'1d;s:^..::\'",' ..
-						 'fzf#wrap({\'dir\': expand(\'%:p:h\')}))')
-
-			-- inoremap <expr> <C-x><C-f> fzf#vim#complete#path(
-			-- 	\ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
-			-- 	\ fzf#wrap({'dir': expand('%:p:h')}))
-
-
-		-- FZF-Hoogle
-
-			nmap('<Leader>fh', ':Hoogle<CR>')
-
-
-		-- Gitgutter
-
-			-- Commented out to not conflict with <Leader>h...
-			-- nunmap <Leader>hp
-			-- nunmap <Leader>hu
-			-- nunmap <Leader>hs
-
-			-- Add floating preview window for <Leader>gg
-			vim.g.gitgutter_preview_win_floating = 1
-
-			nmap('[c', ':GitGutterPrevHunk<CR>')
-			nmap(']c', ':GitGutterNextHunk<CR>')
-			nmap('<Leader>gh', ':GitGutterPrevHunk<CR>')
-			nmap('<Leader>gl', ':GitGutterNextHunk<CR>')
-			nmap('<Leader>gg', ':GitGutterPreviewHunk<CR>')
-			nmap('<Leader>gu', ':GitGutterUndoHunk<CR>')
+			nmap('<Leader>fA', ':lua telescope_live_grep_in_path()<CR>')
 
 
 		-- LuaSnip
@@ -1040,6 +1060,11 @@
 			nmap('<C-q>', ':Ttoggle<CR>')
 			imap('<C-q>', '<Esc>:Ttoggle<CR>')
 			tmap('<C-q>', '<C-\\><C-n>:Ttoggle<CR>')
+
+
+		-- Symbols Outline
+
+			nmap('<Leader>s', ':SymbolsOutline<CR>')
 
 
 		-- Tbone (<Leader>y)
@@ -1129,12 +1154,7 @@
 
 	-- Allow one to exit fzf using <Esc>
 	--autocmd! TermOpen * tnoremap <buffer> <Esc> <C-\><C-n>
-	vim.cmd('autocmd! FileType fzf tnoremap <buffer> <Esc> <Esc>')
-
-	-- Disable Rainbow bracket matching for Lua, as it messes up comments of the
-	-- form [[ ... ' ... ]].
-	vim.cmd('autocmd FileType lua :RainbowToggleOff')
-	vim.cmd('autocmd FileType php :RainbowToggleOff')
+	-- vim.cmd('autocmd! FileType fzf tnoremap <buffer> <Esc> <Esc>')
 
 	-- Set comment string to // instead of /* */ when suitable.
 	vim.cmd('autocmd FileType c,cpp,cs,java,javascript,php setlocal commentstring=//\\ %s')
@@ -1166,35 +1186,14 @@
 
 	function dump(o)
 		if type(o) == 'table' then
-			local s = '{ '
+			local str = '{ '
 			for k,v in pairs(o) do
 				if type(k) ~= 'number' then k = '"'..k..'"' end
-				s = s .. '['..k..'] = ' .. dump(v) .. ','
+				str = str .. '['..k..'] = ' .. dump(v) .. ','
 			end
-			return s .. '} '
+			return str .. '} '
 		else
 			return tostring(o)
 		end
 	end
-
-
-vim.cmd([[
-" gray
-highlight CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
-" blue
-highlight CmpItemAbbrMatch guibg=NONE guifg=#569CD6
-highlight CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
-" light blue
-highlight CmpItemKindVariable guibg=NONE guifg=#9CDCFE
-highlight CmpItemKindInterface guibg=NONE guifg=#9CDCFE
-highlight CmpItemKindText guibg=NONE guifg=#9CDCFE
-" pink
-highlight CmpItemKindFunction guibg=NONE guifg=#C586C0
-highlight CmpItemKindMethod guibg=NONE guifg=#C586C0
-" front
-highlight CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
-highlight CmpItemKindProperty guibg=NONE guifg=#D4D4D4
-highlight CmpItemKindUnit guibg=NONE guifg=#D4D4D4
-highlight CmpItemKind guibg=NONE guifg=#D4D4D4
-	]])
 
