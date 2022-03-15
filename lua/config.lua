@@ -243,9 +243,7 @@
 
 	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-	local function on_attach(client, _)
-
-		-- require 'illuminate'.on_attach(client)
+	local function on_attach(_, _)
 
 		local function keymap(from, to)
 			vim.keymap.set('n', from, to, { buffer = 0 } )
@@ -655,7 +653,7 @@
 
 	-- Add highlighting to trailing whitespace and spaces before tabs, but not
 	-- when typing on that line.
-	vim.cmd('highlight ExtraWhitespace ctermbg=LightRed guibg=#223E55')    
+	vim.cmd('highlight ExtraWhitespace ctermbg=LightRed guibg=#223E55')
 	vim.cmd('match ExtraWhitespace /\\s\\+$\\| \\+\\ze\\t/')
 
 	-- Wizardry to prevent errors appearing while typing.
@@ -666,15 +664,31 @@
 
 
 	-- Automatically toggle relativenumber when leaving/entering insert mode.
-	--
-	-- Add a function for toggling it on/off
+
+	vim.g.relative_number_toggle_ignore_list = {'NvimTree', 'help', 'TelescopePrompt', 'Outline'}
+
 	vim.cmd([[
+	function! RelativeNumberToggle(state)
+		if index(g:relative_number_toggle_ignore_list, &filetype) >= 0
+			" Filetype is on the ignore list
+			return
+		endif
+
+		if a:state == 'on'
+			set relativenumber
+
+		elseif a:state == 'off'
+			set norelativenumber
+
+		endif
+	endfunction
+
 	function! SetNumberToggle(state)
 		if a:state == 'enable'
 			augroup NumberToggle
 				autocmd!
-				autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-				autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+				autocmd BufEnter,FocusGained,InsertLeave * call RelativeNumberToggle('on')
+				autocmd BufLeave,FocusLost,InsertEnter   * call RelativeNumberToggle('off')
 			augroup END
 		elseif a:state == 'disable'
 			augroup NumberToggle

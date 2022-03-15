@@ -1,7 +1,7 @@
 local generate = function()
 	 local colors = {
 		 vscNone = 'NONE',
-		 vscFront = '#D4D4D4',
+		 vscFront = '#D0D0D0',
 		 vscBack = '#121212',
 
 		 vscTabCurrent = '#0E0E0E',
