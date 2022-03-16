@@ -173,6 +173,8 @@
 
 		Plug 'stevearc/dressing.nvim' -- E.g. improves vim.input, which affects e.g. LSP rename
 
+		Plug 'lukas-reineke/indent-blankline.nvim'
+
 		Plug 'junegunn/goyo.vim'
 
 		Plug 'neovimhaskell/haskell-vim'
@@ -772,6 +774,13 @@
 		highlight CmpItemKindUnit guibg=NONE guifg=#D4D4D4
 		highlight CmpItemKind guibg=NONE guifg=#D4D4D4
 	]])
+
+	vim.cmd('highlight IndentBlanklineIndent guifg=#202020 gui=nocombine')
+
+	require('indent_blankline').setup {
+		space_char_blankline = ' ',
+		char_highlight_list = { 'IndentBlanklineIndent' },
+	}
 
 
 -- Indentation
