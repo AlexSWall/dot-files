@@ -177,6 +177,8 @@
 
 		Plug 'junegunn/goyo.vim'
 
+		Plug 'junegunn/limelight.vim'
+
 		Plug 'neovimhaskell/haskell-vim'
 
 			vim.g.haskell_enable_quantification   = 1  -- Enables highlighting of `forall`.
@@ -782,6 +784,8 @@
 		char_highlight_list = { 'IndentBlanklineIndent' },
 	}
 
+	vim.g.limelight_paragraph_span = 2
+
 
 -- Indentation
 
@@ -1075,7 +1079,7 @@
 					set noshowcmd
 					set scrolloff=999
 
-					" Limelight
+					Limelight
 
 					let g:number_toggle_on = 0
 					set norelativenumber
@@ -1093,7 +1097,7 @@
 					set showcmd
 					set scrolloff=5
 
-					" Limelight!
+					Limelight!
 
 					let g:number_toggle_on = 1
 					set relativenumber
