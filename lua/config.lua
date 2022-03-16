@@ -29,8 +29,6 @@
 		'gD'    - implementation()
 		'gr'    - references()
 		'gR'    - rename()
-
-		'<C-k>' - signature_help()
 	--]]
 
 
@@ -57,6 +55,7 @@
 
 		Plug 'neovim/nvim-lspconfig'
 		Plug 'williamboman/nvim-lsp-installer'
+
 
 	-- Completion
 
@@ -113,6 +112,8 @@
 
 		Plug 'nvim-telescope/telescope-ui-select.nvim'
 
+		Plug 'nvim-telescope/telescope-file-browser.nvim'
+
 		Plug 'jlanzarotta/bufexplorer'  -- <Leader>b[etsv] (open/toggle/-split/|split); then b<Num> switches to buffer
 
 
@@ -167,6 +168,12 @@
 		Plug 'Mofiqul/vscode.nvim'
 
 		Plug 'narutoxy/dim.lua'
+
+		Plug 'norcalli/nvim-colorizer.lua'
+
+		Plug 'stevearc/dressing.nvim' -- E.g. improves vim.input, which affects e.g. LSP rename
+
+		Plug 'junegunn/goyo.vim'
 
 		Plug 'neovimhaskell/haskell-vim'
 
@@ -249,18 +256,16 @@
 			vim.keymap.set('n', from, to, { buffer = 0 } )
 		end
 
-		keymap('K',          vim.lsp.buf.hover)
-		keymap('gd',         vim.lsp.buf.definition)
-		keymap('gt',         vim.lsp.buf.type_definition)
-		keymap('gi',         vim.lsp.buf.implementation)
-		keymap('gr',         vim.lsp.buf.references)
+		keymap('<C-k>',     vim.lsp.buf.hover)
+		keymap('gd',         '<cmd>Telescope lsp_definitions<CR>')
+		keymap('gt',         '<cmd>Telescope lsp_type_definitions<CR>')
+		keymap('gi',         '<cmd>Telescope lsp_implementations<CR>')
+		keymap('gr',         '<cmd>Telescope lsp_references<CR>')
+		keymap('gH',         vim.lsp.buf.code_action)
+		keymap('gD',         '<cmd>Telescope diagnostics<CR>')
+		keymap('[d',         vim.diagnostic.goto_prev)
+		keymap(']d',         vim.diagnostic.goto_next)
 		keymap('<Leader>rn', vim.lsp.buf.rename)
-		keymap('<Leader>dn', vim.diagnostic.goto_next)
-		keymap('<Leader>dp', vim.diagnostic.goto_prev)
-		keymap('<Leader>dl', '<cmd>Telescope diagnostics<CR>')
-
-		-- keymap('gH', vim.lsp.buf.code_action)
-		-- keymap('<C-k>', vim.lsp.buf.signature_help)
 	end
 
 	local enhance_server_opts = {
@@ -387,7 +392,7 @@
 			}
 	})
 
-	require "lsp_signature".setup({
+	require("lsp_signature").setup({
 		hint_enable = false,
 		floating_window_above_cur_line = false,
 		transparency = 30,
@@ -415,7 +420,8 @@
 		}
 	})
 
-	require('telescope').setup({
+	local telescope = require('telescope')
+	telescope.setup({
 		extensions = {
 			["ui-select"] = {
 				require("telescope.themes").get_dropdown({})
@@ -423,10 +429,13 @@
 		}
 	})
 
-	require('telescope').load_extension('fzf')
-	require('telescope').load_extension('ui-select')
+	telescope.load_extension('fzf')
+	telescope.load_extension('ui-select')
+	telescope.load_extension("file_browser")
 
-	require'nvim-tree'.setup({})
+	require'nvim-tree'.setup({
+		hijack_cursor = true
+	})
 
 	require('gitsigns').setup({
 		on_attach = function(bufnr)
@@ -461,6 +470,9 @@
 	-- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 	require('dim').setup({})
+
+	vim.opt.termguicolors = true
+	require('colorizer').setup()
 
 -- General Setup
 
@@ -665,12 +677,19 @@
 
 	-- Automatically toggle relativenumber when leaving/entering insert mode.
 
-	vim.g.relative_number_toggle_ignore_list = {'NvimTree', 'help', 'TelescopePrompt', 'Outline'}
+	vim.g.relative_number_toggle_ignore_list = {'NvimTree', 'help', 'TelescopePrompt', 'Outline', ''}
+
+	vim.g.number_toggle_on = true
 
 	vim.cmd([[
 	function! RelativeNumberToggle(state)
+		" echo 'In RelativeNumberToggle: ' .. a:state
 		if index(g:relative_number_toggle_ignore_list, &filetype) >= 0
 			" Filetype is on the ignore list
+			set norelativenumber
+			return
+		elseif g:number_toggle_on
+		else
 			return
 		endif
 
@@ -684,13 +703,26 @@
 	endfunction
 
 	function! SetNumberToggle(state)
-		if a:state == 'enable'
+		echo 'In SetNumberToggle: ' .. a:state
+		let state = a:state
+
+		if a:state == ''
+			if g:number_toggle_on
+				let state = 'disable'
+			else
+				let state = 'enable'
+			endif
+		endif
+
+		if state == 'enable'
+			let g:number_toggle_on = 1
 			augroup NumberToggle
 				autocmd!
 				autocmd BufEnter,FocusGained,InsertLeave * call RelativeNumberToggle('on')
 				autocmd BufLeave,FocusLost,InsertEnter   * call RelativeNumberToggle('off')
 			augroup END
-		elseif a:state == 'disable'
+		elseif state == 'disable'
+			let g:number_toggle_on = 0
 			augroup NumberToggle
 				autocmd!
 			augroup END
@@ -1020,22 +1052,50 @@
 			--    <Leader><Leader>[swef...]
 
 
-		-- Telescope (<Leader>f[abfgl], <Leader>f![abfgl])
+		-- Goyo (<Leader>gy)
 
-			-- (:FZF = :Files)
-			nmap('<Leader>fa', ':Telescope live_grep<CR>')
-			nmap('<Leader>fb', ':Telescope buffers<CR>')
-			nmap('<Leader>ff', ':Telescope find_files<CR>')
-			nmap('<Leader>fg', ':Telescope git_files<CR>')
-			nmap('<Leader>fv', ':Telescope grep_string<CR>')
-			nmap('<Leader>fr', ':Telescope registers<CR>')
+			vim.cmd([[
+				function! s:goyo_enter()
 
-			_G.telescope_live_grep_in_path = function(path)
-				local _path = path or vim.fn.input('Dir: ', '',  'dir')
-				require('telescope.builtin').live_grep({search_dirs = {_path}})
-			end
+					if executable('tmux') && strlen($TMUX)
+						silent !tmux set status off
+						silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+					endif
 
-			nmap('<Leader>fA', ':lua telescope_live_grep_in_path()<CR>')
+					set noshowmode
+					set noshowcmd
+					set scrolloff=999
+
+					" Limelight
+
+					let g:number_toggle_on = 0
+					set norelativenumber
+
+				endfunction
+
+				function! s:goyo_leave()
+
+					if executable('tmux') && strlen($TMUX)
+						silent !tmux set status on
+						silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+					endif
+
+					set showmode
+					set showcmd
+					set scrolloff=5
+
+					" Limelight!
+
+					let g:number_toggle_on = 1
+					set relativenumber
+
+				endfunction
+
+				autocmd! User GoyoEnter nested call <SID>goyo_enter()
+				autocmd! User GoyoLeave nested call <SID>goyo_leave()
+			]])
+
+			nmap('<Leader>gy', '<cmd>Goyo<CR>')
 
 
 		-- LuaSnip
@@ -1074,6 +1134,16 @@
 			nmap('<C-q>', ':Ttoggle<CR>')
 			imap('<C-q>', '<Esc>:Ttoggle<CR>')
 			tmap('<C-q>', '<C-\\><C-n>:Ttoggle<CR>')
+
+
+		-- Nvim-Tree
+
+			nmap('<Leader>nf', '<cmd>NvimTreeToggle<CR>')
+			nmap('<Leader>nv', '<cmd>NvimTreeFindFileToggle<CR>')
+			nmap('<Leader>nh', '<cmd>NvimTreeResize -10<CR>')
+			nmap('<Leader>nl', '<cmd>NvimTreeResize +10<CR>')
+			nmap('<Leader>nc', '<cmd>NvimTreeCollapse<CR>')
+			nmap('<Leader>na', '<cmd>NvimTreeCollapseKeepBuffers<CR>')
 
 
 		-- Symbols Outline
@@ -1134,6 +1204,25 @@
 
 			-- vim.cmd('vnoremap <silent> <Leader>y :call <sid>tmux_load_buffer()<CR>')
 			-- vim.cmd('vnoremap <silent> <Leader>y :call tmux_load_buffer()<CR>')
+
+
+		-- Telescope (<Leader>f[abfgl], <Leader>f![abfgl])
+
+			nmap('<Leader>fa', ':Telescope live_grep<CR>')
+			nmap('<Leader>fb', ':Telescope buffers<CR>')
+			nmap('<Leader>ff', ':Telescope find_files<CR>')
+			nmap('<Leader>fg', ':Telescope git_files<CR>')
+			nmap('<Leader>fv', ':Telescope grep_string<CR>')
+			nmap('<Leader>fr', ':Telescope registers<CR>')
+
+			_G.telescope_live_grep_in_path = function(path)
+				local _path = path or vim.fn.input('Dir: ', '',  'dir')
+				require('telescope.builtin').live_grep({search_dirs = {_path}})
+			end
+
+			nmap('<Leader>fA', ':lua telescope_live_grep_in_path()<CR>')
+
+			nmap('<Leader>nt', '<cmd>Telescope file_browser<CR>')
 
 
 		-- Tmux Navigator (Alt-[hjkl])
