@@ -37,6 +37,10 @@ local generate = function()
 
 		 vscHoverText = '#203845',
 
+		 vscStatusForeground = '#CCCCCC',
+		 vscStatusBackground = '#191919',
+		 vscStatusNCForeground = '#20202A',
+
 		 -- Syntax colors
 		 vscGray = '#808080',
 		 vscViolet = '#646695',
