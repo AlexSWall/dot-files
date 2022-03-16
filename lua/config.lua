@@ -161,6 +161,9 @@
 
 	-- Visuals
 
+		-- Plug 'kyazdani42/nvim-web-devicons'
+		-- Plug 'romgrk/barbar.nvim'
+
 		Plug 'RRethy/vim-illuminate'
 
 		Plug 'p00f/nvim-ts-rainbow'
@@ -175,7 +178,7 @@
 
 		Plug 'lukas-reineke/indent-blankline.nvim'
 
-		Plug 'junegunn/goyo.vim'
+		Plug 'Pocco81/TrueZen.nvim'
 
 		Plug 'junegunn/limelight.vim'
 
@@ -478,6 +481,36 @@
 	vim.opt.termguicolors = true
 	require('colorizer').setup()
 
+	local true_zen = require("true-zen")
+
+	true_zen.setup({
+		integrations = {
+			tmux = true,
+			gitsigns = true,
+			limelight = true
+		}
+	})
+
+	true_zen.after_mode_ataraxis_on = function ()
+
+		vim.opt.showmode = false
+		vim.opt.showcmd = false
+		vim.opt.scrolloff = 999
+
+		vim.g.number_toggle_on = 0
+		vim.opt.relativenumber = false
+	end
+
+	true_zen.before_mode_ataraxis_off = function ()
+		vim.opt.showmode = true
+		vim.opt.showcmd = true
+		vim.opt.scrolloff = 3
+
+		vim.g.number_toggle_on = 1
+		vim.opt.relativenumber = true
+	end
+
+
 -- General Setup
 
 	-- To Sort; from vim-sensible
@@ -687,7 +720,7 @@
 
 	vim.cmd([[
 	function! RelativeNumberToggle(state)
-		" echo 'In RelativeNumberToggle: ' .. a:state
+
 		if index(g:relative_number_toggle_ignore_list, &filetype) >= 0
 			" Filetype is on the ignore list
 			set norelativenumber
@@ -707,7 +740,7 @@
 	endfunction
 
 	function! SetNumberToggle(state)
-		echo 'In SetNumberToggle: ' .. a:state
+
 		let state = a:state
 
 		if a:state == ''
@@ -784,7 +817,7 @@
 		char_highlight_list = { 'IndentBlanklineIndent' },
 	}
 
-	vim.g.limelight_paragraph_span = 2
+	vim.g.limelight_paragraph_span = 3
 
 
 -- Indentation
@@ -1065,52 +1098,6 @@
 			--    <Leader><Leader>[swef...]
 
 
-		-- Goyo (<Leader>gy)
-
-			vim.cmd([[
-				function! s:goyo_enter()
-
-					if executable('tmux') && strlen($TMUX)
-						silent !tmux set status off
-						silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
-					endif
-
-					set noshowmode
-					set noshowcmd
-					set scrolloff=999
-
-					Limelight
-
-					let g:number_toggle_on = 0
-					set norelativenumber
-
-				endfunction
-
-				function! s:goyo_leave()
-
-					if executable('tmux') && strlen($TMUX)
-						silent !tmux set status on
-						silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
-					endif
-
-					set showmode
-					set showcmd
-					set scrolloff=5
-
-					Limelight!
-
-					let g:number_toggle_on = 1
-					set relativenumber
-
-				endfunction
-
-				autocmd! User GoyoEnter nested call <SID>goyo_enter()
-				autocmd! User GoyoLeave nested call <SID>goyo_leave()
-			]])
-
-			nmap('<Leader>gy', '<cmd>Goyo<CR>')
-
-
 		-- LuaSnip
 
 			vim.keymap.set({'i', 's'}, '<C-k>', function()
@@ -1247,6 +1234,11 @@
 			nmap('<M-k>', ':TmuxNavigateUp<CR>')
 			nmap('<M-l>', ':TmuxNavigateRight<CR>')
 			nmap('<M-\\>', ':TmuxNavigatePrevious<CR>')
+
+
+		-- TrueZen (<Leader>tz)
+
+			nmap('<Leader>tz', '<cmd>TZAtaraxis<CR>')
 
 
 		-- Undotree (<Leader>u)
