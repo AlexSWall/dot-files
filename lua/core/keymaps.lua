@@ -155,11 +155,11 @@ local keymaps = {
 
 			navigating_files = function()
 
-				-- Edit .vimrc
+				-- Edit Neovim config
 				nmap('<Leader>ve', ':e ~/.config/nvim/lua/config.lua<CR>')
 
-				-- Reload .vimrc
-				nmap('<Leader>vr', ':so ~/.config/nvim/lua/config.lua<CR>')
+				-- Reload Neovim config
+				nmap('<Leader>vr', ':so ~/.config/nvim/init.lua<CR>')
 
 				-- Allow gf to edit non-existent files too
 				nmap('gf', ':edit <cfile><CR>')
