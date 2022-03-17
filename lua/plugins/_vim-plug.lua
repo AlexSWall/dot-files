@@ -110,8 +110,8 @@ Plug 'itchyny/vim-gitbranch'  -- Gives `gitbranch#name()`
 
 -- Visuals
 
--- Plug 'kyazdani42/nvim-web-devicons'
--- Plug 'romgrk/barbar.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'akinsho/bufferline.nvim'
 
 Plug 'RRethy/vim-illuminate'
 

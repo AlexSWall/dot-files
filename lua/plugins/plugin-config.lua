@@ -242,6 +242,22 @@ require('gitsigns').setup({
 	end
 })
 
+require('bufferline').setup {
+	options = {
+		mode = 'buffers',
+		offsets = {
+			{
+				filetype = "NvimTree",
+				text = function()
+					return vim.fn.getcwd()
+				end,
+				highlight = "Directory",
+				text_align = "left"
+			}
+		}
+	}
+}
+
 require('nvim-autopairs').setup({
 	-- TODO?
 })
