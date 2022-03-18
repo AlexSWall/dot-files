@@ -155,6 +155,7 @@ Plug 'unblevable/quick-scope'
 
 	-- Trigger a highlight in the appropriate direction when pressing these keys:
 	-- TODO
+	-- This breaks ; when used in conjunction with vim-sneak
 	-- vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
 	vim.g.qs_highlight_on_keys = {}
 
