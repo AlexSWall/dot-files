@@ -291,3 +291,5 @@ function Dump(o)
 		return tostring(o)
 	end
 end
+
+vim.g.neoterm_automap_keys = '<F5>'
