@@ -151,15 +151,6 @@ end
 --      Autocommands
 --------------------------------------------------------------------------------
 
--- Highlight on yank
-vim.api.nvim_exec(
-[[
-	augroup YankHighlight
-		autocmd!
-		autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=800}
-	augroup end
-]], false)
-
 vim.cmd([[
 	" Don't auto-comment new lines
 	autocmd BufEnter * set fo-=c fo-=r fo-=o
