@@ -76,8 +76,7 @@ local keymaps = {
 			-- Swap ':' and ';'.
 			keymap('n', ';', ':', { noremap = true })
 			keymap('v', ';', ':', { noremap = true })
-			keymap('n', ':', ';', { noremap = true })
-			keymap('v', ':', ';', { noremap = true })
+			-- We remap : to <Plug>Sneak_; later
 
 			-- Set <Esc> to go to normal mode in :term (instead of quitting)
 			tmap('<Esc>', '<C-\\><C-n>')
@@ -335,6 +334,15 @@ local keymaps = {
 			nmap('<Leader>na', '<cmd>NvimTreeCollapseKeepBuffers<CR>')
 		end,
 
+		-- Vim-Sneak
+		--
+		--    s
+		--
+		sneak = function()
+			keymap('n', ':', '<Plug>Sneak_;', { noremap = true })
+			keymap('v', ':', '<Plug>Sneak_;', { noremap = true })
+		end,
+
 		-- Symbols Outline
 		--
 		--		<Leader>s
@@ -413,6 +421,7 @@ local keymaps = {
 			nmap('<Leader>fg', ':Telescope git_files<CR>')
 			nmap('<Leader>fv', ':Telescope grep_string<CR>')
 			nmap('<Leader>fr', ':Telescope registers<CR>')
+			nmap('<Leader>fm', ':Telescope keymaps<CR>')
 
 			_G.telescope_live_grep_in_path = function(path)
 				local _path = path or vim.fn.input('Dir: ', '',  'dir')

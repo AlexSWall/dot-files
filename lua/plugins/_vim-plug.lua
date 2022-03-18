@@ -90,22 +90,24 @@ Plug 'itchyny/vim-gitbranch'  -- Gives `gitbranch#name()`
 
 -- Manual
 
-	Plug 'easymotion/vim-easymotion'  -- Adds <Leader><Leader>[swef...].
+Plug 'easymotion/vim-easymotion'  -- Adds <Leader><Leader>[swef...].
 
-	Plug 'tpope/vim-surround'  -- ysiw) cs)] ds] etc.
+Plug 'justinmk/vim-sneak'
 
-	Plug 'junegunn/vim-easy-align'  -- gaip + =,*=,<space>.
+Plug 'tpope/vim-surround'  -- ysiw) cs)] ds] etc.
 
-	Plug 'tpope/vim-commentary'  -- gcc for line, gc otherwise (cmd-/ remapped too).
+Plug 'junegunn/vim-easy-align'  -- gaip + =,*=,<space>.
 
-	Plug 'andymass/vim-matchup'  -- Extends % and adds [g[]zia]%.
+Plug 'tpope/vim-commentary'  -- gcc for line, gc otherwise (cmd-/ remapped too).
+
+Plug 'andymass/vim-matchup'  -- Extends % and adds [g[]zia]%.
 
 
 -- Automatic
 
-	Plug 'tpope/vim-repeat'  -- Enables repeating surrounds and some other plugins.
+Plug 'tpope/vim-repeat'  -- Enables repeating surrounds and some other plugins.
 
-	Plug 'windwp/nvim-autopairs'  -- Automatically adds and removes paired brackets etc.
+Plug 'windwp/nvim-autopairs'  -- Automatically adds and removes paired brackets etc.
 
 
 -- Visuals
@@ -152,7 +154,9 @@ Plug 'blankname/vim-fish'  -- Improves vim experience on .fish files
 Plug 'unblevable/quick-scope'
 
 	-- Trigger a highlight in the appropriate direction when pressing these keys:
-	vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
+	-- TODO
+	-- vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
+	vim.g.qs_highlight_on_keys = {}
 
 	-- augroup qs_colors
 		-- autocmd!
