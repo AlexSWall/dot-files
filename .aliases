@@ -69,7 +69,7 @@ function up () {
 	cd $(printf '../%.0s' $(seq 1 $1))
 }
 
-function vimopen () {
+function vim-open () {
 	if [[ "$#" -eq 1 ]]
 	then
 		DIRECTORY='.'
@@ -100,7 +100,7 @@ function vimopen () {
 	fi
 }
 
-function viewpem () {
+function view-pem () {
 	dir=$(mktemp -d)
 	outfiles=()
 	IFS=$'\n'
@@ -120,5 +120,28 @@ function viewpem () {
 	done
 
 	vim "${outfiles[@]}"
+	rm -r "${dir}"
+}
+
+function diff-xxd () {
+	dir=$(mktemp -d)
+	outfiles=()
+	IFS=$'\n'
+	set -f
+	for file in "$@"
+	do
+		# Create a name for the temporary file by taking the file, removing any
+		# leading dot, and replacing any slashes with underscores.
+		outfile=${file#.}
+		outfile=${outfile//\//__}
+
+		# Save the output of the command for this file to its temporary file.
+		xxd "$file" > "${dir}/${outfile}"
+
+		# Accumulate all of the temporary output files
+		outfiles+=("${dir}/${outfile}")
+	done
+
+	vimdiff "${outfiles[@]}"
 	rm -r "${dir}"
 }
