@@ -59,6 +59,7 @@ g.relative_number_toggle_ignore_list = {
 	'help',
 	'NvimTree',
 	'Outline',
+	'toggleterm',
 	'TelescopePrompt',
 }                                -- (Used by auto number-toggle below)
 g.number_toggle_on = true        -- (Used by set number-toggle below)
@@ -83,7 +84,7 @@ opt.signcolumn = 'yes'           -- Always show signcolumn to avoid buffers shif
 opt.pumheight = 20               -- Pop-up menu height
 
 -- Aesthetic
-opt.pumblend = 20
+opt.pumblend = 10
 
 -- Status Line
 g.StatusLineGit = function()
@@ -279,17 +280,6 @@ vim.cmd('autocmd FileType c,cpp,cs,java,javascript,php setlocal commentstring=//
 -- (Might not be needed? Was originally for coc-css.)
 vim.cmd('autocmd FileType scss setl iskeyword+=@-@')
 
-function Dump(o)
-	if type(o) == 'table' then
-		local str = '{ '
-		for k,v in pairs(o) do
-			if type(k) ~= 'number' then k = '"'..k..'"' end
-			str = str .. '['..k..'] = ' .. Dump(v) .. ','
-		end
-		return str .. '} '
-	else
-		return tostring(o)
-	end
-end
-
 vim.g.neoterm_automap_keys = '<F5>'
+
+_G['dump'] = require('functions.dump').dump

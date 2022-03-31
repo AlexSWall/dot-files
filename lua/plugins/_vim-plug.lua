@@ -33,6 +33,13 @@ Plug 'folke/lua-dev.nvim'
 Plug 'ray-x/lsp_signature.nvim'
 
 
+-- Coding Plugins
+
+Plug 'mfussenegger/nvim-dap'
+Plug 'mfussenegger/nvim-dap-python'
+Plug 'vim-test/vim-test'
+
+
 -- Visual Interface Plugins
 
 Plug 'kyazdani42/nvim-tree.lua'
@@ -41,11 +48,7 @@ Plug 'mbbill/undotree'  -- Browse the undo tree via <Leader>u
 
 	vim.g.undotree_SetFocusWhenToggle = 1
 
-Plug 'kassio/neoterm'  -- Create and dismiss a (persistent) terminal
-
-	vim.g.neoterm_default_mod = 'vertical'
-	vim.g.neoterm_size = 60
-	vim.g.neoterm_autoinsert = 1
+Plug 'akinsho/toggleterm.nvim'
 
 Plug 'sbdchd/neoformat'  -- Code auto-formatting
 
@@ -102,12 +105,20 @@ Plug 'tpope/vim-commentary'  -- gcc for line, gc otherwise (cmd-/ remapped too).
 
 Plug 'andymass/vim-matchup'  -- Extends % and adds [g[]zia]%.
 
+Plug 'mhinz/vim-sayonara'  -- Gives :Sayonara!, which replaces :bd (we add <Leader>bd)
+
+Plug 'AndrewRadev/sideways.vim'
 
 -- Automatic
 
 Plug 'tpope/vim-repeat'  -- Enables repeating surrounds and some other plugins.
 
 Plug 'windwp/nvim-autopairs'  -- Automatically adds and removes paired brackets etc.
+-- Plug 'jiangmiao/auto-pairs'
+
+Plug 'ethanholz/nvim-lastplace'
+
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
 
 -- Visuals
@@ -122,6 +133,8 @@ Plug 'RRethy/vim-illuminate'
 Plug 'p00f/nvim-ts-rainbow'
 
 Plug 'Mofiqul/vscode.nvim'
+
+Plug 'karb94/neoscroll.nvim'
 
 Plug 'narutoxy/dim.lua'
 
@@ -150,23 +163,6 @@ Plug 'neovimhaskell/haskell-vim'
 	vim.g.haskell_backpack                = 1  -- Enables highlighting of backpack keywords.
 
 Plug 'blankname/vim-fish'  -- Improves vim experience on .fish files
-
-Plug 'unblevable/quick-scope'
-
-	-- Trigger a highlight in the appropriate direction when pressing these keys:
-	-- TODO
-	-- This breaks ; when used in conjunction with vim-sneak
-	-- vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
-	vim.g.qs_highlight_on_keys = {}
-
-	-- augroup qs_colors
-		-- autocmd!
-		-- autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-		-- autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-	-- augroup END
-
-	-- let g:qs_lazy_highlight = 1
-	-- let g:qs_delay = 0
 
 
 -- Miscellaneous

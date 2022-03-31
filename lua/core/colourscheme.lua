@@ -21,16 +21,19 @@ vim.cmd([[
 	highlight IndentBlanklineIndent guifg=#202020 gui=nocombine
 
 	" Cmp Colourschemes
-	highlight CmpItemAbbrDeprecated guibg=NONE guifg=#808080 gui=strikethrough
-	highlight CmpItemAbbrMatch      guibg=NONE guifg=#569CD6
-	highlight CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
-	highlight CmpItemKindVariable   guibg=NONE guifg=#9CDCFE
-	highlight CmpItemKindInterface  guibg=NONE guifg=#9CDCFE
-	highlight CmpItemKindText       guibg=NONE guifg=#9CDCFE
-	highlight CmpItemKindFunction   guibg=NONE guifg=#C586C0
-	highlight CmpItemKindMethod     guibg=NONE guifg=#C586C0
-	highlight CmpItemKindKeyword    guibg=NONE guifg=#D4D4D4
-	highlight CmpItemKindProperty   guibg=NONE guifg=#D4D4D4
-	highlight CmpItemKindUnit       guibg=NONE guifg=#D4D4D4
-	highlight CmpItemKind           guibg=NONE guifg=#D4D4D4
+	highlight CmpItemAbbrDeprecated guifg=#808080 guibg=NONE gui=strikethrough
+	highlight CmpItemAbbrMatch      guifg=#569CD6 guibg=NONE
+	highlight CmpItemAbbrMatchFuzzy guifg=#569CD6 guibg=NONE
+	highlight CmpItemKindVariable   guifg=#9CDCFE guibg=NONE
+	highlight CmpItemKindInterface  guifg=#9CDCFE guibg=NONE
+	highlight CmpItemKindText       guifg=#9CDCFE guibg=NONE
+	highlight CmpItemKindFunction   guifg=#C586C0 guibg=NONE
+	highlight CmpItemKindMethod     guifg=#C586C0 guibg=NONE
+	highlight CmpItemKindKeyword    guifg=#D4D4D4 guibg=NONE
+	highlight CmpItemKindProperty   guifg=#D4D4D4 guibg=NONE
+	highlight CmpItemKindUnit       guifg=#D4D4D4 guibg=NONE
+	highlight CmpItemKind           guifg=#D4D4D4 guibg=NONE
+
+	highlight Sneak      guifg=#111111 guibg=#466F98
+	highlight SneakScope guifg=#111111 guibg=#466F98
 ]])

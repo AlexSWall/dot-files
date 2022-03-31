@@ -178,7 +178,7 @@ require("lsp_signature").setup({
 	hint_enable = false,
 	floating_window_above_cur_line = false,
 	transparency = 30,
-	toggle_key = nil, -- TODO
+	toggle_key = '<C-s>',
 	floating_window_off_y = -4,
 })
 
@@ -262,8 +262,16 @@ require('gitsigns').setup({
 -- 	}
 -- }
 
-require('nvim-autopairs').setup({
-	-- TODO?
+local Rule = require('nvim-autopairs.rule')
+local autopairs = require('nvim-autopairs')
+
+autopairs.setup({})
+
+autopairs.add_rules({
+	Rule("```", "```", { 'text' }),
+	Rule("```.*$", "```", { 'text' })
+		:only_cr()
+		:use_regex(true),
 })
 
 require('dim').setup({})
@@ -302,4 +310,46 @@ end
 require('indent_blankline').setup({
 	space_char_blankline = ' ',
 	char_highlight_list = { 'IndentBlanklineIndent' },
+})
+
+require('nvim-lastplace').setup({
+    lastplace_ignore_buftype = {"quickfix", "nofile", "help"},
+    -- lastplace_ignore_filetype = {},
+    lastplace_open_folds = true
+})
+
+require('neoscroll').setup({
+	-- easing_function = 'quadratic'
+	mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>', 'zt', 'zz', 'zb'},
+})
+
+require('neoscroll.config').set_mappings({
+	['<C-u>'] = {'scroll', {'-vim.wo.scroll', 'true', '70'}},
+	['<C-d>'] = {'scroll', { 'vim.wo.scroll', 'true', '70'}},
+	['<C-b>'] = {'scroll', {'-vim.api.nvim_win_get_height(0)', 'true', '140'}},
+	['<C-f>'] = {'scroll', { 'vim.api.nvim_win_get_height(0)', 'true', '140'}},
+	['zt']    = {'zt', {'70'}},
+	['zz']    = {'zz', {'70'}},
+	['zb']    = {'zb', {'70'}}
+})
+
+require("toggleterm").setup({
+  -- size can be a number or function which is passed the current terminal
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 15
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.4
+    end
+  end,
+  open_mapping = [[<c-q>]],
+  direction = 'vertical'
+})
+
+vim.g['test#strategy'] = 'neovim'
+
+require('nvim-treesitter.configs').setup({
+  context_commentstring = {
+    enable = true
+  }
 })

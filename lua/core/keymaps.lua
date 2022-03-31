@@ -1,3 +1,52 @@
+-- Misc
+-- 	alt-e
+-- 		On the command line, open the command line in vim
+--
+-- Built-In
+-- 	gi
+-- 		Jump to last insert mode location
+-- 	gv
+-- 		start visual mode and automatically select previous selection
+-- 	g;
+-- 	`.
+-- 		Just to last modification
+-- 	@:
+-- 		Run last command line entered
+-- 	&
+-- 		Repeat the last substitute command without flags.
+-- 	y/);<CR>
+-- 		Yank up to );
+-- 	Ctrl-6/^
+-- 		Swap between the last two used buffers.
+-- 	gv
+--			Highlight last selection
+-- 	Ctrl-o
+-- 		Do a single command while in insert mode
+--			E.g. `Ctrl-o, h` to most left one.
+-- 	gw
+-- 		Reorganize to go up to eighty character limit.
+--			For example, gwip is in paragraph, <selection>gw formats selection
+-- 	visual block and then `g Ctrl-a` increments all the numbers in the block sequentially.
+--
+-- Plugins
+-- 	<Leader>bd
+-- 		Sayonara buffer delete
+-- 	<Leader>m
+-- 		Toggle maximize
+-- 	<Leader>F
+-- 		Neoformat
+-- 	<Ctrl>q
+-- 		Toggle terminal (<Leader>TT and <Leader>TL to move it)
+-- 	<Leader>tt
+-- 		Run test (<Leader>tf for file, <Leader>tl for last, <Leader>tv for visit last)
+-- 	<Ctrl>s
+-- 		Toggle LSP signature
+-- 	<Leader><Leader>h
+-- 	<Leader><Leader>l
+-- 		Move argument/entry/etc. left/right (sideways.vim)
+-- 	<Leader>tw
+-- 	<Leader>tW
+-- 		Turn trailing-whitespace highlighting on and off
 
 --------------------------------------------------------------------------------
 --      Leader Key
@@ -36,12 +85,12 @@ local helpers = {
 		_helpers.map_expr('n', shortcut, command)
 	end,
 
-	imap = function(shortcut, command)
-		_helpers.map('i', shortcut, command)
-	end,
-
 	vmap = function(shortcut, command)
 		_helpers.map('v', shortcut, command)
+	end,
+
+	vmap_expr = function(shortcut, command)
+		_helpers.map_expr('v', shortcut, command)
 	end,
 
 	tmap = function(shortcut, command)
@@ -57,8 +106,8 @@ local helpers = {
 local keymap = vim.api.nvim_set_keymap
 local nmap = helpers.nmap
 local nmap_expr = helpers.nmap_expr
-local imap = helpers.imap
 local vmap = helpers.vmap
+local vmap_expr = helpers.vmap_expr
 local tmap = helpers.tmap
 local xmap = helpers.xmap
 
@@ -179,6 +228,12 @@ local keymaps = {
 			vmap('<', '<gv')
 			vmap('>', '>gv')
 
+			-- Select text just pasted (preserving 'type' of register used)
+			function _G.select_pasted_text()
+				return '`[' .. vim.fn.strpart(vim.fn.getregtype(), 0, 1) .. '`]'
+			end
+			nmap_expr('gp', 'v:lua.select_pasted_text()')
+
 			-- Leak cursor in final location after visual yank.
 			vmap('y', 'myy`y')
 			vmap('Y', 'myY`y')
@@ -197,6 +252,10 @@ local keymaps = {
 
 			-- :noh shortcut
 			nmap('<Leader>no', ':noh<CR>')
+
+			-- Leak cursor in final location after visual yank.
+			vmap('y', 'myy`y')
+			vmap('Y', 'myY`y')
 
 		end,
 
@@ -242,8 +301,8 @@ local keymaps = {
 
 		visual = function()
 
-			nmap('<Leader><Leader>l', ':highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue<CR>')
-			nmap('<Leader><Leader>L', ':highlight ExtraWhitespace NONE<CR>')
+			nmap('<Leader>tw', ':highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue<CR>')
+			nmap('<Leader>tW', ':highlight ExtraWhitespace NONE<CR>')
 
 		end
 
@@ -309,16 +368,7 @@ local keymaps = {
 		--		<Leader>F
 		--
 		neoformat = function()
-			nmap('<Leader>F', ':Neoformat prettier<CR>')
-		end,
-
-		-- Neoterm
-		--
-		--		Ctrl-q
-		neoterm = function()
-			nmap('<C-q>', ':Ttoggle<CR>')
-			imap('<C-q>', '<Esc>:Ttoggle<CR>')
-			tmap('<C-q>', '<C-\\><C-n>:Ttoggle<CR>')
+			nmap('<Leader>FP', ':Neoformat prettier<CR>')
 		end,
 
 		-- Nvim-Tree
@@ -334,7 +384,33 @@ local keymaps = {
 			nmap('<Leader>na', '<cmd>NvimTreeCollapseKeepBuffers<CR>')
 		end,
 
-		-- Vim-Sneak
+		-- Toggleterm
+		--
+		--		<Ctrl>-q
+		--    <Leader>tt
+		toggleterm = function()
+			nmap('<Leader>TT', '<cmd>ToggleTerm direction=float<CR>')
+			nmap('<Leader>TL', '<cmd>ToggleTerm direction=vertical<CR>')
+		end,
+
+		-- Sayonara
+		--
+		--    <Leader>bd
+		--
+		sayonara = function()
+			nmap('<Leader>bd', '<cmd>Sayonara!<CR>')
+		end,
+
+		-- Sideways
+		--
+		--    <Leader><Leader>[hl]
+		--
+		sideways = function()
+			nmap('<Leader><Leader>h', '<cmd>SidewaysLeft<CR>')
+			nmap('<Leader><Leader>l', '<cmd>SidewaysRight<CR>')
+		end,
+
+		-- Sneak
 		--
 		--    s
 		--
@@ -351,63 +427,12 @@ local keymaps = {
 			nmap('<Leader>s', ':SymbolsOutline<CR>')
 		end,
 
-		-- Tbone
+		-- Tmux Yank
 		--
 		--		<Leader>y
 		--
-		tbone = function()
-			-- Functions
-
-			-- Not currently working...
-			-- getpos returns [0, 0, 0, 0]?
-
-			-- function tmux_load_buffer()
-			-- 	-- Selection start and end arrays
-			-- 	-- 2nd and 3rd entries of the array are the line number and column number.
-			-- 	local s_start = vim.fn.getpos("'<")
-			-- 	local s_end   = vim.fn.getpos("'>")
-			-- 	print(dump(s_start))
-			-- 	local start_line, start_col = s_start[2], s_start[3]
-			-- 	local   end_line,   end_col =   s_end[2],   s_end[3]
-
-			-- 	-- Get the lines from the start line to the end line, and remove the line
-			-- 	-- contents before the start column and after the end column.
-			-- 	local lines = vim.fn.getline(start_line, end_line)
-			-- 	print(dump(lines))
-			-- 	lines[1]      = string.sub(lines[1], start_col)
-			-- 	lines[#lines] = string.sub(lines[#lines], 0, end_col)
-
-			-- 	-- Write the resulting line contents to a temporary file, load it into the
-			-- 	-- tmux buffer, and then delete the temporary file.
-			-- 	local tempfile = vim.fn.tempname()
-			-- 	vim.fn.writefile(lines, tempfile, 'a')
-			-- 	vim.fn.system('tmux load-buffer ' .. tempfile)
-			-- 	vim.fn.delete(tempfile)
-			-- end
-
-			vim.cmd([[
-				function! s:tmux_load_buffer()
-					let [lnum1, col1] = getpos("'<")[1:2]
-					let [lnum2, col2] = getpos("'>")[1:2]
-					let lines = getline(lnum1, lnum2)
-					let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
-					let lines[0] = lines[0][col1 - 1:]
-					let tempfile = tempname()
-					call writefile(lines, tempfile, "a")
-					call system('tmux load-buffer '.tempfile)
-					echo tempfile
-					" call delete(tempfile)
-				endfunction
-
-				vnoremap <silent> <Leader>y :call <sid>tmux_load_buffer()<CR>
-			]])
-
-			-- tmux_load_buffer()
-			-- vmap_expr('<Leader>y', 'v:lua.tmux_load_buffer()')
-			-- vim.api.nvim_buf_set_keymap(0, 'v', '<Leader>y', 'v:lua.tmux_load_buffer()', { noremap = true, silent = true, expr = true })
-
-			-- vim.cmd('vnoremap <silent> <Leader>y :call <sid>tmux_load_buffer()<CR>')
-			-- vim.cmd('vnoremap <silent> <Leader>y :call tmux_load_buffer()<CR>')
+		tmux_yank = function()
+			vim.keymap.set('v', '<Leader>y', require("functions.tmux-yank").tmux_yank, { silent = true })
 		end,
 
 		-- Telescope
@@ -431,6 +456,18 @@ local keymaps = {
 			nmap('<Leader>fA', ':lua telescope_live_grep_in_path()<CR>')
 
 			nmap('<Leader>nt', '<cmd>Telescope file_browser<CR>')
+		end,
+
+		-- Vim-Test
+		--
+		--
+		--
+		test = function()
+			nmap('<Leader>tt', '<cmd>TestNearest<CR>')
+			nmap('<Leader>tf', '<cmd>TestFile<CR>')
+			nmap('<Leader>ts', '<cmd>TestSuite<CR>')
+			nmap('<Leader>tl', '<cmd>TestLast<CR>')
+			nmap('<Leader>tv', '<cmd>TestVisit<CR>')
 		end,
 
 		-- Tmux Navigator
