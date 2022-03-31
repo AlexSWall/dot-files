@@ -4,6 +4,7 @@ local cmd = vim.cmd
 local g = vim.g
 local opt = vim.opt
 
+
 --------------------------------------------------------------------------------
 --      General
 --------------------------------------------------------------------------------
@@ -39,6 +40,7 @@ opt.smartcase = true             -- Case-sensitive search when it includes upper
 opt.foldmethod = 'indent'
 opt.foldminlines = 0
 opt.foldlevel = 99
+
 
 --------------------------------------------------------------------------------
 --     Visuals
@@ -154,7 +156,7 @@ end
 
 vim.cmd([[
 	" Don't auto-comment new lines
-	autocmd BufEnter * set fo-=c fo-=r fo-=o
+	"autocmd BufEnter * set fo-=c fo-=r fo-=o
 
 	" Remove colour column for some filetypes
 	autocmd FileType text,markdown,html,xhtml setlocal cc=0
