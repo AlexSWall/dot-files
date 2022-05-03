@@ -41,6 +41,8 @@ opt.foldmethod = 'indent'
 opt.foldminlines = 0
 opt.foldlevel = 99
 
+opt.textwidth = 80
+
 
 --------------------------------------------------------------------------------
 --     Visuals

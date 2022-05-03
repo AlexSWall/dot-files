@@ -19,21 +19,22 @@
 -- 	Ctrl-6/^
 -- 		Swap between the last two used buffers.
 -- 	gv
---			Highlight last selection
+-- 		Highlight last selection
 -- 	Ctrl-o
 -- 		Do a single command while in insert mode
---			E.g. `Ctrl-o, h` to most left one.
+-- 		E.g. `Ctrl-o, h` to most left one.
 -- 	gw
 -- 		Reorganize to go up to eighty character limit.
---			For example, gwip is in paragraph, <selection>gw formats selection
--- 	visual block and then `g Ctrl-a` increments all the numbers in the block sequentially.
+-- 		For example, gwip is in paragraph, <selection>gw formats selection
+-- 		visual block and then `g Ctrl-a` increments all the numbers in the
+-- 		block sequentially.
 --
 -- Plugins
 -- 	<Leader>bd
 -- 		Sayonara buffer delete
 -- 	<Leader>m
 -- 		Toggle maximize
--- 	<Leader>F
+-- 	<Leader>FP
 -- 		Neoformat
 -- 	<Ctrl>q
 -- 		Toggle terminal (<Leader>TT and <Leader>TL to move it)
@@ -107,7 +108,6 @@ local keymap = vim.api.nvim_set_keymap
 local nmap = helpers.nmap
 local nmap_expr = helpers.nmap_expr
 local vmap = helpers.vmap
-local vmap_expr = helpers.vmap_expr
 local tmap = helpers.tmap
 local xmap = helpers.xmap
 
@@ -155,12 +155,11 @@ local keymaps = {
 				nmap('<Leader>k', '10k')
 
 				-- Set <Leader>N to search for the next instance of the word under
-				-- the cursor; much easier to do than *
+				-- the cursor; easier to do than *
 				nmap('<Leader>N', '*')
 
 				-- While in visual mode, use <Leader>/ to search for the selected text.
-				-- vmap('<Leader>/', 'y/\V<C-R>=escape(@",'/\')<CR><CR>')
-				vmap('<Leader>n', '*')
+				vmap('<Leader>/', 'y/\\V<C-R>=escape(@","/\")<CR><CR>')
 
 			end,
 
@@ -287,13 +286,13 @@ local keymaps = {
 			-- Disable GUI for multi-line copying of vim contents by an external
 			-- program.
 			nmap('<Leader>0',
-				':GitGutterDisable<CR>' ..
+				':Gitsigns detach<CR>' ..
 				':set nonumber norelativenumber nolinebreak nobreakindent signcolumn=no showbreak= <CR>' ..
 				':call SetNumberToggle(\'disable\')<CR>')
 			--
 			-- Reenable GUI
 			nmap('<Leader><Leader>0',
-				':GitGutterEnable<CR>' ..
+				':Gitsigns attach<CR>' ..
 				':set number relativenumber linebreak breakindent signcolumn=yes showbreak=↪\\ <CR>' ..
 				':call SetNumberToggle(\'enable\')<CR>')
 
@@ -365,7 +364,7 @@ local keymaps = {
 
 		-- Neoformat
 		--
-		--		<Leader>F
+		--		<Leader>FP
 		--
 		neoformat = function()
 			nmap('<Leader>FP', ':Neoformat prettier<CR>')
@@ -440,27 +439,27 @@ local keymaps = {
 		--		<Leader>f[abfgvrA]
 		--
 		telescope = function()
-			nmap('<Leader>fa', ':Telescope live_grep<CR>')
-			nmap('<Leader>fb', ':Telescope buffers<CR>')
-			nmap('<Leader>ff', ':Telescope find_files<CR>')
-			nmap('<Leader>fg', ':Telescope git_files<CR>')
-			nmap('<Leader>fv', ':Telescope grep_string<CR>')
-			nmap('<Leader>fr', ':Telescope registers<CR>')
-			nmap('<Leader>fm', ':Telescope keymaps<CR>')
 
 			_G.telescope_live_grep_in_path = function(path)
 				local _path = path or vim.fn.input('Dir: ', '',  'dir')
-				require('telescope.builtin').live_grep({search_dirs = {_path}})
+				require('telescope.builtin').grep_string({search_dirs = {_path}, search=''})
 			end
 
+			nmap('<Leader>fa', '<cmd>lua require("telescope.builtin").grep_string({search=""})<CR>')
 			nmap('<Leader>fA', ':lua telescope_live_grep_in_path()<CR>')
-
-			nmap('<Leader>nt', '<cmd>Telescope file_browser<CR>')
+			nmap('<Leader>fb', '<cmd>Telescope buffers<CR>')
+			nmap('<Leader>fe', '<cmd>Telescope file_browser<CR>')
+			nmap('<Leader>ff', '<cmd>Telescope find_files<CR>')
+			nmap('<Leader>fg', '<cmd>Telescope git_files<CR>')
+			nmap('<Leader>fk', '<cmd>Telescope keymaps<CR>')
+			nmap('<Leader>fm', '<cmd>Telescope keymaps<CR>')
+			nmap('<Leader>fr', '<cmd>Telescope registers<CR>')
+			nmap('<Leader>fs', '<cmd>Telescope grep_string<CR>')
 		end,
 
 		-- Vim-Test
 		--
-		--
+		--		<Leader>t[tfslv]
 		--
 		test = function()
 			nmap('<Leader>tt', '<cmd>TestNearest<CR>')

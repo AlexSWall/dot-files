@@ -207,6 +207,13 @@ telescope.setup({
 	extensions = {
 		["ui-select"] = {
 			require("telescope.themes").get_dropdown({})
+		},
+		fzf = {
+			fuzzy = true,                    -- false will only do exact matching
+			override_generic_sorter = true,  -- override the generic sorter
+			override_file_sorter = true,     -- override the file sorter
+			case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+			-- the default case_mode is "smart_case"
 		}
 	}
 })
@@ -229,16 +236,16 @@ require('gitsigns').setup({
 			vim.keymap.set('n', l, r, opts)
 		end
 
-		-- Navigation
-		map(']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-		map('[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
-		map('<Leader>]', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-		map('<Leader>[', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
-		map('<leader>gr', gs.reset_hunk)
+		map('<leader>gj', gs.next_hunk)
+		map('<leader>gk', gs.prev_hunk)
 		map('<leader>gp', gs.preview_hunk)
 		map('<leader>gd', gs.diffthis)
+		map('<leader>gr', gs.reset_hunk)
+		map('<leader>gt', gs.toggle_deleted)
 		map('<leader>gb', gs.toggle_current_line_blame)
-		map('<leader>gd', gs.toggle_deleted)
+
+		map('<Leader>]', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+		map('<Leader>[', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
 	end
 })
 
@@ -268,8 +275,13 @@ local autopairs = require('nvim-autopairs')
 autopairs.setup({})
 
 autopairs.add_rules({
-	Rule("```", "```", { 'text' }),
-	Rule("```.*$", "```", { 'text' })
+	-- Python triple quotes
+	Rule("'''", "'''", { 'python' }),
+	Rule('"""', '"""', { 'python' }),
+
+	-- Triple-backticks in .txt and markdown files
+	Rule("```", "```", { 'text', 'markdown' }),
+	Rule("```.*$", "```", { 'text', 'markdown' })
 		:only_cr()
 		:use_regex(true),
 })
