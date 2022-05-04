@@ -1,4 +1,4 @@
-function vimopen
+function vim-open
 
 	if test (count $argv) = 1
 		set DIRECTORY '.'
