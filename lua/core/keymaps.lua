@@ -448,6 +448,7 @@ local keymaps = {
 			nmap('<Leader>fa', '<cmd>lua require("telescope.builtin").grep_string({search=""})<CR>')
 			nmap('<Leader>fA', ':lua telescope_live_grep_in_path()<CR>')
 			nmap('<Leader>fb', '<cmd>Telescope buffers<CR>')
+			nmap('<Leader>fd', '<cmd>Telescope diagnostics<CR>')
 			nmap('<Leader>fe', '<cmd>Telescope file_browser<CR>')
 			nmap('<Leader>ff', '<cmd>Telescope find_files<CR>')
 			nmap('<Leader>fg', '<cmd>Telescope git_files<CR>')
