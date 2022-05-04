@@ -290,7 +290,9 @@ autopairs.add_rules({
 
 require('dim').setup({})
 
-require('colorizer').setup()
+require('colorizer').setup({}, {
+	names = false
+})
 
 local true_zen = require("true-zen")
 
