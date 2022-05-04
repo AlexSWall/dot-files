@@ -1,45 +1,55 @@
-# Enables !!
+# Enable `!!`, `$$`, `!$`, `<text>!$`, and `$?`.
+#   (Including all with backslashes in the middle for literal text.)
+
+# Enables `!!`
 function bind_bang
 
 	switch (commandline --current-token)[-1]
 
+		# `!\!`
+		# (for typing literal `!!`)
+		case "*!\\"
+			commandline --current-token -- (echo -ns (commandline --current-token)[-1] | sed 's/.$//')
+			commandline --insert '!'
+
+		# `!!`
 		case "!"
-			# Without the `--`, the functionality can break when completing
-			# flags used in the history (since, in certain edge cases
-			# `commandline` will assume that *it* should try to interpret
-			# the flag)
 			commandline --current-token -- $history[1]
 			commandline --function repaint
 
+		# Otherwise
 		case "*"
-			commandline --insert !
+			commandline --insert '!'
 
 	end
 end
 
-# Enables !$
+# Enables `!$` and `$$`
 function bind_dollar
 
 	switch (commandline --current-token)[-1]
 
-		# This case lets us still type a literal `!$` if we need to (by
-		# typing `!\$`). Probably overkill.
-		case "*!\\"
-			# Without the `--`, the functionality can break when completing
-			# flags used in the history (since, in certain edge cases
-			# `commandline` will assume that *it* should try to interpret
-			# the flag)
-			commandline --current-token -- (echo -ns (commandline --current-token)[-1] | head -c '-1')
+		# `$\$` and `!\$`
+		# (for typing literal `!$` and `$$`)
+		case "*\$\\" "*!\\"
+			commandline --current-token -- (echo -ns (commandline --current-token)[-1] | sed 's/.$//')
 			commandline --insert '$'
 
+		# `$$`
+		case '$'
+			commandline --current-token ""
+			commandline --insert (echo '$fish_pid')
+
+		# `!$`
 		case "!"
 			commandline --current-token ""
 			commandline --function history-token-search-backward
 
-
-		# If the `!$` is preceded by any text, search backward for tokens
-		# that contain that text as a substring. E.g., if we'd previously
-		# run
+		# `<text>!$`
+		#
+		# If `!$` is preceded by text, search backward for tokens that contain
+		# the text as a substring.
+		# E.g., if we'd previously run
 		#
 		#   git checkout -b a_feature_branch
 		#   git checkout master
@@ -54,16 +64,10 @@ function bind_dollar
 		#   git branch -d a_feature_branch
 		#
 		case "*!"
-			# Without the `--`, the functionality can break when completing
-			# flags used in the history (since, in certain edge cases
-			# `commandline` will assume that *it* should try to interpret
-			# the flag)
-			commandline --current-token -- (echo -ns (commandline --current-token)[-1] | head -c '-1')
+			commandline --current-token -- (echo -ns (commandline --current-token)[-1] | sed 's/.$//')
 			commandline --function history-token-search-backward
 
-			# Possible alternative (from the docs):
-			#commandline -f backward-delete-char history-token-search-backward
-
+		# Otherwise
 		case "*"
 			commandline --insert '$'
 
@@ -71,23 +75,30 @@ function bind_dollar
 end
 
 # Enables $?
-function bind_status
-  commandline -i (echo '$status')
+function bind_question_mark
+
+	switch (commandline --current-token)[-1]
+
+		# `$\?`
+		# (for typing literal `$?`)
+		case "*\$\\"
+			commandline --current-token -- (echo -ns (commandline --current-token)[-1] | sed 's/.$//')
+			commandline --insert '?'
+
+		case "\$"
+			commandline --current-token ""
+			commandline --insert (echo '$status')
+
+		case "*"
+			commandline --insert '?'
+
+	end
 end
 
-# Enables $$
-function bind_self
-  commandline -i (echo '$fish_pid')
-end
-
-# Enable above keybindings
+# Enable `!!`, `$$`, `!$`, `<text>!$`, and `$?`.
+#   (Including all with backslashes in the middle for literal text.)
 function fish_user_key_bindings
-	bind !    bind_bang
-	bind '$'  bind_dollar
-	bind '$?' bind_status
-	bind '$$' bind_self
 	bind -M insert !    bind_bang
 	bind -M insert '$'  bind_dollar
-	bind -M insert '$?' bind_status
-	bind -M insert '$$' bind_self
+	bind -M insert '?'  bind_question_mark
 end
