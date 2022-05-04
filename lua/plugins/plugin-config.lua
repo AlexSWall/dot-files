@@ -79,6 +79,9 @@ local enhance_server_opts = {
 						include_params = true,
 					}
 				}
+			},
+			mccabe = {
+				Threshold = 25
 			}
 		}
 	end
