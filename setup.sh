@@ -5,9 +5,11 @@ echo 'You need to ensure git and curl are installed.'
 echo ''
 read -p 'If/when these are installed, please press enter...'
 echo '-----'
+echo 'Installing...'
 
 PWD="$(pwd)"
 OLD="$(pwd)/old"
+rm -rf "$OLD"
 mkdir -p "$OLD"
 
 create_symlink () {
@@ -18,13 +20,17 @@ create_symlink () {
 	# Create destination directory if needed
 	mkdir -p "$DESTINATION_DIR"
 
-	# If non-symlink file exists, move to $OLD
-	if [ -e "$DESTINATION_DIR/$FILE" ]; then
-		mv "$DESTINATION_DIR/$FILE" "$OLD/$FILE"
-
-	# Else if a symlink exists, delete it
-	elif [ -L "$DESTINATION_DIR/$FILE" ]; then
+	# If a symlink exists, delete it
+	if [ -L "$DESTINATION_DIR/$FILE" ]; then
 		rm "$DESTINATION_DIR/$FILE"
+
+	# Else if non-symlink file exists, move to $OLD
+	elif [ -f "$DESTINATION_DIR/$FILE" ]; then
+		# Quick hack to make the parent folder
+		mkdir -p "$OLD/$FILE" && rmdir "$OLD/$FILE"
+
+		# Backup the file
+		mv "$DESTINATION_DIR/$FILE" "$OLD/$FILE"
 	fi
 
 	# Create symlink
@@ -60,9 +66,18 @@ create_symlink "fish" "$HOME/.config"
 create_symlink "monokai.vim" "$HOME/.vim/colors"
 
 # Neovim
-create_symlink "init.vim"    "$HOME/.config/nvim"
+create_symlink "init.lua"    "$HOME/.config/nvim"
 create_symlink "lua"         "$HOME/.config/nvim"
-create_symlink "vscode.nvim" "$HOME/.config/nvim/plug-plugins"
+
+# Customized Neovim VS Code Colorscheme
+VSCODE_LUA_PATH="$HOME/.config/nvim/plug-plugins"
+if [ -d "$VSCODE_LUA_PATH/vscode.nvim" ]; then
+	create_symlink "vscode.nvim/lua/vscode/colors.lua" "$VSCODE_LUA_PATH"
+	create_symlink "vscode.nvim/lua/vscode/theme.lua"  "$VSCODE_LUA_PATH"
+fi
+
+# Pip
+create_symlink "pip.conf"    "$HOME/.config/pip"
 
 
 # == Git Repositories ==
@@ -81,7 +96,6 @@ create_git_repo "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm"
 
 if [ ! -e "$HOME/.config/nvim/autoload/plug.vim" ]; then
 	curl -fLo "$HOME/.config/nvim/autoload/plug.vim" --create-dirs "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-	echo "Install nodejs, npm, and yarn for neovim"
 fi
 
 
@@ -94,7 +108,7 @@ touch ~/.hushlogin
 echo '-----'
 echo 'Done!'
 echo ''
-echo 'You may now need to install: fish, zsh, neovim, tmux, nodejs, npm, and yarn.'
+echo 'You may now need to install: fish, zsh, neovim, and tmux.'
 echo ''
 echo ''
 echo 'If italics are not working within tmux, you may need to run'

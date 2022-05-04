@@ -10,7 +10,7 @@ local generate = function()
 
 		 vscLeftDark = '#151516',
 		 vscLeftMid = '#20202A',
-		 vscLeftLight = '#6F6F76',
+		 vscLeftLight = '#5F5F66',
 
 		 vscPopupFront = '#BBBBBB',
 		 vscPopupBack = '#121212',
@@ -21,7 +21,7 @@ local generate = function()
 		 vscSplitDark = '#444444',
 		 vscSplitThumb = '#424242',
 
-		 vscCursorDarkDark = '#111111',
+		 vscCursorDarkDark = '#101010',
 		 vscCursorDark = '#51504F',
 		 vscCursorLight = '#AEAFAD',
 		 vscSelection = '#264F78',
