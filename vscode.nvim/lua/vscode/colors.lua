@@ -42,13 +42,14 @@ local generate = function()
 		 vscStatusNCForeground = '#20202A',
 
 		 -- Syntax colors
-		 vscGray = '#808080',
+		 vscLightGray = '#C0C0C0',
+		 vscGray = '#606060',
 		 vscViolet = '#646695',
 		 vscBlue = '#569CD6',
 		 vscDarkBlue = '#223E55',
 		 vscMediumBlue = '#18a2fe',
-		 vscLightBlue = '#9CDCFE',
-		 vscGreen = '#6A9955',
+		 vscLightBlue = '#8CCCEE',
+		 vscGreen = '#8BC9A3',
 		 vscBlueGreen = '#4EC9B0',
 		 vscLightGreen = '#B5CEA8',
 		 vscRed = '#F44747',
