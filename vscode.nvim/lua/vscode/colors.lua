@@ -49,14 +49,14 @@ local generate = function()
 		 vscDarkBlue = '#223E55',
 		 vscMediumBlue = '#18a2fe',
 		 vscLightBlue = '#8CCCEE',
-		 vscGreen = '#8BC9A3',
-		 vscBlueGreen = '#4EC9B0',
+		 vscGreen = '#85CEA0',
+		 vscBlueGreen = '#2EC9B5',
 		 vscLightGreen = '#B5CEA8',
 		 vscRed = '#F44747',
 		 vscOrange = '#CE9178',
 		 vscLightRed = '#D16969',
 		 vscYellowOrange = '#D7BA7D',
-		 vscYellow = '#DCDCAA',
+		 vscYellow = '#D5D5A3',
 		 vscPink = '#C586C0',
 	 }
 
