@@ -103,6 +103,15 @@ lsp_installer.on_server_ready(function(server)
 	server:setup(opts)
 end)
 
+require("null-ls").setup({
+	sources = {
+		require("null-ls").builtins.code_actions.shellcheck,
+		require("null-ls").builtins.diagnostics.shellcheck.with({
+			diagnostics_format = "[#{c}] #{m} (#{s})"
+		}),
+	},
+})
+
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 

@@ -7,10 +7,12 @@ vim.call('plug#begin', '~/.config/nvim/plug-plugins')
 Plug 'nvim-lua/plenary.nvim'
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 
+
 -- LSP Plugins --
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 
 
 -- Completion

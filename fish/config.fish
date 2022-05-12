@@ -16,4 +16,7 @@ if status is-interactive
 
 	source ~/.fishrc
 	fenv "source ~/.profile"
+
+	# Set colourscheme for command line
+	source ~/.config/fish/functions/fish_cli_colourscheme.fish && fish_cli_colourscheme
 end
