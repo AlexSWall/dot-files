@@ -370,6 +370,31 @@ local keymaps = {
 			nmap('<Leader>FP', ':Neoformat prettier<CR>')
 		end,
 
+		-- nvim-dap
+		--
+		--		<F1>, <F2>, <F3>, <F4>
+		--		<Leader>d[bBlr]
+		--
+		nvim_dap = function()
+			nmap('<F1>', ':lua require(\'dap\').step_into()<CR>')
+			nmap('<F2>', ':lua require(\'dap\').step_over()<CR>')
+			nmap('<F3>', ':lua require(\'dap\').step_out()<CR>')
+			nmap('<F4>', ':lua require(\'dap\').continue()<CR>')
+
+			nmap('<Leader>db', ':lua require(\'dap\').toggle_breakpoint()<CR>')
+			nmap('<Leader>dB', ':lua require(\'dap\').set_breakpoint(vim.fn.input(\'Breakpoint condition: \'))<CR>')
+			nmap('<Leader>dl', ':lua require(\'dap\').set_breakpoint(nil, nil, vim.fn.input(\'Log point message: \'))<CR>')
+			nmap('<Leader>dr', ':lua require(\'dap\').repl_open()<CR>')
+		end,
+
+		-- nvim-dap-go
+		--
+		--		<Leader>dg
+		--
+		nvim_dap_go = function()
+			nmap('<Leader>dg', ':lua require(\'dap-go\').debug_test()<CR>')
+		end,
+
 		-- Nvim-Tree
 		--
 		--		<Leader>n[acfhlv]
@@ -445,7 +470,7 @@ local keymaps = {
 				require('telescope.builtin').grep_string({search_dirs = {_path}, search=''})
 			end
 
-			nmap('<Leader>fa', '<cmd>lua require("telescope.builtin").grep_string({search=""})<CR>')
+			nmap('<Leader>fa', '<cmd>lua require("plugins.custom-telescope-cmds").fuzzy_search_text()<CR>')
 			nmap('<Leader>fA', ':lua telescope_live_grep_in_path()<CR>')
 			nmap('<Leader>fb', '<cmd>Telescope buffers<CR>')
 			nmap('<Leader>fd', '<cmd>Telescope diagnostics<CR>')

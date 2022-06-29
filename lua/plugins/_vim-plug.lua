@@ -15,6 +15,21 @@ Plug 'williamboman/nvim-lsp-installer'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 
 
+-- DAP Plugins
+
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
+
+Plug 'mfussenegger/nvim-dap-python'
+Plug 'leoluz/nvim-dap-go'
+
+
+-- Other Code-Aware Plugins
+
+Plug 'vim-test/vim-test'
+
+
 -- Completion
 
 Plug 'hrsh7th/nvim-cmp'
@@ -33,13 +48,6 @@ Plug 'onsails/lspkind-nvim'
 Plug 'folke/lua-dev.nvim'
 
 Plug 'ray-x/lsp_signature.nvim'
-
-
--- Coding Plugins
-
-Plug 'mfussenegger/nvim-dap'
-Plug 'mfussenegger/nvim-dap-python'
-Plug 'vim-test/vim-test'
 
 
 -- Visual Interface Plugins

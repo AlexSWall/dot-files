@@ -27,6 +27,9 @@ opt.completeopt = 'menuone,'     -- Give a menu even if there's only one option.
 cmd('filetype on')               -- Set the 'filetype' option on loading a file..
 cmd('filetype plugin on')        -- Look for filetype-specific setup in ./ftplugin/.
 
+vim.g.do_filetype_lua = 1        -- Enable Lua filetype detection (opt-in).
+vim.g.did_load_filetypes = 0     -- Disable builtin filetype detection.
+
 opt.tabpagemax = 50              -- Increase maximum number of tabs to 50.
 opt.cpoptions:append('y')        -- Add 'yank' (y) to commands that can be repeated with '.'.
 
@@ -40,8 +43,6 @@ opt.smartcase = true             -- Case-sensitive search when it includes upper
 opt.foldmethod = 'indent'
 opt.foldminlines = 0
 opt.foldlevel = 99
-
-opt.textwidth = 80
 
 
 --------------------------------------------------------------------------------

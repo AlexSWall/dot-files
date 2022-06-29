@@ -84,6 +84,16 @@ local enhance_server_opts = {
 				Threshold = 25
 			}
 		}
+	end,
+
+	['tsserver'] = function(opts)
+		opts.settings = {
+			tsserver = {
+				suggest = {
+					autoImports = true;
+				}
+			}
+		}
 	end
 }
 
@@ -92,7 +102,8 @@ lsp_installer.on_server_ready(function(server)
 	-- Default options used for setting up all servers
 	local opts = {
 		on_attach = on_attach,
-		capabilities = capabilities
+		capabilities = capabilities,
+		single_file_support = true
 	}
 
 	-- Add LSP Server-specific options
@@ -111,6 +122,26 @@ require("null-ls").setup({
 		}),
 	},
 })
+
+require('dapui').setup()
+require('dap').listeners.after.event_initialized['dapui_config'] = function() require('dapui').open()  end
+require('dap').listeners.before.event_terminated['dapui_config'] = function() require('dapui').close() end
+require('dap').listeners.before.event_exited['dapui_config']     = function() require('dapui').close() end
+
+require('nvim-dap-virtual-text').setup()
+
+-- -- dap-python.setup() takes the path to the python executable which has debugpy
+-- -- installed.
+-- require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
+-- table.insert(require('dap').configurations.python, {
+--   type = 'python',
+--   request = 'launch',
+--   name = 'My custom launch configuration',
+--   program = '${file}',
+--   -- ... more options, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings
+-- })
+
+require('dap-go').setup()
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')
@@ -145,6 +176,8 @@ cmp.setup({
 					behavior = cmp.ConfirmBehavior.Insert,
 					select = true,
 				}),
+			['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i','c'}),
+			['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i','c'}),
 			['<C-e>'] = cmp.mapping.close(),
 			['<C-c>'] = cmp.mapping.abort(),
 			['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -197,11 +230,11 @@ require("lsp_signature").setup({
 require('nvim-treesitter.configs').setup({
 	ensure_installed = { 'bash', 'c', 'comment', 'cpp', 'css', 'dockerfile', 'erlang', 'fish', 'go', 'gomod', 'haskell', 'html', 'java', 'javascript', 'json', 'latex', 'lua', 'make', 'markdown', 'php', 'python', 'rust', 'tsx', 'typescript', 'vim', 'yaml' },
 	highlight = {
-		enable = true,
+		enable = false,  -- Must be false for correct PHP indentation
 		additional_vim_regex_highlighting = false
 	},
 	indent = {
-		enable = true,
+		enable = false,  -- Must be false for correct PHP indentation
 		disable = { 'yaml' }
 	},
 	matchup = {
@@ -215,6 +248,18 @@ require('nvim-treesitter.configs').setup({
 
 local telescope = require('telescope')
 telescope.setup({
+   defaults = {
+		-- The default value:
+		vimgrep_arguments = {
+			"rg",
+			"--color=never",
+			"--no-heading",
+			"--with-filename",
+			"--line-number",
+			"--column",
+			"--smart-case"
+		}
+	},
 	extensions = {
 		["ui-select"] = {
 			require("telescope.themes").get_dropdown({})
