@@ -123,6 +123,10 @@ function fish_prompt
 	end
 
 
+	# SHLVL
+	_nim_prompt_wrapper $light_blue '' $SHLVL
+
+
 	# Virtual Environment
 	set -q VIRTUAL_ENV_DISABLE_PROMPT
 		or set -g VIRTUAL_ENV_DISABLE_PROMPT true

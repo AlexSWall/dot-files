@@ -25,7 +25,7 @@ local lsp_installer = require('nvim-lsp-installer')
 for _, name in pairs(servers) do
 	local server_is_found, server = lsp_installer.get_server(name)
 	if server_is_found and not server:is_installed() then
-		print("Installing " .. name)
+		print('Installing ' .. name)
 		server:install()
 	end
 end
@@ -67,7 +67,7 @@ local enhance_server_opts = {
 		}
 
 		-- Add lua-dev to the mix
-		local luadev = require("lua-dev").setup({})
+		local luadev = require('lua-dev').setup({})
 		for k,v in pairs(luadev) do opts[k] = v end
 	end,
 
@@ -114,11 +114,11 @@ lsp_installer.on_server_ready(function(server)
 	server:setup(opts)
 end)
 
-require("null-ls").setup({
+require('null-ls').setup({
 	sources = {
-		require("null-ls").builtins.code_actions.shellcheck,
-		require("null-ls").builtins.diagnostics.shellcheck.with({
-			diagnostics_format = "[#{c}] #{m} (#{s})"
+		require('null-ls').builtins.code_actions.shellcheck,
+		require('null-ls').builtins.diagnostics.shellcheck.with({
+			diagnostics_format = '[#{c}] #{m} (#{s})'
 		}),
 	},
 })
@@ -166,7 +166,7 @@ luasnip.snippets = {
 	lua = {
 		luasnip.parser.parse_snippet('expand', '-- This is what was expanded'),
 		luasnip.parser.parse_snippet('lf', 'local $1 = function($2)\n\t$0\nend'),
-		s('req', fmt("local {} = require('{}')", { i(1, "default"), rep(1) }))
+		s('req', fmt("local {} = require('{}')", { i(1, 'default'), rep(1) }))
 	}
 }
 
@@ -219,7 +219,7 @@ cmp.setup({
 		}
 })
 
-require("lsp_signature").setup({
+require('lsp_signature').setup({
 	hint_enable = false,
 	floating_window_above_cur_line = false,
 	transparency = 30,
@@ -227,6 +227,7 @@ require("lsp_signature").setup({
 	floating_window_off_y = -4,
 })
 
+require 'nvim-treesitter.install'.compilers = { 'clang' }
 require('nvim-treesitter.configs').setup({
 	ensure_installed = { 'bash', 'c', 'comment', 'cpp', 'css', 'dockerfile', 'erlang', 'fish', 'go', 'gomod', 'haskell', 'html', 'java', 'javascript', 'json', 'latex', 'lua', 'make', 'markdown', 'php', 'python', 'rust', 'tsx', 'typescript', 'vim', 'yaml' },
 	highlight = {
@@ -251,71 +252,76 @@ telescope.setup({
    defaults = {
 		-- The default value:
 		vimgrep_arguments = {
-			"rg",
-			"--color=never",
-			"--no-heading",
-			"--with-filename",
-			"--line-number",
-			"--column",
-			"--smart-case"
+			'rg',
+			'--color=never',
+			'--no-heading',
+			'--with-filename',
+			'--line-number',
+			'--column',
+			'--smart-case'
 		}
 	},
 	extensions = {
-		["ui-select"] = {
-			require("telescope.themes").get_dropdown({})
+		['ui-select'] = {
+			require('telescope.themes').get_dropdown({})
 		},
 		fzf = {
 			fuzzy = true,                    -- false will only do exact matching
 			override_generic_sorter = true,  -- override the generic sorter
 			override_file_sorter = true,     -- override the file sorter
-			case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-			-- the default case_mode is "smart_case"
+			case_mode = 'smart_case',        -- or 'ignore_case' or 'respect_case'
+			-- the default case_mode is 'smart_case'
 		}
 	}
 })
 
-telescope.load_extension('fzf')
+-- telescope.load_extension('fzf')
 telescope.load_extension('ui-select')
-telescope.load_extension("file_browser")
+telescope.load_extension('file_browser')
 
 require'nvim-tree'.setup({
-	hijack_cursor = true
+	hijack_cursor = true,
+	filters = {
+		custom = {
+			'^.*\\.pyc$'
+		}
+	}
 })
 
-require('gitsigns').setup({
-	on_attach = function(bufnr)
-		local gs = package.loaded.gitsigns
+-- require('gitsigns').setup({
+-- 	on_attach = function(bufnr)
+-- 		local gs = package.loaded.gitsigns
 
-		local function map(l, r, opts)
-			opts = opts or {}
-			opts.buffer = bufnr
-			vim.keymap.set('n', l, r, opts)
-		end
+-- 		local function map(l, r, opts)
+-- 			opts = opts or {}
+-- 			opts.buffer = bufnr
+-- 			vim.keymap.set('n', l, r, opts)
+-- 		end
 
-		map('<leader>gj', gs.next_hunk)
-		map('<leader>gk', gs.prev_hunk)
-		map('<leader>gp', gs.preview_hunk)
-		map('<leader>gd', gs.diffthis)
-		map('<leader>gr', gs.reset_hunk)
-		map('<leader>gt', gs.toggle_deleted)
-		map('<leader>gb', gs.toggle_current_line_blame)
+-- 		map('<leader>gj', gs.next_hunk)
+-- 		map('<leader>gk', gs.prev_hunk)
+-- 		map('<leader>gp', gs.preview_hunk)
+-- 		map('<leader>gd', gs.diffthis)
+-- 		map('<leader>gr', gs.reset_hunk)
+-- 		map('<leader>gt', gs.toggle_deleted)
+-- 		map('<leader>gb', gs.toggle_current_line_blame)
 
-		map('<Leader>]', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-		map('<Leader>[', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
-	end
-})
+-- 		map('<Leader>]', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+-- 		map('<Leader>[', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+-- 	end
+-- })
 
 -- require('bufferline').setup {
 -- 	options = {
 -- 		mode = 'buffers',
 -- 		offsets = {
 -- 			{
--- 				filetype = "NvimTree",
+-- 				filetype = 'NvimTree',
 -- 				text = function()
 -- 					return vim.fn.getcwd()
 -- 				end,
--- 				highlight = "Directory",
--- 				text_align = "left"
+-- 				highlight = 'Directory',
+-- 				text_align = 'left'
 -- 			}
 -- 		},
 -- 		show_buffer_icons = false,
@@ -348,12 +354,12 @@ require('colorizer').setup({}, {
 	names = false
 })
 
-local true_zen = require("true-zen")
+local true_zen = require('true-zen')
 
 true_zen.setup({
 	integrations = {
 		tmux = true,
-		gitsigns = true,
+		-- gitsigns = true,
 		limelight = true
 	}
 })
@@ -383,32 +389,32 @@ require('indent_blankline').setup({
 })
 
 require('nvim-lastplace').setup({
-    lastplace_ignore_buftype = {"quickfix", "nofile", "help"},
+    lastplace_ignore_buftype = {'quickfix', 'nofile', 'help'},
     -- lastplace_ignore_filetype = {},
     lastplace_open_folds = true
 })
 
-require('neoscroll').setup({
-	-- easing_function = 'quadratic'
-	mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>', 'zt', 'zz', 'zb'},
-})
+-- require('neoscroll').setup({
+-- 	-- easing_function = 'quadratic'
+-- 	mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>', 'zt', 'zz', 'zb'},
+-- })
 
-require('neoscroll.config').set_mappings({
-	['<C-u>'] = {'scroll', {'-vim.wo.scroll', 'true', '70'}},
-	['<C-d>'] = {'scroll', { 'vim.wo.scroll', 'true', '70'}},
-	['<C-b>'] = {'scroll', {'-vim.api.nvim_win_get_height(0)', 'true', '140'}},
-	['<C-f>'] = {'scroll', { 'vim.api.nvim_win_get_height(0)', 'true', '140'}},
-	['zt']    = {'zt', {'70'}},
-	['zz']    = {'zz', {'70'}},
-	['zb']    = {'zb', {'70'}}
-})
+-- require('neoscroll.config').set_mappings({
+-- 	['<C-u>'] = {'scroll', {'-vim.wo.scroll', 'true', '70'}},
+-- 	['<C-d>'] = {'scroll', { 'vim.wo.scroll', 'true', '70'}},
+-- 	['<C-b>'] = {'scroll', {'-vim.api.nvim_win_get_height(0)', 'true', '140'}},
+-- 	['<C-f>'] = {'scroll', { 'vim.api.nvim_win_get_height(0)', 'true', '140'}},
+-- 	['zt']    = {'zt', {'70'}},
+-- 	['zz']    = {'zz', {'70'}},
+-- 	['zb']    = {'zb', {'70'}}
+-- })
 
-require("toggleterm").setup({
+require('toggleterm').setup({
   -- size can be a number or function which is passed the current terminal
   size = function(term)
-    if term.direction == "horizontal" then
+    if term.direction == 'horizontal' then
       return 15
-    elseif term.direction == "vertical" then
+    elseif term.direction == 'vertical' then
       return vim.o.columns * 0.4
     end
   end,
