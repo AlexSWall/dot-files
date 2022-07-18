@@ -6,6 +6,7 @@ vim.call('plug#begin', '~/.config/nvim/plug-plugins')
 
 Plug 'nvim-lua/plenary.nvim'
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
+Plug 'nvim-treesitter/playground'
 
 
 -- LSP Plugins --

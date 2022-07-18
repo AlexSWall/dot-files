@@ -66,6 +66,7 @@ g.relative_number_toggle_ignore_list = {
 	'Outline',
 	'toggleterm',
 	'TelescopePrompt',
+	'tsplayground'
 }                                -- (Used by auto number-toggle below)
 g.number_toggle_on = true        -- (Used by set number-toggle below)
 

@@ -1,9 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# Immediately error on command execution failure.
+set -e
+
 
 echo '-----'
-echo 'You need to ensure git and curl are installed.'
+echo 'You need to ensure git, curl, and neovim (nvim) are installed.'
 echo ''
-read -p 'If/when these are installed, please press enter...'
+read -r -p 'If/when these are installed, please press enter...'
 echo '-----'
 echo 'Installing...'
 
@@ -14,27 +18,31 @@ mkdir -p "$OLD"
 
 create_symlink () {
 	# Arguments
-	local FILE="$1"
+	local DOT_FILES_DIR="$PWD"
+	local SRC_PATH="$1"
 	local DESTINATION_DIR="$2"
+
+	local FILENAME
+	FILENAME="$(basename "$SRC_PATH")"
 
 	# Create destination directory if needed
 	mkdir -p "$DESTINATION_DIR"
 
 	# If a symlink exists, delete it
-	if [ -L "$DESTINATION_DIR/$FILE" ]; then
-		rm "$DESTINATION_DIR/$FILE"
+	if [ -L "$DESTINATION_DIR/$FILENAME" ]; then
+		rm "$DESTINATION_DIR/$FILENAME"
 
 	# Else if non-symlink file exists, move to $OLD
-	elif [ -f "$DESTINATION_DIR/$FILE" ]; then
+	elif [ -f "$DESTINATION_DIR/$FILENAME" ]; then
 		# Quick hack to make the parent folder
-		mkdir -p "$OLD/$FILE" && rmdir "$OLD/$FILE"
+		mkdir -p "$OLD/$FILENAME" && rmdir "$OLD/$FILENAME"
 
 		# Backup the file
-		mv "$DESTINATION_DIR/$FILE" "$OLD/$FILE"
+		mv "$DESTINATION_DIR/$FILENAME" "$OLD/$FILENAME"
 	fi
 
 	# Create symlink
-	ln -s "$PWD/$FILE" "$DESTINATION_DIR/$FILE"
+	ln -s "$DOT_FILES_DIR/$SRC_PATH" "$DESTINATION_DIR/$FILENAME"
 }
 
 create_git_repo () {
@@ -49,35 +57,31 @@ create_git_repo () {
 
 # == Symlinks ==
 
-# Bash, Zsh, Vim, Tmux, and Git
-for f in .profile .bash_profile .zshenv .shrc .bashrc .zshrc .fishrc .aliases .vimrc .tmux.conf .tmux.remote.conf .tmux.reset.conf .gitconfig
+# Bash, Zsh, Fish, Vim, Tmux, and Git
+for f in \
+	'./sh/.profile' './sh/.shrc' './sh/.aliases' \
+	'./bash/.bash_profile' './bash/.bashrc' \
+	'./zsh/.zshenv' './zsh/.zshrc' \
+	'./fish/.fishrc' \
+	'./vim/.vimrc' \
+	'./tmux/.tmux.conf' './tmux/.tmux.remote.conf' './tmux/.tmux.reset.conf' \
+	'./git/.gitconfig'
 do
 	create_symlink "$f" "$HOME"
 done
 
-# Prompt host string
-touch "./host.txt"
-create_symlink "host.txt" "$HOME/.config"
-
-# Fish
-create_symlink "fish" "$HOME/.config"
-
-# Vim/Neovim Monokai
-create_symlink "monokai.vim" "$HOME/.vim/colors"
+# Fish Directory
+create_symlink "./fish/fish" "$HOME/.config"
 
 # Neovim
-create_symlink "init.lua"    "$HOME/.config/nvim"
-create_symlink "lua"         "$HOME/.config/nvim"
+create_symlink "./neovim/init.lua"    "$HOME/.config/nvim"
+create_symlink "./neovim/lua"         "$HOME/.config/nvim"
 
-# Customized Neovim VS Code Colorscheme
-VSCODE_LUA_PATH="$HOME/.config/nvim/plug-plugins"
-if [ -d "$VSCODE_LUA_PATH/vscode.nvim" ]; then
-	create_symlink "vscode.nvim/lua/vscode/colors.lua" "$VSCODE_LUA_PATH"
-	create_symlink "vscode.nvim/lua/vscode/theme.lua"  "$VSCODE_LUA_PATH"
-fi
+# Vim Monokai
+create_symlink "./vim/monokai.vim" "$HOME/.vim/colors"
 
 # Pip
-create_symlink "pip.conf"    "$HOME/.config/pip"
+create_symlink "./pip/pip.conf"    "$HOME/.config/pip"
 
 
 # == Git Repositories ==
@@ -98,11 +102,21 @@ if [ ! -e "$HOME/.config/nvim/autoload/plug.vim" ]; then
 	curl -fLo "$HOME/.config/nvim/autoload/plug.vim" --create-dirs "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 fi
 
+nvim +'PlugInstall --sync' +qa
 
 # == Miscellaneous ==
 
+# Prompt host string
+touch "./host.txt"
+create_symlink "host.txt" "$HOME/.config"
+
+# Remove shell login spam
 touch ~/.hushlogin
 
+# Remove the $OLD directory if it's empty.
+if [ -z "$(ls -A "$OLD")" ]; then
+   rmdir "$OLD"
+fi
 
 # == Finished ==
 echo '-----'

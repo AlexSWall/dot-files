@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# For prompt.
+# For prompt; used in .bashrc and .zshrc
 HOST=$(cat ~/.config/host.txt)
 
 # Reset aliases to avoid them ruining .bashrc setup.
@@ -98,4 +98,3 @@ unalias -a
 	[ -f ~/.profile ]       && source ~/.profile
 	[ -f ~/.aliases ]       && source ~/.aliases
 	[ -f ~/.local_aliases ] && source ~/.local_aliases
-

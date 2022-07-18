@@ -66,7 +66,7 @@ function poptmp () {
 }
 
 function up () {
-	cd $(printf '../%.0s' $(seq 1 $1))
+	cd "$(printf '../%.0s' $(seq 1 "$1"))" || exit
 }
 
 function vim-open () {
@@ -92,9 +92,9 @@ function vim-open () {
 		FILES="$(find "$DIRECTORY" -name "$REGEX_OR_GLOB" -type f 2>/dev/null)"
 	fi
 
-	if [[ ! -z "$FILES" ]]
+	if [[ -n "$FILES" ]]
 	then
-		vim $(echo $FILES)
+		vim $FILES
 	else
 		echo 'No matches'
 	fi

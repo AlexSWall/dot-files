@@ -429,3 +429,79 @@ require('nvim-treesitter.configs').setup({
     enable = true
   }
 })
+
+
+vim.o.background = 'dark'
+
+local vscode_colourscheme_colour_overrides = {
+	vscFront = '#D1D0D0',
+	vscBack = '#121212',
+	vscTabCurrent = '#0E0E0E',
+	vscTabOther = '#222222',
+	vscTabOutside = '#151516',
+
+	vscLeftDark = '#151516',
+	vscLeftMid = '#20202A',
+	vscLeftLight = '#5F5F66',
+
+	vscPopupBack = '#121212',
+	vscPopupHighlightGray = '#2b3034',
+
+	vscCursorDarkDark = '#101010',
+
+	vscSearchCurrent = '#4B5632',
+	vscSearch = '#264F78',
+
+	vscGray = '#606060',
+
+	vscLightBlue = '#8CCCEE',
+	vscGreen = '#85CEA0',
+	vscBlueGreen = '#2EC9B5',
+	vscOrange = '#CE9178',  -- Only needed due to specifying it in group_overrides
+	vscYellow = '#D5D5A3',
+
+
+	vscFoldBackground = '#121212',
+
+	vscHoverText = '#203845',
+	vscLightGray = '#C0C0C0',
+
+	vscStatusForeground = '#CCCCCC',
+	vscStatusBackground = '#191919',
+	vscStatusNCForeground = '#20202A',
+}
+
+local c = vscode_colourscheme_colour_overrides
+
+require('vscode').setup({
+	italic_comments = true,
+
+	-- Enable transparent background
+	transparent = true,
+
+	-- Disable nvim-tree background color
+	disable_nvimtree_bg = true,
+
+	-- Override colors
+	color_overrides = vscode_colourscheme_colour_overrides,
+
+	-- Override highlight groups
+	group_overrides = {
+		StatusLine     = { fg = c.vscStatusForeground, bg = c.vscStatusBackground },
+		StatusLineNC   = { fg = c.vscStatusNCForeground, bg = c.vscBack },
+		Folded         = { fg = c.vscLeftLight, bg = c.vscFoldBackground },
+		Comment        = { fg = c.vscGray, bg = 'NONE', italic = true },
+		SpecialComment = { fg = c.vscGray, bg = 'NONE' },
+		String         = { fg = c.vscGreen, bg = 'NONE' },
+		Character      = { fg = c.vscGreen, bg = 'NONE' },
+		Number         = { fg = c.vscOrange, bg = 'NONE' },
+		Float          = { fg = c.vscOrange, bg = 'NONE' },
+		TSStringRegex  = { fg = c.vscGreen, bg = 'NONE' },
+		TSString       = { fg = c.vscGreen, bg = 'NONE' },
+		TSCharacter    = { fg = c.vscGreen, bg = 'NONE' },
+		TSNumer        = { fg = c.vscOrange, bg = 'NONE' },
+
+		-- CursorLine = { bg = c.vscHoverText }
+		-- MatchParen = { fg = c.vscPink, bg = c.vscBack }
+	}
+})
