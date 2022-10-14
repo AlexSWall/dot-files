@@ -60,15 +60,15 @@ create_git_repo () {
 
 # == Symlinks ==
 
-# Bash, Zsh, Fish, Vim, Tmux, and Git
+# Bash, Zsh, Fish, Tmux, and Git
 for f in \
 	'./sh/.profile' './sh/.shrc' './sh/.aliases' \
 	'./bash/.bash_profile' './bash/.bashrc' \
 	'./zsh/.zshenv' './zsh/.zshrc' \
 	'./fish/.fishrc' \
-	'./vim/.vimrc' \
 	'./tmux/.tmux.conf' './tmux/.tmux.inner.conf' './tmux/.tmux.reset.conf' \
-	'./git/.gitconfig'
+	'./git/.gitconfig' \
+	# './vim/.vimrc'
 do
 	create_symlink "$f" "$HOME"
 done
@@ -81,7 +81,7 @@ create_symlink "./neovim/init.lua" "$HOME/.config/nvim"
 create_symlink "./neovim/lua"      "$HOME/.config/nvim"
 
 # Vim Monokai
-create_symlink "./vim/monokai.vim" "$HOME/.vim/colors"
+# create_symlink "./vim/monokai.vim" "$HOME/.vim/colors"
 
 # Pip
 create_symlink "./pip/pip.conf"    "$HOME/.config/pip"
