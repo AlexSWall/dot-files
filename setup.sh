@@ -7,6 +7,8 @@ set -e
 echo '-----'
 echo 'You need to ensure git, curl, and neovim (nvim) are installed.'
 echo ''
+echo "For installing all LSP servers, you'll also need to install npm."
+echo ''
 read -r -p 'If/when these are installed, please press enter...'
 echo '-----'
 echo 'Installing...'
@@ -55,6 +57,7 @@ create_git_repo () {
 	fi
 }
 
+
 # == Symlinks ==
 
 # Bash, Zsh, Fish, Vim, Tmux, and Git
@@ -64,24 +67,27 @@ for f in \
 	'./zsh/.zshenv' './zsh/.zshrc' \
 	'./fish/.fishrc' \
 	'./vim/.vimrc' \
-	'./tmux/.tmux.conf' './tmux/.tmux.remote.conf' './tmux/.tmux.reset.conf' \
+	'./tmux/.tmux.conf' './tmux/.tmux.inner.conf' './tmux/.tmux.reset.conf' \
 	'./git/.gitconfig'
 do
 	create_symlink "$f" "$HOME"
 done
 
 # Fish Directory
-create_symlink "./fish/fish" "$HOME/.config"
+create_symlink "./fish/fish"       "$HOME/.config"
 
 # Neovim
-create_symlink "./neovim/init.lua"    "$HOME/.config/nvim"
-create_symlink "./neovim/lua"         "$HOME/.config/nvim"
+create_symlink "./neovim/init.lua" "$HOME/.config/nvim"
+create_symlink "./neovim/lua"      "$HOME/.config/nvim"
 
 # Vim Monokai
 create_symlink "./vim/monokai.vim" "$HOME/.vim/colors"
 
 # Pip
 create_symlink "./pip/pip.conf"    "$HOME/.config/pip"
+
+# Python
+create_symlink "./python/pyflyby"  "$HOME/.config/pyflyby"
 
 
 # == Git Repositories ==
@@ -95,14 +101,6 @@ create_git_repo "https://github.com/zsh-users/zsh-syntax-highlighting" "$HOME/.z
 # Tmux Package Manager (TPM)
 create_git_repo "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm"
 
-
-# == Neovim Plugins ==
-
-if [ ! -e "$HOME/.config/nvim/autoload/plug.vim" ]; then
-	curl -fLo "$HOME/.config/nvim/autoload/plug.vim" --create-dirs "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-fi
-
-nvim +'PlugInstall --sync' +qa
 
 # == Miscellaneous ==
 
@@ -118,12 +116,18 @@ if [ -z "$(ls -A "$OLD")" ]; then
    rmdir "$OLD"
 fi
 
+
 # == Finished ==
+
 echo '-----'
 echo 'Done!'
 echo ''
 echo 'You may now need to install: fish, zsh, neovim, and tmux.'
 echo ''
+echo "For installing all LSP servers, you'll also need to install npm."
+echo ''
+echo 'For full Python support, you will need pyflyby, black, flake8, isort, and pyquotes (pip-)installed.'
+echo 'You may also need pylint and mccabe.'
 echo ''
 echo 'If italics are not working within tmux, you may need to run'
 echo ''

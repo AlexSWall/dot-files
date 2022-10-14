@@ -14,6 +14,10 @@ if status is-interactive
 	bind -M insert \r execute_command_hook
 	bind -M insert \n execute_command_hook
 
+	# Expand abbreviation without trailing space via Ctrl-Space.
+	#bind -k nul expand-abbr
+	#bind -M insert -k nul expand-abbr
+
 	source ~/.fishrc
 	fenv "source ~/.profile"
 

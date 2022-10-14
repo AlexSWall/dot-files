@@ -95,6 +95,5 @@ unalias -a
 : # Includes
   # --------
 
-	[ -f ~/.profile ]       && source ~/.profile
 	[ -f ~/.aliases ]       && source ~/.aliases
 	[ -f ~/.local_aliases ] && source ~/.local_aliases

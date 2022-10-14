@@ -38,7 +38,7 @@
 	WORDCHARS=${WORDCHARS//\/}
 	WORDCHARS=${WORDCHARS/\/}
 
-	# Add tab completition
+	# Add tab completion
 	autoload -Uz compinit
 	compinit -d ~/.cache/zcompdump
 	zstyle ':completion:*:*:*:*:*' menu select
@@ -139,10 +139,4 @@
 			ZSH_HIGHLIGHT_STYLES[bracket-level-5]=fg=cyan,bold
 			ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]=standout
 		fi
-
-
-: # Includes
-  # --------
-
-	[ -f ~/.zshenv ]        && source ~/.zshenv
 

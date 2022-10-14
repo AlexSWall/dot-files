@@ -30,10 +30,6 @@
 -- 		block sequentially.
 --
 -- Plugins
--- 	<Leader>bd
--- 		Sayonara buffer delete
--- 	<Leader>m
--- 		Toggle maximize
 -- 	<Leader>FP
 -- 		Neoformat
 -- 	<Ctrl>q
@@ -49,72 +45,12 @@
 -- 	<Leader>tW
 -- 		Turn trailing-whitespace highlighting on and off
 
---------------------------------------------------------------------------------
---      Leader Key
---------------------------------------------------------------------------------
-
-vim.g.mapleader = ' '
-
-
---------------------------------------------------------------------------------
---      Keymapping Helpers
---------------------------------------------------------------------------------
-
-local _helpers = {
-
-	map = function(mode, shortcut, command)
-		vim.api.nvim_set_keymap(mode, shortcut, command,
-			{ noremap = true, silent = true })
-	end,
-
-	map_expr = function(mode, shortcut, command)
-		vim.api.nvim_set_keymap(mode, shortcut, command,
-			{ noremap = true, silent = true, expr = true })
-	end
-
-}
-
-local helpers = {
-
-	map_expr = _helpers.map_expr,
-
-	nmap = function(shortcut, command)
-		_helpers.map('n', shortcut, command)
-	end,
-
-	nmap_expr = function(shortcut, command)
-		_helpers.map_expr('n', shortcut, command)
-	end,
-
-	vmap = function(shortcut, command)
-		_helpers.map('v', shortcut, command)
-	end,
-
-	vmap_expr = function(shortcut, command)
-		_helpers.map_expr('v', shortcut, command)
-	end,
-
-	tmap = function(shortcut, command)
-		_helpers.map('t', shortcut, command)
-	end,
-
-	xmap = function(shortcut, command)
-		_helpers.map('x', shortcut, command)
-	end
-
-}
-
-local keymap = vim.api.nvim_set_keymap
-local nmap = helpers.nmap
-local nmap_expr = helpers.nmap_expr
-local vmap = helpers.vmap
-local tmap = helpers.tmap
-local xmap = helpers.xmap
-
-
---------------------------------------------------------------------------------
---      Keymappings
---------------------------------------------------------------------------------
+local keymap_utils = require('utils.keymap')
+local keymap    = keymap_utils.keymap
+local nmap      = keymap_utils.nmap
+local nmap_expr = keymap_utils.nmap_expr
+local vmap      = keymap_utils.vmap
+local tmap      = keymap_utils.tmap
 
 local keymaps = {
 
@@ -127,8 +63,8 @@ local keymaps = {
 			keymap('v', ';', ':', { noremap = true })
 			-- We remap : to <Plug>Sneak_; later
 
-			-- Set <Esc> to go to normal mode in :term (instead of quitting)
-			tmap('<Esc>', '<C-\\><C-n>')
+			-- Set <Esc><Esc> to go to normal mode in :term
+			tmap('<Esc><Esc>', '<C-\\><C-n>')
 
 			-- Write and quit.
 			nmap('<leader>w', ':w<CR>')
@@ -260,8 +196,7 @@ local keymaps = {
 
 		complex_functionality = function()
 
-			-- Use <Leader>d etc. to yank text into the yank register before
-			-- deleting it.
+			-- Use d to yank text beforehand.
 			nmap('<Leader>dd', 'dd:let @0=@"<CR>')
 			nmap('<Leader>D', 'D:let @0=@"<CR>')
 			vmap('<Leader>d', 'd:let @0=@"<CR>')
@@ -288,167 +223,33 @@ local keymaps = {
 			nmap('<Leader>0',
 				':Gitsigns detach<CR>' ..
 				':set nonumber norelativenumber nolinebreak nobreakindent signcolumn=no showbreak= <CR>' ..
-				':call SetNumberToggle(\'disable\')<CR>')
+				':lua require("functions.relative-number-toggle").set_number_toggle("disable")<CR>')
 			--
-			-- Reenable GUI
+			-- Re-enable GUI
 			nmap('<Leader><Leader>0',
 				':Gitsigns attach<CR>' ..
 				':set number relativenumber linebreak breakindent signcolumn=yes showbreak=↪\\ <CR>' ..
-				':call SetNumberToggle(\'enable\')<CR>')
+				':lua require("functions.relative-number-toggle").set_number_toggle("enable")<CR>')
 
 		end,
 
 		visual = function()
 
-			nmap('<Leader>tw', ':highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue<CR>')
+			nmap('<Leader>tw', ':highlight ExtraWhitespace guibg=#223E55<CR>')
 			nmap('<Leader>tW', ':highlight ExtraWhitespace NONE<CR>')
 
 		end
 
 	},
 
-	plugins = {
+	custom = {
 
-		-- Easy Align
+		-- Python Post-Process
 		--
-		--		ga
+		--		<Leader><Leader>p
 		--
-		easy_align = function()
-			-- Interactive visual mode (e.g. vipga).
-			xmap('ga', '<Plug>(EasyAlign)')
-
-			-- Interactive for a motion/text object (e.g. gaip).
-			nmap('ga', '<Plug>(EasyAlign)')
-		end,
-
-		-- Easymotion
-		--
-		--		<Leader><Leader>[swef...]
-		--
-		easy_motion = function()
-		end,
-
-		-- LuaSnip
-		--
-		--		<C-[jkl]>
-		--
-		lua_snip = function()
-			local luasnip = require('luasnip')
-
-			vim.keymap.set({'i', 's'}, '<C-k>', function()
-				if luasnip.expand_or_jumpable() then
-					luasnip.expand_or_jump()
-				end
-				end, { silent = true })
-
-			vim.keymap.set({'i', 's'}, '<C-j>', function()
-				if luasnip.jumpable(-1) then
-					luasnip.jump(-1)
-				end
-				end, { silent = true })
-
-			vim.keymap.set('i', '<C-l>', function()
-				if luasnip.choice_active() then
-					luasnip.change_choice(1)
-				end
-				end, { silent = true })
-		end,
-
-		-- Maximizer
-		--
-		--		<Leader>m
-		--
-		maximizer = function()
-			nmap('<Leader>m', ':MaximizerToggle!<CR>')
-		end,
-
-		-- Neoformat
-		--
-		--		<Leader>FP
-		--
-		neoformat = function()
-			nmap('<Leader>FP', ':Neoformat prettier<CR>')
-		end,
-
-		-- nvim-dap
-		--
-		--		<F1>, <F2>, <F3>, <F4>
-		--		<Leader>d[bBlr]
-		--
-		nvim_dap = function()
-			nmap('<F1>', ':lua require(\'dap\').step_into()<CR>')
-			nmap('<F2>', ':lua require(\'dap\').step_over()<CR>')
-			nmap('<F3>', ':lua require(\'dap\').step_out()<CR>')
-			nmap('<F4>', ':lua require(\'dap\').continue()<CR>')
-
-			nmap('<Leader>db', ':lua require(\'dap\').toggle_breakpoint()<CR>')
-			nmap('<Leader>dB', ':lua require(\'dap\').set_breakpoint(vim.fn.input(\'Breakpoint condition: \'))<CR>')
-			nmap('<Leader>dl', ':lua require(\'dap\').set_breakpoint(nil, nil, vim.fn.input(\'Log point message: \'))<CR>')
-			nmap('<Leader>dr', ':lua require(\'dap\').repl_open()<CR>')
-		end,
-
-		-- nvim-dap-go
-		--
-		--		<Leader>dg
-		--
-		nvim_dap_go = function()
-			nmap('<Leader>dg', ':lua require(\'dap-go\').debug_test()<CR>')
-		end,
-
-		-- Nvim-Tree
-		--
-		--		<Leader>n[acfhlv]
-		--
-		nvim_tree = function()
-			nmap('<Leader>nf', '<cmd>NvimTreeToggle<CR>')
-			nmap('<Leader>nv', '<cmd>NvimTreeFindFile<CR>')
-			nmap('<Leader>nh', '<cmd>NvimTreeResize -10<CR>')
-			nmap('<Leader>nl', '<cmd>NvimTreeResize +10<CR>')
-			nmap('<Leader>nc', '<cmd>NvimTreeCollapse<CR>')
-			nmap('<Leader>na', '<cmd>NvimTreeCollapseKeepBuffers<CR>')
-		end,
-
-		-- Toggleterm
-		--
-		--		<Ctrl>-q
-		--    <Leader>tt
-		toggleterm = function()
-			nmap('<Leader>TT', '<cmd>ToggleTerm direction=float<CR>')
-			nmap('<Leader>TL', '<cmd>ToggleTerm direction=vertical<CR>')
-		end,
-
-		-- Sayonara
-		--
-		--    <Leader>bd
-		--
-		sayonara = function()
-			nmap('<Leader>bd', '<cmd>Sayonara!<CR>')
-		end,
-
-		-- Sideways
-		--
-		--    <Leader><Leader>[hl]
-		--
-		sideways = function()
-			nmap('<Leader><Leader>h', '<cmd>SidewaysLeft<CR>')
-			nmap('<Leader><Leader>l', '<cmd>SidewaysRight<CR>')
-		end,
-
-		-- Sneak
-		--
-		--    s
-		--
-		sneak = function()
-			keymap('n', ':', '<Plug>Sneak_;', { noremap = true })
-			keymap('v', ':', '<Plug>Sneak_;', { noremap = true })
-		end,
-
-		-- Symbols Outline
-		--
-		--		<Leader>s
-		--
-		symbols_outline = function()
-			nmap('<Leader>s', ':SymbolsOutline<CR>')
+		python_post_process = function()
+			vim.keymap.set({'n'}, '<Leader><Leader>p', require("functions.python-post-process").python_post_process, { silent = true })
 		end,
 
 		-- Tmux Yank
@@ -456,77 +257,9 @@ local keymaps = {
 		--		<Leader>y
 		--
 		tmux_yank = function()
-			vim.keymap.set('v', '<Leader>y', require("functions.tmux-yank").tmux_yank, { silent = true })
+			vmap('<Leader>y', require('functions.tmux-yank').tmux_yank)
 		end,
-
-		-- Telescope
-		--
-		--		<Leader>f[abfgvrA]
-		--
-		telescope = function()
-
-			_G.telescope_live_grep_in_path = function(path)
-				local _path = path or vim.fn.input('Dir: ', '',  'dir')
-				require('telescope.builtin').grep_string({search_dirs = {_path}, search=''})
-			end
-
-			nmap('<Leader>fa', '<cmd>lua require("plugins.custom-telescope-cmds").fuzzy_search_text()<CR>')
-			nmap('<Leader>fA', ':lua telescope_live_grep_in_path()<CR>')
-			nmap('<Leader>fb', '<cmd>Telescope buffers<CR>')
-			nmap('<Leader>fd', '<cmd>Telescope diagnostics<CR>')
-			nmap('<Leader>fe', '<cmd>Telescope file_browser<CR>')
-			nmap('<Leader>ff', '<cmd>Telescope find_files<CR>')
-			nmap('<Leader>fg', '<cmd>Telescope git_files<CR>')
-			nmap('<Leader>fk', '<cmd>Telescope keymaps<CR>')
-			nmap('<Leader>fm', '<cmd>Telescope keymaps<CR>')
-			nmap('<Leader>fr', '<cmd>Telescope registers<CR>')
-			nmap('<Leader>fs', '<cmd>Telescope grep_string<CR>')
-		end,
-
-		-- Vim-Test
-		--
-		--		<Leader>t[tfslv]
-		--
-		test = function()
-			nmap('<Leader>tt', '<cmd>TestNearest<CR>')
-			nmap('<Leader>tf', '<cmd>TestFile<CR>')
-			nmap('<Leader>ts', '<cmd>TestSuite<CR>')
-			nmap('<Leader>tl', '<cmd>TestLast<CR>')
-			nmap('<Leader>tv', '<cmd>TestVisit<CR>')
-		end,
-
-		-- Tmux Navigator
-		--
-		--		Alt-[hjkl]
-		--
-		tmux_navigator = function()
-			vim.g.tmux_navigator_no_mappings = 1
-
-			nmap('<M-h>', ':TmuxNavigateLeft<CR>')
-			nmap('<M-j>', ':TmuxNavigateDown<CR>')
-			nmap('<M-k>', ':TmuxNavigateUp<CR>')
-			nmap('<M-l>', ':TmuxNavigateRight<CR>')
-			nmap('<M-\\>', ':TmuxNavigatePrevious<CR>')
-		end,
-
-		-- TrueZen
-		--
-		--		<Leader>tz
-		--
-		true_zen = function()
-			nmap('<Leader>tz', '<cmd>TZAtaraxis<CR>')
-		end,
-
-		-- Undotree
-		--
-		--		<Leader>u
-		--
-		undotree = function()
-			nmap('<Leader>u', ':UndotreeToggle<CR>')
-		end
-
 	}
-
 }
 
 local function recurse_keymappings(e)
@@ -540,4 +273,3 @@ local function recurse_keymappings(e)
 end
 
 recurse_keymappings(keymaps)
-

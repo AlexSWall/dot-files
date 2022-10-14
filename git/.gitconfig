@@ -23,6 +23,11 @@
 	ui = true
 
 [alias]
-	log1 = log --graph --all --pretty=format:'%Cred%h%Creset - %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	log2 = log --graph --all --format=format:'%C(bold red)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(bold white)- %an%C(reset)' --abbrev-commit
-	conflicts = diff --name-only --diff-filter=U
+	b = \
+		log --graph --abbrev-commit \
+		    --pretty=format:'%Cred%h%Creset - %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	l = \
+		log --graph --abbrev-commit --all \
+		    --pretty=format:'%Cred%h%Creset - %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	conflicts = \
+		diff --name-only --diff-filter=U

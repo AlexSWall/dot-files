@@ -10,10 +10,6 @@ local opt = vim.opt
 --------------------------------------------------------------------------------
 
 -- Core Functionality
-if vim.opt.shell['_value'] == 'fish' then
-	vim.opt.shell = 'zsh'
-end
-
 opt.mouse = 'a'                  -- Enable mouse support.
 opt.backup = false
 opt.writebackup = false
@@ -27,14 +23,13 @@ opt.completeopt = 'menuone,'     -- Give a menu even if there's only one option.
 cmd('filetype on')               -- Set the 'filetype' option on loading a file..
 cmd('filetype plugin on')        -- Look for filetype-specific setup in ./ftplugin/.
 
-vim.g.do_filetype_lua = 1        -- Enable Lua filetype detection (opt-in).
-vim.g.did_load_filetypes = 0     -- Disable builtin filetype detection.
-
 opt.tabpagemax = 50              -- Increase maximum number of tabs to 50.
 opt.cpoptions:append('y')        -- Add 'yank' (y) to commands that can be repeated with '.'.
 
 opt.viminfo = "'100,<1000,s100,h"
 opt.keywordprg = ':help'         -- Make K map to :help
+
+vim.g.mapleader = ' '
 
 -- Improved Usage
 opt.ignorecase = true            -- Case-insensitive search when entirely lowercase.
@@ -43,6 +38,12 @@ opt.smartcase = true             -- Case-sensitive search when it includes upper
 opt.foldmethod = 'indent'
 opt.foldminlines = 0
 opt.foldlevel = 99
+
+-- Toggle relativenumber depending on mode:
+--   > off in insert mode
+--   > on otherwise
+-- (except in specific filetypes)
+require("functions.relative-number-toggle").set_number_toggle("enable")
 
 
 --------------------------------------------------------------------------------
@@ -59,18 +60,7 @@ opt.termguicolors = true         -- Enable 24-bit RGB colors.
 opt.number = true
 opt.relativenumber = true
 
-g.relative_number_toggle_ignore_list = {
-	'',
-	'help',
-	'NvimTree',
-	'Outline',
-	'toggleterm',
-	'TelescopePrompt',
-	'tsplayground'
-}                                -- (Used by auto number-toggle below)
-g.number_toggle_on = true        -- (Used by set number-toggle below)
-
-opt.colorcolumn = {80, 100, 120}
+opt.colorcolumn = { 80, 120 }
 opt.splitright = true
 opt.splitbelow = true
 
@@ -92,10 +82,13 @@ opt.pumheight = 20               -- Pop-up menu height
 -- Aesthetic
 opt.pumblend = 10
 
+opt.cursorline    = true
+opt.cursorlineopt = 'number'
+
 -- Status Line
 g.StatusLineGit = function()
 
-	if vim.fn.exists('*gitbranch#name') then
+	if vim.fn.exists('*gitbranch#name') ~= 0 then
 
 		local branch_name = vim.fn['gitbranch#name']()
 
@@ -114,6 +107,8 @@ opt.statusline = '%#StatusLine# %{StatusLineGit()} %f %y'
                  .. ' %l,%c%V%) '
 
 opt.fillchars = 'stl:-,stlnc:-'  -- Fill status line with hyphens
+
+opt.cmdheight = 0
 
 -- Miscellaneous
 opt.shortmess:append('s')        -- Don't give 'search hit BOTTOM' etc.
@@ -141,151 +136,138 @@ opt.tabstop = 3                  -- 1 tab == 3 spaces
 opt.softtabstop = 3              -- 1 tab == 3 spaces
 
 -- Filetype-specific indentation
-local file_indentation_configs = {
-	['cpp,zsh'] = { 3, 'noexpandtab' },
-	['haskell,yaml,python,markdown']  = { 4, 'expandtab' },
-}
 
-for k, v in pairs(file_indentation_configs) do
-	cmd(string.format(
-		'autocmd Filetype %s setlocal ts=%d sw=%d sts=%d %s',
-		k, v[1], v[1], v[1], v[2]
-	))
+local set_filetype_indentation = function(filetypes, tab_width, expand_tab)
+	vim.api.nvim_create_autocmd('Filetype', {
+		pattern = filetypes,
+		callback = function()
+			vim.opt_local.tabstop     = tab_width
+			vim.opt_local.shiftwidth  = tab_width
+			vim.opt_local.softtabstop = tab_width
+			vim.opt_local.expandtab   = expand_tab
+		end
+	})
 end
+
+set_filetype_indentation('cpp,zsh', 3, false)
+set_filetype_indentation('haskell,yaml,python,markdown', 4, true)
 
 
 --------------------------------------------------------------------------------
 --      Autocommands
 --------------------------------------------------------------------------------
 
-vim.cmd([[
-	" Don't auto-comment new lines
-	"autocmd BufEnter * set fo-=c fo-=r fo-=o
+-- Format options:
+--   t: Auto-wrap text using textwidth
+--   c: Auto-wrap comments using textwidth (automatic comment character added)
+--   q: Allow formatting of comment paragraphs with 'gq'.
+--   j: Remove comment character when joining lines.
+-- Not:
+--   r: Auto-insert comment character on hitting <Enter> in insert mode
+--   o: Auto-insert comment character on hitting 'o' in normal mode
+--   a: Auto-format paragraphs when inserting into them.
+vim.api.nvim_create_autocmd('BufEnter', {
+	callback = function()
+		opt.formatoptions = 'tcqj'
+	end
+})
 
-	" Remove colour column for some filetypes
-	autocmd FileType text,markdown,html,xhtml setlocal cc=0
+-- Remove colour column for some filetypes
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = {'help', 'text', 'markdown', 'html', 'xhtml'},
+	callback = function()
+		vim.opt_local.colorcolumn = '0'
+	end
+})
 
-	" Add highlighting to trailing whitespace and spaces before tabs, but not
-	" when typing on that line.
-	highlight ExtraWhitespace guibg=#223E55
-	match ExtraWhitespace /\\s\\+$\\| \\+\\ze\\t/
+-- Improve terminal visuals and go to insert mode automatically.
+vim.api.nvim_create_autocmd('TermOpen', {
+	callback = function()
+		vim.opt_local.listchars = ''
+		vim.opt_local.number = false
+		vim.opt_local.relativenumber = false
+		vim.opt_local.cursorline = false
+		vim.cmd('startinsert')
+	end
+})
 
-	" Wizardry to prevent errors appearing while typing.
-	autocmd BufWinEnter * match ExtraWhitespace /\\s\\+$\\| \\+\\ze\\t/
-	autocmd InsertEnter * match ExtraWhitespace /\\s\\+\\%#\\@<!$\\| \\+\\ze\\t\\%#\\@<!/
-	autocmd InsertLeave * match ExtraWhitespace /\\s\\+$\\| \\+\\ze\\t/
-	autocmd BufWinLeave * call clearmatches()
+-- Automatically go to insert mode when entering terminal buffer.
+vim.api.nvim_create_autocmd('BufEnter', {
+	pattern = 'term://*',
+	command = 'startinsert'
+})
 
-	" Automatic number-toggle
-	function! RelativeNumberToggle(state)
+-- Automatically leave insert mode when leaving terminal buffer.
+vim.api.nvim_create_autocmd('BufLeave', {
+	pattern = 'term://*',
+	command = 'stopinsert'
+})
 
-		if index(g:relative_number_toggle_ignore_list, &filetype) >= 0
-			" Filetype is on the ignore list
-			set norelativenumber
-			return
-		elseif g:number_toggle_on
-		else
-			return
-		endif
-
-		if a:state == 'on'
-			set relativenumber
-
-		elseif a:state == 'off'
-			set norelativenumber
-
-		endif
-	endfunction
-
-	" Enable/disable number-toggle
-	function! SetNumberToggle(state)
-
-		let state = a:state
-
-		if a:state == ''
-			if g:number_toggle_on
-				let state = 'disable'
-			else
-				let state = 'enable'
-			endif
-		endif
-
-		if state == 'enable'
-			let g:number_toggle_on = 1
-			augroup NumberToggle
-				autocmd!
-				autocmd BufEnter,FocusGained,InsertLeave * call RelativeNumberToggle('on')
-				autocmd BufLeave,FocusLost,InsertEnter   * call RelativeNumberToggle('off')
-			augroup END
-		elseif state == 'disable'
-			let g:number_toggle_on = 0
-			augroup NumberToggle
-				autocmd!
-			augroup END
-		endif
-	endfunction
-
-	lua vim.fn.SetNumberToggle('enable')
-
-	" Improve terminal usage
-	autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
-	autocmd TermOpen * startinsert
-	autocmd BufLeave term://* stopinsert
-]])
-
-
---------------------------------------------------------------------------------
---      Miscellaneous
---------------------------------------------------------------------------------
-
--- Disable unneeded builtin plugins
-local disabled_built_ins = { "netrw", "netrwPlugin", "netrwSettings",
-	"netrwFileHandlers", "gzip", "zip", "zipPlugin", "tar", "tarPlugin",
-	"getscript", "getscriptPlugin", "vimball", "vimballPlugin", "2html_plugin",
-	"logipat", "rrhelper", "spellfile_plugin", "matchit" }
-
-for _, plugin in pairs(disabled_built_ins) do
-    g["loaded_" .. plugin] = 1
+local table_to_lookup = function(tbl)
+	local ret = {}
+	for _, v in pairs(tbl) do
+		ret[v] = true
+	end
+	return ret
 end
 
+local all_but_fts = function(cmd_str, ft_exclusions)
+	return function()
+		if not ft_exclusions[vim.bo.filetype] then
+			vim.cmd(cmd_str)
+		end
+	end
+end
 
---------------------------------------------------------------------------------
---      To Sort
---------------------------------------------------------------------------------
+local whitespace_ft_exclusions = table_to_lookup({
+	''
+})
 
--- Not working:
---    vim.opt.foldtext = 'MyFoldText'
---
--- Alternatively:
---    vim.opt.foldmethod = 'expr'
---    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
---
-vim.cmd([[
-	function! MyFoldText()
-		let line = getline(v:foldstart)
-
-		let nucolwidth = &fdc + &number * &numberwidth
-		let windowwidth = winwidth(0) - nucolwidth - 3
-
-		let foldedlinecount = v:foldend - v:foldstart
-
-		let line = strpart(line, 0, windowwidth - 40 - len(foldedlinecount))
-		let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-
-		"return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-		"return '      ' . repeat("-",windowwidth - 9) . '      '
-		return ' ' . repeat("-",windowwidth - 9) . ' '
-	endfunction
-]])
+-- Label trailing whitespace and spaces before tabs as ExtraWhitespace, but not
+-- when typing on that line.
+vim.api.nvim_create_autocmd('BufWinEnter', {
+	callback = all_but_fts('match ExtraWhitespace /\\s\\+$\\| \\+\\ze\\t/', whitespace_ft_exclusions)
+})
+vim.api.nvim_create_autocmd('InsertEnter', {
+	callback = all_but_fts('match ExtraWhitespace /\\s\\+\\%#\\@<!$\\| \\+\\ze\\t\\%#\\@<!/', whitespace_ft_exclusions)
+})
+vim.api.nvim_create_autocmd('InsertLeave', {
+	callback = all_but_fts('match ExtraWhitespace /\\s\\+$\\| \\+\\ze\\t/', whitespace_ft_exclusions)
+})
+vim.api.nvim_create_autocmd('BufWinLeave', {
+	callback = all_but_fts('call clearmatches()', whitespace_ft_exclusions)
+})
 
 -- Set comment string to // instead of /* */ when suitable.
-vim.cmd('autocmd FileType c,cpp,cs,java,javascript,php setlocal commentstring=//\\ %s')
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = 'c,cpp,cs,java,javascript,php',
+	command = 'setlocal commentstring=//\\ %s'
+})
 
--- Add @ to iskeyword.
--- (Might cause problems? Was commented out.)
--- (Might not be needed? Was originally for coc-css.)
-vim.cmd('autocmd FileType scss setl iskeyword+=@-@')
 
-vim.g.neoterm_automap_keys = '<F5>'
+--------------------------------------------------------------------------------
+--      Performance
+--------------------------------------------------------------------------------
 
-_G['dump'] = require('functions.dump').dump
+local disable_distribution_plugins = function()
+  vim.g.loaded_gzip = 1
+  vim.g.loaded_tar = 1
+  vim.g.loaded_tarPlugin = 1
+  vim.g.loaded_zip = 1
+  vim.g.loaded_zipPlugin = 1
+  vim.g.loaded_getscript = 1
+  vim.g.loaded_getscriptPlugin = 1
+  vim.g.loaded_vimball = 1
+  vim.g.loaded_vimballPlugin = 1
+  vim.g.loaded_matchit = 1
+  vim.g.loaded_matchparen = 1
+  vim.g.loaded_2html_plugin = 1
+  vim.g.loaded_logiPat = 1
+  vim.g.loaded_rrhelper = 1
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
+  vim.g.loaded_netrwSettings = 1
+  vim.g.loaded_netrwFileHandlers = 1
+end
+
+disable_distribution_plugins()
