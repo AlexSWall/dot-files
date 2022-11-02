@@ -6,10 +6,11 @@ function M.setup()
 		'clang'
 	}
 
-	require('nvim-treesitter.configs').setup(
-	{
+	require('nvim-treesitter.configs').setup({
+
 		ensure_installed = {
-			'bash', 'c', 'comment', 'cpp', 'css', 'dockerfile', 'erlang', 'fish', 'go', 'gomod', 'haskell', 'html', 'java', 'javascript', 'json', 'latex', 'lua', 'make', 'markdown', 'php', 'python', 'rust', 'tsx', 'typescript', 'vim', 'yaml'
+			'bash', 'c', 'comment', 'cpp', 'css', 'dockerfile', 'erlang', 'fish', 'go', 'gomod', 'haskell', 'html', 'java', 'javascript', 'json', 'lua', 'make', 'markdown', 'php', 'python', 'rust', 'tsx', 'typescript', 'vim', 'yaml',
+			-- latex
 		},
 
 		highlight = {

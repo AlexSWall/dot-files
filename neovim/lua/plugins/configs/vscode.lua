@@ -23,12 +23,15 @@ function M.setup()
 		vscSearchCurrent = '#4B5632',
 		vscSearch = '#264F78',
 
-		vscGray = '#606060',
+		vscGray = '#909090',
 
 		vscLightBlue = '#8CCCEE',
+		vscMediumBlue = '#5CACEE',
 		vscGreen = '#85CEA0',
 		vscBlueGreen = '#2EC9B5',
+		vscLightBlueGreen = '#5EF0E5',
 		vscOrange = '#CE9178',  -- Only needed due to specifying it in group_overrides
+		vscYellowOrange = '#F7DA8D',
 		vscYellow = '#D5D5A3',
 
 
@@ -58,6 +61,7 @@ function M.setup()
 
 		-- Override highlight groups
 		group_overrides = {
+			-- Standard highlight group overrides
 			StatusLine     = { fg = c.vscStatusForeground, bg = c.vscStatusBackground },
 			StatusLineNC   = { fg = c.vscStatusNCForeground, bg = c.vscBack },
 			Folded         = { fg = c.vscLeftLight, bg = c.vscFoldBackground },
@@ -76,6 +80,14 @@ function M.setup()
 			CursorLineNr   = { fg = '#11CCEE' },
 			MatchParen     = { italic = true },
 			MatchWord      = { fg = '#C586C0', bg = '#121212', bold = true, underline = true },
+
+			-- Treesitter highlight group overrides
+			['@comment']          = { fg = c.vscGray, bg = 'NONE' },
+			['@string']           = { fg = c.vscGreen, bg = 'NONE' },
+			['@character']        = { fg = c.vscGreen, bg = 'NONE' },
+			['@number']           = { fg = c.vscOrange, bg = 'NONE' },
+			['@float']            = { fg = c.vscOrange, bg = 'NONE' },
+			['@variable.builtin'] = { fg = c.vscLightBlueGreen, bg = 'NONE' },
 
 			-- Indentation rule colour
 			IndentBlanklineIndent = { fg = '#202020', nocombine = true },
