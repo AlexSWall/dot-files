@@ -13,12 +13,12 @@ function M.setup()
 		},
 
 		highlight = {
-			enable = false,  -- Must be false for correct PHP indentation
+			enable = true,  -- Must be false for correct PHP indentation
 			additional_vim_regex_highlighting = false
 		},
 
 		indent = {
-			enable = false,  -- Must be false for correct PHP indentation
+			enable = true,  -- Must be false for correct PHP indentation
 			disable = { 'yaml' }
 		},
 

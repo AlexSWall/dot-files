@@ -220,7 +220,7 @@ local all_but_fts = function(cmd_str, ft_exclusions)
 end
 
 local whitespace_ft_exclusions = table_to_lookup({
-	''
+	'toggleterm'
 })
 
 -- Label trailing whitespace and spaces before tabs as ExtraWhitespace, but not

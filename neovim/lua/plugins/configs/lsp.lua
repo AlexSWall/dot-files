@@ -27,10 +27,6 @@ M.enhance_server_opts = {
 				}
 			}
 		}
-
-		-- Add lua-dev to the mix
-		local lua_dev = require('lua-dev').setup({})
-		for k,v in pairs(lua_dev) do opts[k] = v end
 	end,
 
 	['pylsp'] = function(opts)
@@ -84,19 +80,11 @@ function M.add_keymaps()
 	vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help, { buffer = 0 } )
 end
 
-function M.get_capabilities()
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-	capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
-	return capabilities
-end
-
 function M.setup()
 
 	require('plugins.configs.lsp').install_servers()
 
-	local capabilities = require('plugins.configs.lsp').get_capabilities()
+	local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 	require('nvim-lsp-installer').on_server_ready(function(server)
 

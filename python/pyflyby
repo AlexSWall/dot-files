@@ -11,4 +11,5 @@ import sys
 from copy import deepcopy
 from hashlib import md5
 from typing import TYPE_CHECKING, Dict, List, Optional, Union
+from typing import MappingProxyType
 from pathlib import Path
