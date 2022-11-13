@@ -43,6 +43,10 @@ function M.setup()
 				'--line-number',
 				'--column',
 				'--smart-case'
+			},
+			file_ignore_patterns = {
+				'.?venv[0-9]*',
+				'node_modules'
 			}
 		},
 		extensions = {

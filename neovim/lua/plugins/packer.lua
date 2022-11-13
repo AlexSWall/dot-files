@@ -648,7 +648,10 @@ local plugins = function( use )
 		end
 end
 
-require('packer').init({})
+require('packer').init({
+	-- Avoid issues with packer opening too many files at once on update plugins.
+	max_jobs = 50
+})
 
 return require('packer').startup(plugins)
 
