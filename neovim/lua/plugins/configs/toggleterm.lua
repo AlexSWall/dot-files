@@ -14,10 +14,10 @@ function M.setup()
 		direction = 'vertical'
 	})
 
-	local nmap = require('utils.keymap').nmap
-	nmap('<Leader>TT', function() require('toggleterm').toggle(0, nil, nil, 'float') end)
-	nmap('<Leader>TL', function() require('toggleterm').toggle(0, nil, nil, 'vertical') end)
-	nmap('<Leader>TH', function() require('toggleterm').toggle(0, nil, nil, 'horizontal') end)
+	local m = require('utils.keymap').nmap
+	m('<Leader>TT', function() require('toggleterm').toggle(0, nil, nil, 'float') end,      'Toggle floating terminal')
+	m('<Leader>TL', function() require('toggleterm').toggle(0, nil, nil, 'vertical') end,   'Toggle vertical terminal')
+	m('<Leader>TH', function() require('toggleterm').toggle(0, nil, nil, 'horizontal') end, 'Toggle horizontal terminal')
 end
 
 return M

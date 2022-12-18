@@ -6,11 +6,11 @@ function M.setup()
 
 	local nmap = require('utils.keymap').nmap
 
-	nmap('<M-h>', ':TmuxNavigateLeft<CR>')
-	nmap('<M-j>', ':TmuxNavigateDown<CR>')
-	nmap('<M-k>', ':TmuxNavigateUp<CR>')
-	nmap('<M-l>', ':TmuxNavigateRight<CR>')
-	nmap('<M-\\>', ':TmuxNavigatePrevious<CR>')
+	nmap('<M-h>', ':TmuxNavigateLeft<CR>', 'Move to Tmux pane to the left')
+	nmap('<M-j>', ':TmuxNavigateDown<CR>', 'Move to Tmux pane below')
+	nmap('<M-k>', ':TmuxNavigateUp<CR>', 'Move to Tmux pane above')
+	nmap('<M-l>', ':TmuxNavigateRight<CR>', 'Move to Tmux pane to the right')
+	nmap('<M-\\>', ':TmuxNavigatePrevious<CR>', 'Move to previous Tmux pane')
 end
 
 return M

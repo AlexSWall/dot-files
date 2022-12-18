@@ -33,22 +33,29 @@ function M.setup()
 	--		<C-[jkl]>
 	--
 	vim.keymap.set({'i', 's'}, '<C-k>', function()
-		if luasnip.expand_or_jumpable() then
-			luasnip.expand_or_jump()
-		end
-		end, { silent = true })
+			if luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			end
+		end, { silent = true, desc = 'Go to next luasnip node' })
 
 	vim.keymap.set({'i', 's'}, '<C-j>', function()
-		if luasnip.jumpable(-1) then
-			luasnip.jump(-1)
-		end
-		end, { silent = true })
+			if luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			end
+		end, { silent = true, desc = 'Go to previous luasnip node' })
 
 	vim.keymap.set('i', '<C-l>', function()
-		if luasnip.choice_active() then
-			luasnip.change_choice(1)
-		end
-		end, { silent = true })
+			if luasnip.choice_active() then
+				luasnip.change_choice(1)
+			end
+		end, { silent = true, desc = '???' })
+
+	-- vim.keymap.set('i', '<C-h>', function()
+	-- 		if luasnip.choice_active() then
+	-- 			luasnip.change_choice(-1)
+	-- 		end
+	-- 	end, { silent = true, desc = '???' })
 end
+
 
 return M

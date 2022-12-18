@@ -6,7 +6,7 @@ function M.setup()
 
 	local nmap = require('utils.keymap').nmap
 
-	nmap('<Leader>u', ':UndotreeToggle<CR>')
+	nmap('<Leader>u', ':UndotreeToggle<CR>', 'Toggle undotree')
 end
 
 return M

@@ -61,23 +61,23 @@ M.enhance_server_opts = {
 }
 
 function M.add_keymaps()
-	local function keymap(from, to)
-		vim.keymap.set('n', from, to, { buffer = 0 } )
+	local function keymap(from, to, desc)
+		vim.keymap.set('n', from, to, { desc = desc, buffer = 0 } )
 	end
 
-	keymap('<C-k>',      vim.lsp.buf.hover)
-	keymap('<C-s>',      vim.lsp.buf.signature_help)
-	keymap('gd',         '<cmd>Telescope lsp_definitions<CR>')
-	keymap('gt',         '<cmd>Telescope lsp_type_definitions<CR>')
-	keymap('gi',         '<cmd>Telescope lsp_implementations<CR>')
-	keymap('gr',         '<cmd>Telescope lsp_references<CR>')
-	keymap('gH',         vim.lsp.buf.code_action)
-	keymap('gD',         '<cmd>Telescope diagnostics<CR>')
-	keymap('[d',         vim.diagnostic.goto_prev)
-	keymap(']d',         vim.diagnostic.goto_next)
-	keymap('<Leader>rn', vim.lsp.buf.rename)
+	keymap('<C-k>',      vim.lsp.buf.hover,                         'Show hover information')
+	keymap('<C-s>',      vim.lsp.buf.signature_help,                'Show function signature')
+	keymap('gd',         '<cmd>Telescope lsp_definitions<CR>',      'Show/go to symbol definitions(s)')
+	keymap('gt',         '<cmd>Telescope lsp_type_definitions<CR>', 'Show/go to type definition(s)')
+	keymap('gi',         '<cmd>Telescope lsp_implementations<CR>',  'Show/go to implementation(s)')
+	keymap('gr',         '<cmd>Telescope lsp_references<CR>',       'Show/go to reference(s)')
+	keymap('gH',         vim.lsp.buf.code_action,                   'Code action')
+	keymap('gD',         '<cmd>Telescope diagnostics<CR>',          'Show diagnostics')
+	keymap('[d',         vim.diagnostic.goto_prev,                  'Go to previous diagnostic')
+	keymap(']d',         vim.diagnostic.goto_next,                  'Go to next diagnostic')
+	keymap('<Leader>rn', vim.lsp.buf.rename,                        'Rename symbol')
 
-	vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help, { buffer = 0 } )
+	vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help, { desc = 'Show signature help', buffer = 0 } )
 end
 
 function M.setup()

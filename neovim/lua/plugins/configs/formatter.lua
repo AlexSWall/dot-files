@@ -2,7 +2,7 @@ M = {}
 
 function M.setup()
 
-	require('utils.keymap').nmap('<Leader>F', ':Format<CR>')
+	require('utils.keymap').nmap('<Leader>F', ':Format<CR>', 'Format file')
 
 	require('formatter').setup({
 		filetype = {

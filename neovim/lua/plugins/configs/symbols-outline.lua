@@ -7,7 +7,7 @@ function M.setup()
 		show_symbol_details = false,
 	}
 
-	require('utils.keymap').nmap('<Leader>s', require('symbols-outline').toggle_outline)
+	require('utils.keymap').nmap('<Leader>s', require('symbols-outline').toggle_outline, 'Toggle symbols outline')
 end
 
 return M
