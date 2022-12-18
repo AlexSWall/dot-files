@@ -1,3 +1,8 @@
+# General
+abbr --add l 'ls'
+abbr --add sl 'ls'
+abbr --add s ''
+
 # Git abbreviations
 abbr --add t 'git'
 abbr --add ga 'git add'
