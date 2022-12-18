@@ -19,7 +19,16 @@ M.enhance_server_opts = {
 			Lua = {
 				diagnostics = {
 					globals = {
-						'vim'
+						'vim',
+
+						-- Busted
+						"describe",
+						"it",
+						"before_each",
+						"after_each",
+						"teardown",
+						"pending",
+						"clear"
 					}
 				},
 				completion = {
