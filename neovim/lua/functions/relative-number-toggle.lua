@@ -18,6 +18,9 @@ local relative_number_toggle = function(state)
 		-- We're never setting the relative number for this filetype.
 		vim.opt_local.relativenumber = false
 
+	elseif require("true-zen.ataraxis").running then
+		vim.opt_local.relativenumber = false
+
 	elseif number_toggle_on == false then
 		-- Skip toggle
 

@@ -621,9 +621,9 @@ local plugins = function( use )
 			})
 
 			use({
-				'junegunn/limelight.vim',
+				'folke/twilight.nvim',
 				config = function()
-					vim.g.limelight_paragraph_span = 3
+					require('plugins.configs.twilight').setup()
 				end
 			})
 
