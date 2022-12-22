@@ -72,11 +72,29 @@ local plugins = function( use )
 
 	-- LSP Plugins --
 
-		use('neovim/nvim-lspconfig')
+		use({
+			'williamboman/mason.nvim',
+			config = function()
+				require('mason').setup()
+			end,
+		})
 
 		use({
-			'williamboman/nvim-lsp-installer',
-			requires = 'neovim/nvim-lspconfig',
+			'williamboman/mason-lspconfig.nvim',
+			requires = {
+				'williamboman/mason.nvim'
+			},
+			config = function()
+				require('plugins.configs.mason-lspconfig').setup()
+			end
+		})
+
+		use({
+			'neovim/nvim-lspconfig',
+			requires = {
+				'williamboman/mason.nvim',
+				'williamboman/mason-lspconfig.nvim',
+			},
 			config = function()
 				require('plugins.configs.lsp').setup()
 			end
@@ -654,25 +672,6 @@ require('packer').init({
 })
 
 return require('packer').startup(plugins)
-
--- use({
--- 	'williamboman/mason.nvim',
--- 	config = function()
--- 		require('mason').setup()
--- 	end,
--- })
--- use({
--- 	'williamboman/mason-lspconfig.nvim',
--- 	config = function()
--- 		require('mason-lspconfig').setup({
--- 			automatic_installation = true,
--- 		})
--- 		require('configs.lsp').setup()
--- 	end,
--- 	requires = {
--- 		'neovim/nvim-lspconfig',
--- 	},
--- })
 
 -- use({
 -- 	'Pocco81/DAPInstall.nvim',

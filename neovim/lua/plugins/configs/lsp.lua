@@ -1,22 +1,18 @@
-M = {}
-
-function M.install_servers()
-	-- Install any LSP servers we want which aren't installed.
-	for name, enabled in pairs(require('plugins.lsp-servers').lsp_servers) do
-		if enabled == true then
-			local server_is_found, server = require('nvim-lsp-installer').get_server(name)
-			if server_is_found and not server:is_installed() then
-				print('Installing ' .. name)
-				server:install()
-			end
-		end
-	end
-end
+local M = {}
 
 M.enhance_server_opts = {
 	['sumneko_lua'] = function(opts)
+
+		local runtime_path = vim.split(package.path, ';')
+		table.insert(runtime_path, 'lua/?.lua')
+		table.insert(runtime_path, 'lua/?/init.lua')
+
 		opts.settings = {
 			Lua = {
+				runtime = {
+					version = 'LuaJIT',
+					path = runtime_path,
+				},
 				diagnostics = {
 					globals = {
 						'vim',
@@ -33,6 +29,12 @@ M.enhance_server_opts = {
 				},
 				completion = {
 					callSnippet = 'Replace',
+				},
+				telemetry = { enable = false },
+				workspace = {
+					-- Remove 'Do you need to configure your work environment as'
+					-- prompts on opening Lua files.
+					checkThirdParty = false
 				}
 			}
 		}
@@ -69,9 +71,9 @@ M.enhance_server_opts = {
 	end
 }
 
-function M.add_keymaps()
+function M.add_keymaps(_, bufnr)
 	local function keymap(from, to, desc)
-		vim.keymap.set('n', from, to, { desc = desc, buffer = 0 } )
+		vim.keymap.set('n', from, to, { desc = desc, buffer = bufnr } )
 	end
 
 	keymap('<C-k>',      vim.lsp.buf.hover,                         'Show hover information')
@@ -91,26 +93,27 @@ end
 
 function M.setup()
 
-	require('plugins.configs.lsp').install_servers()
+	local servers = require('plugins.lsp-servers').servers_to_ensure_installed()
 
-	local capabilities = require('cmp_nvim_lsp').default_capabilities()
+	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-	require('nvim-lsp-installer').on_server_ready(function(server)
+	for _, server in ipairs(servers) do
 
 		-- Default options used for setting up all servers
 		local opts = {
-			on_attach = require('plugins.configs.lsp').add_keymaps,
+			on_attach = M.add_keymaps,
 			capabilities = capabilities,
 			single_file_support = true
 		}
 
 		-- Add LSP Server-specific options
-		if require('plugins.configs.lsp').enhance_server_opts[server.name] then
-			require('plugins.configs.lsp').enhance_server_opts[server.name](opts)
+		if M.enhance_server_opts[server] then
+			M.enhance_server_opts[server](opts)
 		end
 
-		server:setup(opts)
-	end)
+		require('lspconfig')[server].setup(opts)
+	end
 end
 
 return M
