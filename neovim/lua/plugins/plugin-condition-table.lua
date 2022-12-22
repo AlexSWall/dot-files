@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 M.enable_plugin_table = {
 	['fidget']               = false,

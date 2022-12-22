@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 function M.handler(virtText, lnum, endLnum, width, truncate)
 	local newVirtText = {}

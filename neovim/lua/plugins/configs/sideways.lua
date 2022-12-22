@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 function M.setup()
 	local nmap = require('utils.keymap').nmap

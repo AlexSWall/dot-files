@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 M.keymap = vim.keymap.set
 

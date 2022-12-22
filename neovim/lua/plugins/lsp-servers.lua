@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 M.lsp_servers = {
 	bashls        = true,   -- bash

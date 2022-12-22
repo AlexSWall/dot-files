@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 function M.setup()
 	local true_zen = require('true-zen')

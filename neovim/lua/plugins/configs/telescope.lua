@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 local conf = require("telescope.config").values
 local finders = require "telescope.finders"
