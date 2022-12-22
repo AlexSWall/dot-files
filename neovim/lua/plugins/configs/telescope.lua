@@ -69,23 +69,23 @@ function M.setup()
 	--
 	local nmap = require('utils.keymap').nmap
 
-	nmap('<Leader>fa', require('plugins.configs.telescope').fuzzy_search_text, 'Fuzzy search text')
+	nmap('<Leader>fa', require('plugins.configs.telescope').fuzzy_search_text,    'Fuzzy search text')
+	nmap('<Leader>fb', require('telescope.builtin').buffers,                      'Fuzzy search buffers')
+	nmap('<Leader>fd', require('telescope.builtin').diagnostics,                  'Fuzzy search diagnostics')
+	nmap('<Leader>fe', require('telescope').extensions.file_browser.file_browser, 'Telescope file browser')
+	nmap('<Leader>ff', require('telescope.builtin').find_files,                   'Fuzzy search files')
+	nmap('<Leader>fg', require('telescope.builtin').git_files,                    'Fuzzy search git files')
+	nmap('<Leader>fh', require('telescope.builtin').help_tags,                    'Fuzzy search help tags')
+	nmap('<Leader>fk', require('telescope.builtin').keymaps,                      'Fuzzy search keymaps')
+	nmap('<Leader>fm', require('telescope.builtin').keymaps,                      'Fuzzy search keymaps')
+	nmap('<Leader>fr', require('telescope.builtin').registers,                    'Fuzzy search registers')
+	nmap('<Leader>fs', require('telescope.builtin').grep_string, 'Fuzzy search on instances of current string')
 	nmap('<Leader>fA', function()
 		require('telescope.builtin').grep_string({
 			search_dirs = { vim.fn.input('Dir: ', '',  'dir') },
 			search=''
 		})
 	end, 'Fuzzy search text in specific directory')
-	nmap('<Leader>fb', require('telescope.builtin').buffers, 'Fuzzy search buffers')
-	nmap('<Leader>fd', require('telescope.builtin').diagnostics, 'Fuzzy search diagnostics')
-	nmap('<Leader>fe', require('telescope').extensions.file_browser.file_browser, 'Telescope file browser')
-	nmap('<Leader>ff', require('telescope.builtin').find_files, 'Fuzzy search files')
-	nmap('<Leader>fg', require('telescope.builtin').git_files, 'Fuzzy search git files')
-	nmap('<Leader>fk', require('telescope.builtin').keymaps, 'Fuzzy search keymaps')
-	nmap('<Leader>fm', require('telescope.builtin').keymaps, 'Fuzzy search keymaps')
-	nmap('<Leader>fr', require('telescope.builtin').registers, 'Fuzzy search registers')
-	nmap('<Leader>fs', require('telescope.builtin').grep_string, 'Fuzzy search instances of current string')
-
 end
 
 return M
