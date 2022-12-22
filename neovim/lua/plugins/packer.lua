@@ -52,21 +52,24 @@ local plugins = function( use )
 			config = function()
 				require('plugins.configs.treesitter').setup()
 			end,
-			run = ':TSUpdate'
+			run = function()
+				-- :TSUpdateSync
+				pcall(require('nvim-treesitter.install').update({ with_sync = true }))
+			end,
 		})
 
 		use({
 			'nvim-treesitter/playground',
 			requires = 'nvim-treesitter/nvim-treesitter',
-			run = ':TSInstall query'
+			run = function()
+				-- :TSInstallSync query
+				pcall(require('nvim-treesitter.install').ensure_installed_sync, 'query')
+			end,
 		})
 
 		use({
-			'p00f/nvim-ts-rainbow',
-			cond = function()
-				return require('plugins.plugin-condition-table').enable_plugin_table['nvim-ts-rainbow']
-			end,
-			requires = 'nvim-treesitter/nvim-treesitter',
+			'nvim-treesitter/nvim-treesitter-textobjects',
+			after = 'nvim-treesitter',
 		})
 
 
@@ -587,6 +590,14 @@ local plugins = function( use )
 				config = function()
 					require("virt-column").setup()
 				end,
+			})
+
+			use({
+				'p00f/nvim-ts-rainbow',
+				cond = function()
+					return require('plugins.plugin-condition-table').enable_plugin_table['nvim-ts-rainbow']
+				end,
+				requires = 'nvim-treesitter/nvim-treesitter',
 			})
 
 			use({

@@ -6,6 +6,8 @@ function M.setup()
 		'clang'
 	}
 
+	local ts_rainbow_enabled = require('plugins.plugin-condition-table').enable_plugin_table['nvim-ts-rainbow']
+
 	require('nvim-treesitter.configs').setup({
 
 		ensure_installed = {
@@ -23,14 +25,48 @@ function M.setup()
 			disable = { 'yaml' }
 		},
 
+		incremental_selection = {
+			enable = true,
+			keymaps = {
+				init_selection = '<C-Space>',
+				node_incremental = '<C-Space>',
+				scope_incremental = '<C-s>',
+				node_decremental = '<C-d>'
+			}
+		},
+
+		textobjects = {
+			move = {
+				enable = true,
+				set_jumps = true,
+				goto_next_start = {
+					[']f'] = { query = '@function.outer', desc = 'Go to start of next function'},
+					[']c'] = { query = '@class.outer', desc = 'Go to start of next class' }
+				},
+				goto_next_end = {
+					[']F'] = { query = '@function.outer', desc = 'Go to start of next class' },
+					[']C'] = { query = '@class.outer', desc = 'Go to start of next class' }
+				},
+				goto_previous_start = {
+					['[f'] = { query = '@function.outer', desc = 'Go to start of next class' },
+					['[c'] = { query = '@class.outer', desc = 'Go to start of next class' }
+				},
+				goto_previous_end = {
+					['[F'] = { query = '@function.outer', desc = 'Go to start of next class' },
+					['[C'] = { query = '@class.outer', desc = 'Go to start of next class' }
+				}
+			}
+		},
+
 		matchup = {
 			enable = true
 		},
 
-		-- rainbow = {
-		-- 	enable = true,
-		-- 	extended_mode = true
-		-- },
+		rainbow = {
+			enable        = ts_rainbow_enabled,
+			extended_mode = ts_rainbow_enabled,
+			--max_file_lines = <num>
+		},
 
 		context_commentstring = {
 			enable = true
