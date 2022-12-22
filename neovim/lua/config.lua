@@ -4,6 +4,6 @@ then
 	return
 end
 
-require('plugins.packer')
+require('plugins.lazy')
 require('core.settings')
 require('core.keymaps')
