@@ -652,6 +652,8 @@ local plugins = {
 			cmd = { 'SudaRead', 'SudaWrite' }
 		},
 
+		'stevearc/stickybuf.nvim',
+
 		'gpanders/editorconfig.nvim',
 }
 
