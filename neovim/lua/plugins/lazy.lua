@@ -408,7 +408,7 @@ local plugins = {
 	-- Tmux
 
 		{
-			'christoomey/vim-tmux-navigator',  -- Adds vim-tmux navigation commands
+			'numToStr/Navigator.nvim',  -- Adds vim-tmux navigation commands
 			config = function()
 				require('plugins.configs.tmux-navigator').setup()
 			end
