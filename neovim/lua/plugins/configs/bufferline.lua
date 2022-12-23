@@ -7,6 +7,9 @@ function M.setup()
 			mode = 'tabs',
 			separator_style = 'slant',
 			show_duplicate_prefix = false,
+			modified_icon = '',
+			close_icon = '',
+			buffer_close_icon = '',
 			offsets = {
 				{
 					filetype = 'NvimTree',

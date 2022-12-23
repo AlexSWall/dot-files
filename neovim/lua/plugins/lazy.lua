@@ -704,16 +704,6 @@ require("lazy").setup(plugins, {
 
 
 -- {
--- 	'SmiteshP/nvim-navic',
--- 	dependencies = {
--- 		'nvim-treesitter/nvim-treesitter',
--- 	},
--- 	config = function()
--- 		require('nvim-navic').setup()
--- 	end,
--- },
-
--- {
 -- 	'petertriho/nvim-scrollbar',
 -- 	dependencies = {
 -- 		'kevinhwang91/nvim-hlslens',

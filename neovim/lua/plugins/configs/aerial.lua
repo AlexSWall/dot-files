@@ -2,6 +2,9 @@ local M = {}
 
 function M.setup()
 	require('aerial').setup({
+		layout = {
+			min_width = 30
+		},
 		keymaps = {
 			["<CR>"] = "actions.scroll",
 			["<C-y>"] = "actions.jump",

@@ -175,9 +175,11 @@ vim.api.nvim_create_autocmd('BufEnter', {
 
 -- Remove colour column for some filetypes
 vim.api.nvim_create_autocmd('FileType', {
-	pattern = {'help', 'text', 'markdown', 'html', 'xhtml', 'aerial'},
+	pattern = {
+		'aerial', 'help', 'html', 'markdown', 'text', 'toggleterm', 'xhtml'
+	},
 	callback = function()
-		vim.opt_local.colorcolumn = '0'
+		vim.opt_local.colorcolumn = ''
 	end
 })
 

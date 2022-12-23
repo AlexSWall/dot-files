@@ -54,7 +54,7 @@ function M.setup()
 		transparent = true,
 
 		-- Disable nvim-tree background color
-		disable_nvimtree_bg = true,
+		disable_nvimtree_bg = false,
 
 		-- Override colors
 		color_overrides = vscode_colourscheme_colour_overrides,
@@ -138,6 +138,9 @@ function M.bufferline_highlights()
 		close_button = { bg = tab_colour },
 		close_button_visible = { bg = tab_colour },
 		close_button_selected = { bg = tab_colour_selected },
+		modified = { bg = tab_colour },
+		modified_visible = { bg = tab_colour },
+		modified_selected = { bg = tab_colour_selected },
 		separator_selected = { fg = tab_background_colour, bg = tab_colour_selected  },
 		separator_visible = { fg = tab_background_colour, bg = tab_colour  },
 		separator = { fg = tab_background_colour, bg = tab_colour  },
