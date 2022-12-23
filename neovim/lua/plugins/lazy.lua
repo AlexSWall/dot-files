@@ -29,7 +29,7 @@ local plugins = {
 	-- Meta --
 
 		'nvim-lua/plenary.nvim',
-		'kyazdani42/nvim-web-devicons',
+		'nvim-tree/nvim-web-devicons',
 
 
 	-- Metavisuals
@@ -110,7 +110,7 @@ local plugins = {
 
 		{
 			'j-hui/fidget.nvim',
-			cond = function()
+			enabled = function()
 				return require('plugins.plugin-condition-table').enable_plugin_table['fidget']
 			end,
 			config = function()
@@ -122,7 +122,7 @@ local plugins = {
 		{
 			'stevearc/aerial.nvim',
 			config = function()
-				require('aerial').setup({})
+				require('plugins.configs.aerial').setup()
 			end
 		},
 
@@ -176,7 +176,7 @@ local plugins = {
 		{
 			'kevinhwang91/nvim-ufo',
 			dependencies = 'kevinhwang91/promise-async',
-			cond = function()
+			enabled = function()
 				return require('plugins.plugin-condition-table').enable_plugin_table['ufo']
 			end,
 			config = function()
@@ -221,15 +221,15 @@ local plugins = {
 
 		{
 			'folke/trouble.nvim',
-			dependencies = 'kyazdani42/nvim-web-devicons',
+			dependencies = 'nvim-tree/nvim-web-devicons',
 			config = function()
 				require('plugins.configs.trouble').setup()
 			end,
 		},
 
 		{
-			'kyazdani42/nvim-tree.lua',
-			dependencies = 'kyazdani42/nvim-web-devicons',
+			'nvim-tree/nvim-tree.lua',
+			dependencies = 'nvim-tree/nvim-web-devicons',
 			config = function()
 				require('plugins.configs.nvim-tree').setup()
 			end
@@ -263,13 +263,6 @@ local plugins = {
 			end
 		},
 
-		{
-			'simrat39/symbols-outline.nvim',
-			config = function()
-				require('plugins.configs.symbols-outline').setup()
-			end
-		},
-
 
 	-- Finders
 
@@ -277,7 +270,7 @@ local plugins = {
 			'nvim-telescope/telescope.nvim',
 			dependencies = {
 				'nvim-lua/plenary.nvim',
-				'kyazdani42/nvim-web-devicons',
+				'nvim-tree/nvim-web-devicons',
 			},
 			config = function()
 				require('plugins.configs.telescope').setup()
@@ -303,7 +296,7 @@ local plugins = {
 		{
 			'nvim-telescope/telescope-fzf-native.nvim',
 			dependencies = 'nvim-telescope/telescope.nvim',
-			cond = function()
+			enabled = function()
 				return require('plugins.plugin-condition-table').enable_plugin_table['telescope-fzf-native']
 			end,
 			build = 'make',
@@ -427,7 +420,7 @@ local plugins = {
 			dependencies = {
 				'nvim-lua/plenary.nvim',
 			},
-			cond = function()
+			enabled = function()
 				return require('plugins.plugin-condition-table').enable_plugin_table['gitsigns']
 			end,
 			config = function()
@@ -559,12 +552,13 @@ local plugins = {
 					require('plugins.configs.vscode').setup()
 				end
 			},
+			-- Alternative: 'catppuccin/nvim'
 
 		-- Editor
 
 			{
 				'lukas-reineke/indent-blankline.nvim',
-				cond = function()
+				enabled = function()
 					return require('plugins.plugin-condition-table').enable_plugin_table['indent-blankline']
 				end,
 				config = function()
@@ -581,7 +575,7 @@ local plugins = {
 
 			{
 				'p00f/nvim-ts-rainbow',
-				cond = function()
+				enabled = function()
 					return require('plugins.plugin-condition-table').enable_plugin_table['nvim-ts-rainbow']
 				end,
 				dependencies = 'nvim-treesitter/nvim-treesitter',
@@ -619,7 +613,7 @@ local plugins = {
 
 			{
 				'karb94/neoscroll.nvim',
-				cond = function()
+				enabled = function()
 					return require('plugins.plugin-condition-table').enable_plugin_table['neoscroll']
 				end,
 				config = function()
@@ -661,19 +655,6 @@ require("lazy").setup(plugins, {
 })
 
 -- {
--- 	'Pocco81/DAPInstall.nvim',
--- 	dependencies = 'mfussenegger/nvim-dap',
--- 	config = function()
--- 		require('dap-install').setup()
--- 	end,
--- 	cmd = {
--- 		'DIInstall',
--- 		'DIUninstall',
--- 		'DIList',
--- 	},
--- },
-
--- {
 -- 	'mfussenegger/nvim-dap-python',
 -- 	dependencies = 'mfussenegger/nvim-dap',
 -- 	config = function()
@@ -694,29 +675,6 @@ require("lazy").setup(plugins, {
 
 
 -- {
--- 	'nvim-treesitter/nvim-treesitter-textobjects',
--- 	dependencies = {
--- 		'nvim-treesitter/nvim-treesitter',
--- 	},
--- 	config = function()
--- 		require('configs.nvim-treesitter-textobjects').setup()
--- 	end,
--- },
-
--- {
--- 	'ziontee113/syntax-tree-surfer',
--- 	dependencies = {
--- 		'nvim-treesitter/nvim-treesitter',
--- 	},
--- 	config = function()
--- 		require('configs.syntax-tree-surfer').setup()
--- 	end,
--- },
-
-
-
-
--- {
 -- 	'lukas-reineke/lsp-format.nvim',
 -- 	config = function()
 -- 		require('configs.lsp-format')
@@ -724,48 +682,6 @@ require("lazy").setup(plugins, {
 -- },
 
 
-
--- {
--- 	'catppuccin/nvim',
--- 	name = 'catppuccin',
--- 	config = function()
--- 		require('configs.catppuccin').setup()
--- 	end,
--- 	build = ':CatppuccinCompile',
--- },
-
--- {
--- 	'akinsho/bufferline.nvim',
--- 	config = function()
--- 		require('bufferline').setup {
--- 			options = {
--- 				mode = 'buffers',
--- 				offsets = {
--- 					{
--- 						filetype = 'NvimTree',
--- 						text = function()
--- 							return vim.fn.getcwd()
--- 						end,
--- 						highlight = 'Directory',
--- 						text_align = 'left'
--- 					}
--- 				},
--- 				show_buffer_icons = false,
--- 				show_buffer_close_icons = false,
--- 				show_tab_indicators = false,
--- 				always_show_bufferline = false
--- 			}
--- 		}
--- 	end
--- },
-
-
--- {
--- 	'rcarriga/nvim-notify',
--- 	config = function()
--- 		vim.notify = require('notify')
--- 	end,
--- },
 
 -- {
 -- 	'SmiteshP/nvim-navic',
@@ -786,19 +702,3 @@ require("lazy").setup(plugins, {
 -- 		require('configs.scrollbar').setup()
 -- 	end,
 -- },
-
--- {
--- 	'folke/which-key.nvim',
--- 	config = function()
--- 		require('which-key').setup()
--- 	end,
--- },
-
--- {
--- 	'max397574/better-escape.nvim',
--- 	config = function()
--- 		require('configs.better-escape').setup()
--- 	end,
--- },
-
--- David-Kunz/markid
