@@ -102,7 +102,12 @@ function M.setup()
 
 		-- Default options used for setting up all servers
 		local opts = {
-			on_attach = M.add_keymaps,
+			on_attach = function(client, bufnr)
+				M.add_keymaps(client, bufnr)
+				if client.server_capabilities.documentSymbolProvider then
+					require("nvim-navic").attach(client, bufnr)
+				end
+			end,
 			capabilities = capabilities,
 			single_file_support = true
 		}

@@ -109,6 +109,11 @@ local plugins = {
 		},
 
 		{
+			"SmiteshP/nvim-navic",
+			dependencies = "neovim/nvim-lspconfig"
+		},
+
+		{
 			'j-hui/fidget.nvim',
 			enabled = function()
 				return require('plugins.plugin-condition-table').enable_plugin_table['fidget']

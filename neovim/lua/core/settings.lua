@@ -103,6 +103,7 @@ end
 opt.statusline = '%#StatusLine# %{StatusLineGit()} %f %y'
                  .. ' %{&fileencoding?&fileencoding:&encoding}:%{&fileformat}'
                  .. ' %h%w%m%r'
+                 .. "  %{%v:lua.require'nvim-navic'.get_location()%}"
                  .. ' %#StatusLineNC#%=-%12.(%#StatusLine#'
                  .. ' %l,%c%V%) '
 
