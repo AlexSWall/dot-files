@@ -562,6 +562,19 @@ local plugins = {
 		-- Editor
 
 			{
+				'akinsho/bufferline.nvim',
+				enabled = true,
+				version = "v3.*",
+				dependencies = {
+					'nvim-tree/nvim-web-devicons',
+					'Mofiqul/vscode.nvim'
+				},
+				config = function()
+					require('plugins.configs.bufferline').setup()
+				end
+			},
+
+			{
 				'lukas-reineke/indent-blankline.nvim',
 				enabled = function()
 					return require('plugins.plugin-condition-table').enable_plugin_table['indent-blankline']

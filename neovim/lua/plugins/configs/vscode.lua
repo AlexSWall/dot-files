@@ -125,4 +125,23 @@ function M.setup()
 	})
 end
 
+function M.bufferline_highlights()
+
+	local tab_colour = '#191919'
+	local tab_colour_selected = '#282828'
+	local tab_background_colour = '#111111'
+
+	return {
+		background = { bg = tab_colour },
+		buffer_selected = { bg = tab_colour_selected, italic = false },
+		tab_close = { bg = tab_colour },
+		close_button = { bg = tab_colour },
+		close_button_visible = { bg = tab_colour },
+		close_button_selected = { bg = tab_colour_selected },
+		separator_selected = { fg = tab_background_colour, bg = tab_colour_selected  },
+		separator_visible = { fg = tab_background_colour, bg = tab_colour  },
+		separator = { fg = tab_background_colour, bg = tab_colour  },
+	}
+end
+
 return M
