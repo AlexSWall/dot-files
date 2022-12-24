@@ -557,7 +557,9 @@ local plugins = {
 					require('plugins.configs.vscode').setup()
 				end
 			},
-			-- Alternative: 'catppuccin/nvim'
+			-- Alternatives:
+			-- - 'catppuccin/nvim'
+			-- - 'rose-pine/neovim'
 
 		-- Editor
 
@@ -588,7 +590,7 @@ local plugins = {
 				'lukas-reineke/virt-column.nvim',
 				config = function()
 					require("virt-column").setup()
-				end,
+				end
 			},
 
 			{
@@ -712,3 +714,11 @@ require("lazy").setup(plugins, {
 -- 		require('configs.scrollbar').setup()
 -- 	end,
 -- },
+
+			-- {
+			-- 	'kosayoda/nvim-lightbulb',
+			-- 	dependencies = 'antoinemadec/FixCursorHold.nvim',
+			-- 	config = function()
+			-- 		require('nvim-lightbulb').setup({ autocmd = { enabled = true } })
+			-- 	end
+			-- },

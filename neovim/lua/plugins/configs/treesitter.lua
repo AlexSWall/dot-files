@@ -30,8 +30,8 @@ function M.setup()
 			keymaps = {
 				init_selection = '<C-Space>',
 				node_incremental = '<C-Space>',
-				scope_incremental = '<C-s>',
-				node_decremental = '<C-d>'
+				scope_incremental = '<C-l>',
+				node_decremental = '<C-h>'
 			}
 		},
 

@@ -176,7 +176,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 -- Remove colour column for some filetypes
 vim.api.nvim_create_autocmd('FileType', {
 	pattern = {
-		'aerial', 'help', 'html', 'markdown', 'text', 'toggleterm', 'xhtml'
+		'', 'aerial', 'help', 'html', 'markdown', 'text', 'toggleterm', 'xhtml'
 	},
 	callback = function()
 		vim.opt_local.colorcolumn = ''
@@ -223,7 +223,7 @@ local all_but_fts = function(cmd_str, ft_exclusions)
 end
 
 local whitespace_ft_exclusions = table_to_lookup({
-	'', 'aerial', 'toggleterm'
+	'', 'aerial', 'toggleterm', 'help'
 })
 
 -- Label trailing whitespace and spaces before tabs as ExtraWhitespace, but not
