@@ -41,7 +41,7 @@ function M.setup()
 		vscLightGray = '#C0C0C0',
 
 		vscStatusForeground = '#CCCCCC',
-		vscStatusBackground = '#161616',
+		vscStatusBackground = '#202328',
 		vscStatusNCForeground = '#20202A',
 	}
 
@@ -63,7 +63,7 @@ function M.setup()
 		group_overrides = {
 			-- Standard highlight group overrides
 			StatusLine     = { fg = c.vscStatusForeground, bg = c.vscStatusBackground },
-			StatusLineNC   = { fg = c.vscStatusNCForeground, bg = c.vscBack },
+			StatusLineNC   = { fg = c.vscStatusNCForeground, bg = c.vscStatusBackground },
 			Folded         = { fg = c.vscLeftLight, bg = c.vscFoldBackground },
 			Comment        = { fg = c.vscGray, bg = 'NONE', italic = true },
 			SpecialComment = { fg = c.vscGray, bg = 'NONE' },

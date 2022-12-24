@@ -577,6 +577,17 @@ local plugins = {
 			},
 
 			{
+				'nvim-lualine/lualine.nvim',
+				dependencies = {
+					'nvim-tree/nvim-web-devicons',
+					'Mofiqul/vscode.nvim'
+				},
+				config = function()
+					require('plugins.configs.lualine').setup()
+				end
+			},
+
+			{
 				'lukas-reineke/indent-blankline.nvim',
 				enabled = function()
 					return require('plugins.plugin-condition-table').enable_plugin_table['indent-blankline']

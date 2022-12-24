@@ -85,32 +85,6 @@ opt.pumblend = 10
 opt.cursorline    = true
 opt.cursorlineopt = 'number'
 
--- Status Line
-g.StatusLineGit = function()
-
-	if vim.fn.exists('*gitbranch#name') ~= 0 then
-
-		local branch_name = vim.fn['gitbranch#name']()
-
-		if string.len(branch_name) > 0 then
-			return '  ' .. branch_name .. ' '
-		end
-	end
-
-	return ''
-end
-
-opt.statusline = '%#StatusLine# %{StatusLineGit()} %f %y'
-                 .. ' %{&fileencoding?&fileencoding:&encoding}:%{&fileformat}'
-                 .. ' %h%w%m%r'
-                 .. "  %{%v:lua.require'nvim-navic'.get_location()%}"
-                 .. ' %#StatusLineNC#%=-%12.(%#StatusLine#'
-                 .. ' %l,%c%V%) '
-
-opt.fillchars = 'stl:-,stlnc:-'  -- Fill status line with hyphens
-
-opt.cmdheight = 0
-
 -- Miscellaneous
 opt.shortmess:append('s')        -- Don't give 'search hit BOTTOM' etc.
 opt.shortmess:append('I')        -- No intro message
