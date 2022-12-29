@@ -128,7 +128,7 @@ end
 function M.bufferline_highlights()
 
 	local tab_colour = '#191919'
-	local tab_colour_selected = '#282828'
+	local tab_colour_selected = '#303030'
 	local tab_background_colour = '#111111'
 
 	return {
