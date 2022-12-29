@@ -134,6 +134,10 @@ local keymaps = {
 				nmap('<Leader>8', '8gt')
 				nmap('<Leader>9', '9gt')
 
+				-- Move vim tabs around.
+				nmap('<Leader>H', ':tabmove -1<CR>')
+				nmap('<Leader>L', ':tabmove +1<CR>')
+
 			end,
 
 			navigating_files = function()
