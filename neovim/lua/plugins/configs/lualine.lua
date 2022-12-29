@@ -82,15 +82,37 @@ local function lualine()
 	-- Pushes a component into lualine_c; the left section.
 	local function ins_left(component)
 		table.insert(config.sections.lualine_c, component)
+		table.insert(config.inactive_sections.lualine_c, component)
 	end
 
 	-- Pushes a component into lualine_x; the right section.
 	local function ins_right(component)
 		table.insert(config.sections.lualine_x, component)
+		table.insert(config.inactive_sections.lualine_x, component)
+	end
+
+	-- Pushes a component into lualine_c; the left section.
+	local function ins_left_active(component)
+		table.insert(config.sections.lualine_c, component)
+	end
+
+	-- Pushes a component into lualine_x; the right section.
+	local function ins_right_active(component)
+		table.insert(config.sections.lualine_x, component)
+	end
+
+	-- Pushes a component into lualine_c; the left section.
+	local function ins_left_inactive(component)
+		table.insert(config.inactive_sections.lualine_c, component)
+	end
+
+	-- Pushes a component into lualine_x; the right section.
+	local function ins_right_inactive(component)
+		table.insert(config.inactive_sections.lualine_x, component)
 	end
 
 	-- Left bar; `▊`.
-	ins_left({
+	ins_left_active({
 		function()
 			return '▊'
 		end,
@@ -99,8 +121,11 @@ local function lualine()
 		padding = { left = 0, right = 1 }
 	})
 
+	ins_left_inactive({ function() return ' ' end, padding = { left = 0, right = 1 } })
+	ins_left_inactive({ function() return '   ' end, padding = { right = 1 } })
+
 	-- Mode; ``.
-	ins_left({
+	ins_left_active({
 		function()
 			return ' ' .. vim.fn.mode():upper()
 		end,
@@ -234,13 +259,14 @@ local function lualine()
 	})
 
 	-- Right bar; `▊`.
-	ins_right({
+	ins_right_active({
 		function()
 			return '▊'
 		end,
 		color = { fg = colors.blue },
 		padding = { left = 1 },
 	})
+	ins_right_inactive({ function() return ' ' end, padding = { left = 1 } })
 
 	require('lualine').setup(config)
 end
