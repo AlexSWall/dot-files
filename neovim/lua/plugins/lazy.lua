@@ -444,6 +444,7 @@ local plugins = {
 			{
 				'ggandor/leap.nvim',
 				config = function()
+					require('leap').opts.case_sensitive = true
 					require('leap').add_default_mappings()
 				end,
 			},

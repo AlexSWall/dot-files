@@ -138,13 +138,13 @@ local keymaps = {
 
 			navigating_files = function()
 
-				-- Edit Neovim config
+				-- Edit Neovim config.
 				nmap('<Leader>ve', ':e ~/.config/nvim/lua/config.lua<CR>')
 
-				-- Reload Neovim config
+				-- Reload Neovim config.
 				nmap('<Leader>vr', ':so ~/.config/nvim/init.lua<CR>')
 
-				-- Allow gf to edit non-existent files too
+				-- Allow gf to edit non-existent files too.
 				nmap('gf', ':edit <cfile><CR>')
 
 			end

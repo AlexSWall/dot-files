@@ -32,7 +32,7 @@ function M.setup()
 		}
 	})
 
-	require('utils.keymap').nmap('<Leader>tz', require("true-zen").ataraxis, 'Toggle TrueZen')
+	require('utils.keymap').nmap('<Leader>tz', require('true-zen').ataraxis, 'Toggle TrueZen')
 end
 
 return M

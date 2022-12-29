@@ -2,6 +2,7 @@ local M = {}
 
 local relative_number_toggle_ignore_list = {
 	aerial = true,
+	DressingInput = true,
 	help = true,
 	NvimTree = true,
 	Outline = true,
