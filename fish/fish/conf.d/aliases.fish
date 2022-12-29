@@ -2,8 +2,11 @@
 abbr --add l 'ls'
 abbr --add sl 'ls'
 abbr --add s ''
+abbr --add c 'clear'
+abbr --add v 'nvim'
 
 # Git abbreviations
+abbr --add g 'git'
 abbr --add t 'git'
 abbr --add ga 'git add'
 abbr --add gc 'git checkout'
