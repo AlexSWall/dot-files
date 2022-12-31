@@ -433,9 +433,6 @@ local plugins = {
 			end
 		},
 
-		-- Gives `gitbranch#name()`
-		'itchyny/vim-gitbranch',
-
 
 	-- Convenience, Productivity, and Quality of Life
 
@@ -447,6 +444,15 @@ local plugins = {
 					require('leap').opts.case_sensitive = true
 					require('leap').add_default_mappings()
 				end,
+			},
+
+			{
+				'ggandor/flit.nvim',
+				config = function()
+					require('flit').setup({
+						labeled_modes = 'nx'
+					})
+				end
 			},
 
 			-- ysiw) cs)] ds] etc.
@@ -490,9 +496,19 @@ local plugins = {
 
 			'godlygeek/tabular',
 
+			-- Change representation: cr[dxob]
+			'glts/vim-radical',
+
 		-- Automatic
 
 			'tpope/vim-repeat',
+
+			{
+				'NMAC427/guess-indent.nvim',
+				config = function()
+					require('guess-indent').setup({})
+				end,
+			},
 
 			{
 				'windwp/nvim-autopairs',
@@ -671,13 +687,6 @@ local plugins = {
 
 
 	-- Miscellaneous
-
-		'antoinemadec/FixCursorHold.nvim',
-
-		{
-			'lambdalisue/suda.vim',
-			cmd = { 'SudaRead', 'SudaWrite' }
-		},
 
 		'stevearc/stickybuf.nvim',
 
