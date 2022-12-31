@@ -77,6 +77,7 @@ function M.setup()
 			TSNumer        = { fg = c.vscOrange, bg = 'NONE' },
 			ColorColumn    = { fg = 'NONE', bg = 'NONE' },
 			VirtColumn     = { fg = '#202020', bg = 'NONE' },
+			LineNr         = { fg = '#404050' },
 			CursorLineNr   = { fg = '#11CCEE' },
 			MatchParen     = { italic = true },
 			MatchWord      = { fg = '#C586C0', bg = '#121212', bold = true, underline = true },

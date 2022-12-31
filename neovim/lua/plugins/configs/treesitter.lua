@@ -20,10 +20,16 @@ function M.setup()
 			additional_vim_regex_highlighting = false
 		},
 
+		-- Broken for Python, YAML, C++, PHP, maybe Javascript...
 		indent = {
-			enable = true,  -- Must be false for correct PHP indentation
-			disable = { 'yaml' }
+			enable = false,
 		},
+
+		-- Broken for Python, C++...
+		-- yati = {
+		-- 	enable = true,
+		-- 	disable = { 'cpp', 'python' }
+		-- },
 
 		incremental_selection = {
 			enable = true,
