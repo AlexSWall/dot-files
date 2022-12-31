@@ -23,7 +23,7 @@ function M.setup()
 		vscSearchCurrent = '#4B5632',
 		vscSearch = '#264F78',
 
-		vscGray = '#909090',
+		vscGray = '#707080',
 
 		vscLightBlue = '#8CCCEE',
 		vscMediumBlue = '#5CACEE',
