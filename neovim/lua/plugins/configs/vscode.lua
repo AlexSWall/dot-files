@@ -61,6 +61,7 @@ function M.setup()
 		-- Override highlight groups
 		group_overrides = {
 			-- Standard highlight group overrides
+			Cursor         = { fg = '#F0F0F0', bg = '#8090C0' },
 			StatusLine     = { fg = c.vscStatusForeground, bg = c.vscStatusBackground },
 			StatusLineNC   = { fg = c.vscStatusNCForeground, bg = c.vscStatusBackground },
 			Folded         = { fg = c.vscLeftLight, bg = c.vscFoldBackground },
