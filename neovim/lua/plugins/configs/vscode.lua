@@ -34,7 +34,6 @@ function M.setup()
 		vscYellowOrange = '#F7DA8D',
 		vscYellow = '#D5D5A3',
 
-
 		vscFoldBackground = '#121212',
 
 		vscHoverText = '#203845',
@@ -121,6 +120,15 @@ function M.setup()
 
 			-- lsp_signature hint
 			Hint = { fg = '#00CCCC', bg = 'NONE' },
+
+			-- Aerial
+			AerialLine = { bg = '#303030', },
+			AerialLineNC = { bg = '#303030' },
+
+			-- Leap
+			LeapLabelPrimary = { fg = '#000000', bg = '#66BBAA' },  -- Options to select from
+			-- LeapMatch = {},
+			-- LeapLabelSelected = {},
 		}
 	})
 end

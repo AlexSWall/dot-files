@@ -2,8 +2,9 @@ local M = {}
 
 function M.setup()
 	require('aerial').setup({
+		highlight_mode = 'last',
 		layout = {
-			min_width = 30
+			min_width = 27
 		},
 		keymaps = {
 			["<CR>"] = "actions.scroll",
