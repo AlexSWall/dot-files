@@ -196,6 +196,11 @@ local keymaps = {
 			vmap('y', 'myy`y')
 			vmap('Y', 'myY`y')
 
+			nmap('<Leader>it', function() require('core.indentation').set_indentation(3, true) end)
+			nmap('<Leader>i2', function() require('core.indentation').set_indentation(2, false) end)
+			nmap('<Leader>i3', function() require('core.indentation').set_indentation(3, false) end)
+			nmap('<Leader>i4', function() require('core.indentation').set_indentation(4, false) end)
+			nmap('<Leader>i8', function() require('core.indentation').set_indentation(8, false) end)
 		end,
 
 		complex_functionality = function()
@@ -254,6 +259,13 @@ local keymaps = {
 		--
 		python_post_process = function()
 			vim.keymap.set({'n'}, '<Leader><Leader>p', require("functions.python-post-process").python_post_process, { silent = true })
+		end,
+
+		-- Sudo Write
+		--
+		--		<Leader><Leader>w
+		sudo_write = function()
+			nmap('<Leader><Leader>w', require('functions.sudo').sudo_write)
 		end,
 
 		-- Tmux Yank

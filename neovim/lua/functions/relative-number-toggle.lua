@@ -1,16 +1,16 @@
 local M = {}
 
-local relative_number_toggle_ignore_list = {
-	aerial = true,
-	DressingInput = true,
-	help = true,
-	NvimTree = true,
-	Outline = true,
-	toggleterm = true,
-	TelescopePrompt = true,
-	Trouble = true,
-	tsplayground = true
-}
+local relative_number_toggle_ignore_list = require('utils').table_to_lookup({
+	'aerial',
+	'DressingInput',
+	'help',
+	'NvimTree',
+	'Outline',
+	'toggleterm',
+	'TelescopePrompt',
+	'Trouble',
+	'tsplayground'
+})
 
 local number_toggle_on = true
 
@@ -18,7 +18,7 @@ local relative_number_toggle = function(state)
 
 	if (vim.bo.filetype == '')
 		or (relative_number_toggle_ignore_list[vim.bo.filetype] == true)
-		or require("true-zen.ataraxis").running
+		-- or require("true-zen.ataraxis").running
 
 	then
 		-- We're never setting the number or relative number in these cases.
@@ -40,7 +40,7 @@ local relative_number_toggle = function(state)
 	end
 end
 
-M.set_number_toggle = function(state)
+function M.set_number_toggle(state)
 
 	if state == 'enable' then
 

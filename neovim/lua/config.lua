@@ -5,5 +5,9 @@ then
 end
 
 require('plugins.lazy')
+
 require('core.settings')
+require('core.autocmds')
+require('core.indentation').setup()
 require('core.keymaps')
+require('core.misc')
