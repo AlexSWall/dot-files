@@ -311,6 +311,16 @@ local plugins = {
 			end
 		},
 
+
+	-- Navigators
+
+		{
+			'ThePrimeagen/harpoon',
+			config = function()
+				require('plugins.configs.harpoon').setup()
+			end
+		},
+
 		-- <Leader>b[etsv] (open/toggle/-split/|split);
 		-- then b<Num> switches to buffer
 		'jlanzarotta/bufexplorer',
