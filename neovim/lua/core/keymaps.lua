@@ -49,6 +49,8 @@ local keymap_utils = require('utils.keymap')
 local keymap    = keymap_utils.keymap
 local nmap      = keymap_utils.nmap
 local nmap_expr = keymap_utils.nmap_expr
+local imap      = keymap_utils.imap
+local xmap      = keymap_utils.xmap
 local vmap      = keymap_utils.vmap
 local tmap      = keymap_utils.tmap
 
@@ -239,6 +241,18 @@ local keymaps = {
 				':Gitsigns attach<CR>' ..
 				':set number relativenumber linebreak breakindent signcolumn=yes showbreak=↪\\ <CR>' ..
 				':lua require("functions.relative-number-toggle").set_number_toggle("enable")<CR>')
+
+			-- Toggle comment using <C-c> in normal and insert mode.
+			nmap('<C-c>', require('functions.toggle-comment').toggle_comment, 'Toggle comment')
+			imap('<C-c>', require('functions.toggle-comment').toggle_comment, 'Toggle comment')
+
+			-- Flip comments using gC in normal and visual mode.
+			require('functions.flip-flop-comments')
+			nmap('gC', '<cmd>set operatorfunc=v:lua.__flip_flop_comment<cr>g@', 'Invert comments')
+			xmap('gC', '<cmd>set operatorfunc=v:lua.__flip_flop_comment<cr>g@', 'Invert comments')
+
+			-- Add <Leader>gc to invert the previous selection's comments.
+			nmap('<Leader>gc', '<cmd>set operatorfunc=v:lua.__flip_flop_comment<cr>gvg@', 'Invert comments in previous selection')
 
 		end,
 
