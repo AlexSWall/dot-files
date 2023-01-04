@@ -200,21 +200,22 @@ local keymaps = {
 			nmap('Q', '@q')
 			vmap('Q', ':norm @q<CR>')
 
-			-- Toggle paste
+			-- Toggle paste.
 			nmap('<Leader>tp', ':set paste!<CR>')
 
-			-- :noh shortcut
+			-- :noh shortcut.
 			nmap('<Leader>no', ':noh<CR>')
 
-			-- Leak cursor in final location after visual yank.
+			-- Leave cursor in final location after visual yank.
 			vmap('y', 'myy`y')
 			vmap('Y', 'myY`y')
 
-			nmap('<Leader>it', function() require('core.indentation').set_indentation(3, true) end)
-			nmap('<Leader>i2', function() require('core.indentation').set_indentation(2, false) end)
-			nmap('<Leader>i3', function() require('core.indentation').set_indentation(3, false) end)
-			nmap('<Leader>i4', function() require('core.indentation').set_indentation(4, false) end)
-			nmap('<Leader>i8', function() require('core.indentation').set_indentation(8, false) end)
+			-- Set file indentation.
+			nmap('<Leader>it', function() require('core.indentation').set_indentation(3, true) end, 'Set indentation to tabs')
+			nmap('<Leader>i2', function() require('core.indentation').set_indentation(2, false) end, 'Set indentation to two spaces')
+			nmap('<Leader>i3', function() require('core.indentation').set_indentation(3, false) end, 'Set indentation to three spaces')
+			nmap('<Leader>i4', function() require('core.indentation').set_indentation(4, false) end, 'Set indentation to four spaces')
+			nmap('<Leader>i8', function() require('core.indentation').set_indentation(8, false) end, 'Set indentation to eight spaces')
 		end,
 
 		complex_functionality = function()

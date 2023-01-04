@@ -1,50 +1,52 @@
 local M = {}
 
+M.vscode_colourscheme_colour_overrides = {
+	vscFront = '#D1D0D0',
+	vscBack = '#0e0e0e',
+	vscTabCurrent = '#0E0E0E',
+	vscTabOther = '#222222',
+	vscTabOutside = '#151516',
+
+	vscLeftDark = '#151516',
+	vscLeftMid = '#20202A',
+	vscLeftLight = '#5F5F66',
+
+	vscPopupBack = '#121212',
+	vscPopupHighlightGray = '#2b3034',
+
+	vscCursorDarkDark = '#101010',
+
+	vscSearchCurrent = '#4B5632',
+	vscSearch = '#264F78',
+
+	vscGray = '#707080',
+
+	vscPink = '#C586C0',
+	vscLightBlue = '#8CCCEE',
+	vscMediumBlue = '#5CACEE',
+	vscGreen = '#85CEA0',
+	vscBlueGreen = '#2EC9B5',
+	vscLightBlueGreen = '#5EF0E5',
+	vscRed = '#F44747',
+	vscOrange = '#CE9178',  -- Only needed due to specifying it in group_overrides
+	vscYellowOrange = '#F7DA8D',
+	vscYellow = '#D5D5A3',
+
+	vscFoldBackground = '#121212',
+
+	vscHoverText = '#203845',
+	vscLightGray = '#C0C0C0',
+
+	vscStatusForeground = '#CCCCCC',
+	vscStatusBackground = '#202328',
+	vscStatusNCForeground = '#20202A',
+}
+
 function M.setup()
 
 	vim.o.background = 'dark'
 
-	local vscode_colourscheme_colour_overrides = {
-		vscFront = '#D1D0D0',
-		vscBack = '#0e0e0e',
-		vscTabCurrent = '#0E0E0E',
-		vscTabOther = '#222222',
-		vscTabOutside = '#151516',
-
-		vscLeftDark = '#151516',
-		vscLeftMid = '#20202A',
-		vscLeftLight = '#5F5F66',
-
-		vscPopupBack = '#121212',
-		vscPopupHighlightGray = '#2b3034',
-
-		vscCursorDarkDark = '#101010',
-
-		vscSearchCurrent = '#4B5632',
-		vscSearch = '#264F78',
-
-		vscGray = '#707080',
-
-		vscLightBlue = '#8CCCEE',
-		vscMediumBlue = '#5CACEE',
-		vscGreen = '#85CEA0',
-		vscBlueGreen = '#2EC9B5',
-		vscLightBlueGreen = '#5EF0E5',
-		vscOrange = '#CE9178',  -- Only needed due to specifying it in group_overrides
-		vscYellowOrange = '#F7DA8D',
-		vscYellow = '#D5D5A3',
-
-		vscFoldBackground = '#121212',
-
-		vscHoverText = '#203845',
-		vscLightGray = '#C0C0C0',
-
-		vscStatusForeground = '#CCCCCC',
-		vscStatusBackground = '#202328',
-		vscStatusNCForeground = '#20202A',
-	}
-
-	local c = vscode_colourscheme_colour_overrides
+	local c = M.vscode_colourscheme_colour_overrides
 
 	require('vscode').setup({
 		italic_comments = true,
@@ -56,7 +58,7 @@ function M.setup()
 		disable_nvimtree_bg = false,
 
 		-- Override colors
-		color_overrides = vscode_colourscheme_colour_overrides,
+		color_overrides = M.vscode_colourscheme_colour_overrides,
 
 		-- Override highlight groups
 		group_overrides = {

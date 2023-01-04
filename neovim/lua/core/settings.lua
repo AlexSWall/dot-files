@@ -6,8 +6,9 @@ opt.backup = false
 opt.writebackup = false
 opt.swapfile = false
 opt.shada = "'100,<1000,s100,h"
+opt.undofile = true  -- Creates undofile at opt.undodir
 
-opt.updatetime = 100
+opt.updatetime = 50
 
 vim.g.mapleader = ' '
 

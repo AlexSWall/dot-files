@@ -433,7 +433,7 @@ local plugins = {
 		{
 			'lewis6991/gitsigns.nvim',
 			dependencies = {
-				'nvim-lua/plenary.nvim',
+				'nvim-lua/plenary.nvim'
 			},
 			enabled = function()
 				return require('plugins.plugin-condition-table').enable_plugin_table['gitsigns']
@@ -584,7 +584,8 @@ local plugins = {
 				'Mofiqul/vscode.nvim',
 				config = function()
 					require('plugins.configs.vscode').setup()
-				end
+				end,
+				priority = 100
 			},
 			-- Alternatives:
 			-- - 'catppuccin/nvim'
@@ -602,7 +603,8 @@ local plugins = {
 				},
 				config = function()
 					require('plugins.configs.bufferline').setup()
-				end
+				end,
+				priority = 90
 			},
 
 			{
@@ -613,7 +615,8 @@ local plugins = {
 				},
 				config = function()
 					require('plugins.configs.lualine').setup()
-				end
+				end,
+				priority = 90
 			},
 
 			{
@@ -746,53 +749,11 @@ local plugins = {
 		'gpanders/editorconfig.nvim',
 }
 
-require("lazy").setup(plugins, {
-	concurrency = 50  -- Holdover from packer; may be unneeded.
-})
+require("lazy").setup(plugins, {})
 
--- {
--- 	'mfussenegger/nvim-dap-python',
--- 	dependencies = 'mfussenegger/nvim-dap',
--- 	config = function()
--- 		-- TODO
--- 	end,
--- 	ft = { 'python' }
--- },
-
--- {
--- 	'leoluz/nvim-dap-go',
--- 	dependencies = 'mfussenegger/nvim-dap',
--- 	config = function()
--- 		-- TODO
--- 	end,
--- 	ft = { 'go' }
--- },
-
-
-
--- {
--- 	'lukas-reineke/lsp-format.nvim',
--- 	config = function()
--- 		require('configs.lsp-format')
--- 	end,
--- },
-
-
-
--- {
--- 	'petertriho/nvim-scrollbar',
--- 	dependencies = {
--- 		'kevinhwang91/nvim-hlslens',
--- 	},
--- 	config = function()
--- 		require('configs.scrollbar').setup()
--- 	end,
--- },
-
-			-- {
-			-- 	'kosayoda/nvim-lightbulb',
-			-- 	dependencies = 'antoinemadec/FixCursorHold.nvim',
-			-- 	config = function()
-			-- 		require('nvim-lightbulb').setup({ autocmd = { enabled = true } })
-			-- 	end
-			-- },
+-- To consider:
+-- { 'mfussenegger/nvim-dap-python', dependencies = 'mfussenegger/nvim-dap', ft = { 'python' } },
+-- { 'leoluz/nvim-dap-go', dependencies = 'mfussenegger/nvim-dap', ft = { 'go' } },
+-- { 'lukas-reineke/lsp-format.nvim' },
+-- If <Leader>d fails me: 'inkarkat/vim-ReplaceWithRegister'
+-- If I want to use multiple cursors: 'mg979/vim-visual-multi'

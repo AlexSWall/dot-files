@@ -50,16 +50,16 @@ function M.setup()
 					[']c'] = { query = '@class.outer', desc = 'Go to start of next class' }
 				},
 				goto_next_end = {
-					[']F'] = { query = '@function.outer', desc = 'Go to start of next class' },
-					[']C'] = { query = '@class.outer', desc = 'Go to start of next class' }
+					[']F'] = { query = '@function.outer', desc = 'Go to end of next function' },
+					[']C'] = { query = '@class.outer', desc = 'Go to end of next class' }
 				},
 				goto_previous_start = {
-					['[f'] = { query = '@function.outer', desc = 'Go to start of next class' },
-					['[c'] = { query = '@class.outer', desc = 'Go to start of next class' }
+					['[f'] = { query = '@function.outer', desc = 'Go to start of previous function' },
+					['[c'] = { query = '@class.outer', desc = 'Go to start of previous class' }
 				},
 				goto_previous_end = {
-					['[F'] = { query = '@function.outer', desc = 'Go to start of next class' },
-					['[C'] = { query = '@class.outer', desc = 'Go to start of next class' }
+					['[F'] = { query = '@function.outer', desc = 'Go to end of previous function' },
+					['[C'] = { query = '@class.outer', desc = 'Go to end of previous class' }
 				}
 			}
 		},
