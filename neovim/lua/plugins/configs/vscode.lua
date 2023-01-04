@@ -170,12 +170,12 @@ function M.nvim_scrollbar_highlights()
 		},
 		marks = {
 			Cursor = { color = '#606060' },
-			Search = { color = '#0db9d7' },
-			Error = { color = '#db4b4b' },
-			Warn = { color = '#ff966c' },
-			Info = { color = '#ffc777' },
-			Hint = { color = '#73daca' },
-			Misc = { color = '#bb9af7' },
+			Search = { color = '#0db9d7', gui = 'bold' },
+			Error = { color = '#db4b4b', gui = 'bold' },
+			Warn = { color = '#ff966c', gui = 'bold' },
+			Info = { color = '#ffc777', gui = 'bold' },
+			Hint = { color = '#73daca', gui = 'bold' },
+			Misc = { color = '#bb9af7', gui = 'bold' },
 		}
 	}
 end
