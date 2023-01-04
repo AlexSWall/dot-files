@@ -682,6 +682,13 @@ local plugins = {
 			},
 
 			{
+				'kosayoda/nvim-lightbulb',
+				config = function()
+					require('nvim-lightbulb').setup({ autocmd = { enabled = true } })
+				end
+			},
+
+			{
 				'kevinhwang91/nvim-hlslens',
 				config = function()
 					require('plugins.configs.hlslens').setup()
