@@ -91,6 +91,9 @@ local keymaps = {
 			-- Allow '£' to function as '#' (and allow remaps)
 			vim.keymap.set({'n', 'x'}, '£', '#', { remap = true, silent = true })
 
+			-- Keep cursor in its current location instead of moving it.
+			nmap('J', 'mzJ`z')
+
 		end,
 
 		navigation = {
@@ -263,6 +266,11 @@ local keymaps = {
 			-- Add <Leader>gc to invert the previous selection's comments.
 			nmap('<Leader>gc', '<cmd>set operatorfunc=v:lua.__flip_flop_comment<cr>gvg@', 'Invert comments in previous selection')
 
+			-- Replace current word.
+			nmap('<leader><Leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], 'Substitute current word')
+
+			-- Set file to be executable.
+			nmap('<leader>x', '<cmd>!chmod +x %<CR>', 'Set file to be executable')
 		end,
 
 		visual = function()

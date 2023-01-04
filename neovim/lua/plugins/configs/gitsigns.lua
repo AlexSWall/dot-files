@@ -20,9 +20,16 @@ function M.setup()
 			map('<leader>gr', gs.reset_hunk, 'Reset current hunk')
 			map('<leader>gt', gs.toggle_deleted, 'Toggle deleted')
 			map('<leader>gb', gs.toggle_current_line_blame, 'Toggle git blame')
-
-			map('<Leader>]', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", 'Go to next git hunk', { expr = true })
-			map('<Leader>[', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", 'Go to previous git hunk', { expr = true })
+			map(']c', function()
+				if vim.wo.diff then return ']c' end
+				vim.schedule(function() gs.next_hunk() end)
+				return '<Ignore>'
+			end, 'Go to next git hunk', { expr=true })
+			map('[c', function()
+				if vim.wo.diff then return '[c' end
+				vim.schedule(function() gs.prev_hunk() end)
+				return '<Ignore>'
+			end, 'Go to previous git hunk', { expr=true })
 		end
 	})
 
