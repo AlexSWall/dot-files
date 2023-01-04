@@ -681,6 +681,40 @@ local plugins = {
 				end
 			},
 
+			{
+				'kevinhwang91/nvim-hlslens',
+				config = function()
+					require('plugins.configs.hlslens').setup()
+				end
+			},
+
+			{
+				'petertriho/nvim-scrollbar',
+				dependencies = {
+					'kevinhwang91/nvim-hlslens',
+					'lewis6991/gitsigns.nvim',
+				},
+				config = function()
+					local vscode_hls = require('plugins.configs.vscode').nvim_scrollbar_highlights()
+					require("scrollbar").setup({
+						handlers = {
+							cursor = false,
+							diagnostic = true,
+							gitsigns = false,  -- Set up manually below.
+							handle = true,
+							search = false  -- Set up manually below.
+						},
+						handle = vscode_hls.handle,
+						marks = vscode_hls.marks
+					})
+					-- require("scrollbar.handlers.gitsigns").setup()
+					require("scrollbar.handlers.search").setup({
+						-- Disable hlslens
+						override_lens = function() end
+					})
+				end,
+			},
+
 		-- Modal
 
 			{

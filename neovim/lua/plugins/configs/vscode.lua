@@ -131,6 +131,9 @@ function M.setup()
 			LeapLabelPrimary = { fg = '#000000', bg = '#66BBAA' },  -- Options to select from
 			-- LeapMatch = {},
 			-- LeapLabelSelected = {},
+
+			-- Nvim-Scrollbar
+			HlSearchLens = { fg = 'Red', bg = 'Blue' }  -- Should never appear
 		}
 	})
 end
@@ -157,4 +160,21 @@ function M.bufferline_highlights()
 	}
 end
 
+function M.nvim_scrollbar_highlights()
+
+	return {
+		handle = {
+			color = '#181818',
+		},
+		marks = {
+			Cursor = { color = '#606060' },
+			Search = { color = '#0db9d7' },
+			Error = { color = '#db4b4b' },
+			Warn = { color = '#ff966c' },
+			Info = { color = '#ffc777' },
+			Hint = { color = '#73daca' },
+			Misc = { color = '#bb9af7' },
+		}
+	}
+end
 return M

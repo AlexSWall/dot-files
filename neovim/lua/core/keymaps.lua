@@ -78,9 +78,18 @@ local keymaps = {
 			nmap_expr('j', '(v:count == 0 ? \'gj\' : \'j\')')
 			nmap_expr('k', '(v:count == 0 ? \'gk\' : \'k\')')
 
-			-- Keep n and N centred and unfolded
-			nmap('n', 'nzzzv')
-			nmap('N', 'Nzzzv')
+			-- Keep n and N centred and unfolded  [ Moved to hlslens setup. ]
+			-- nmap('n', 'nzzzv')
+			-- nmap('N', 'Nzzzv')
+
+			-- Don't automatically go to next match  [ Moved to hlslens setup. ]
+			-- nmap('*', '*``')
+			-- nmap('#', '#N')
+			-- nmap('g*', 'g*``')
+			-- nmap('g#', 'g#N')
+
+			-- Allow '£' to function as '#' (and allow remaps)
+			vim.keymap.set({'n', 'x'}, '£', '#', { remap = true, silent = true })
 
 		end,
 
