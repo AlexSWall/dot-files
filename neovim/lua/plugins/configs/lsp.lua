@@ -18,13 +18,13 @@ M.enhance_server_opts = {
 						'vim',
 
 						-- Busted
-						"describe",
-						"it",
-						"before_each",
-						"after_each",
-						"teardown",
-						"pending",
-						"clear"
+						'describe',
+						'it',
+						'before_each',
+						'after_each',
+						'teardown',
+						'pending',
+						'clear'
 					}
 				},
 				completion = {
@@ -105,7 +105,7 @@ function M.setup()
 			on_attach = function(client, bufnr)
 				M.add_keymaps(client, bufnr)
 				if client.server_capabilities.documentSymbolProvider then
-					require("nvim-navic").attach(client, bufnr)
+					require('nvim-navic').attach(client, bufnr)
 				end
 			end,
 			capabilities = capabilities,

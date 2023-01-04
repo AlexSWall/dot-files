@@ -4,7 +4,7 @@
 -- https://github.com/ray-x/nvim
 
 -- Ensure lazy.nvim is installed.
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 -- e.g. lazypath = ~/.local/share/nvim/lazy/lazy.nvim
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -109,8 +109,8 @@ local plugins = {
 		},
 
 		{
-			"SmiteshP/nvim-navic",
-			dependencies = "neovim/nvim-lspconfig"
+			'SmiteshP/nvim-navic',
+			dependencies = 'neovim/nvim-lspconfig'
 		},
 
 		{
@@ -596,7 +596,7 @@ local plugins = {
 			{
 				'akinsho/bufferline.nvim',
 				enabled = true,
-				version = "v3.*",
+				version = 'v3.*',
 				dependencies = {
 					'nvim-tree/nvim-web-devicons',
 					'Mofiqul/vscode.nvim'
@@ -632,7 +632,7 @@ local plugins = {
 			{
 				'lukas-reineke/virt-column.nvim',
 				config = function()
-					require("virt-column").setup()
+					require('virt-column').setup()
 				end
 			},
 
@@ -733,7 +733,7 @@ local plugins = {
 		'gpanders/editorconfig.nvim',
 }
 
-require("lazy").setup(plugins, {})
+require('lazy').setup(plugins, {})
 
 -- To consider:
 -- { 'mfussenegger/nvim-dap-python', dependencies = 'mfussenegger/nvim-dap', ft = { 'python' } },

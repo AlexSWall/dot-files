@@ -3,12 +3,12 @@ local M = {}
 local function add_macro_recording_refresh_autocmds()
 
 	local lualine_refresh_fn = function()
-		require('lualine').refresh({ place = { "statusline" } })
+		require('lualine').refresh({ place = { 'statusline' } })
 	end
 
-	vim.api.nvim_create_autocmd("RecordingEnter", { callback = lualine_refresh_fn })
+	vim.api.nvim_create_autocmd('RecordingEnter', { callback = lualine_refresh_fn })
 
-	vim.api.nvim_create_autocmd("RecordingLeave", {
+	vim.api.nvim_create_autocmd('RecordingLeave', {
 		callback = function()
 			-- vim.fn.reg_recording does not empty immediately, so wait 50ms.
 			local timer = vim.loop.new_timer()
@@ -212,10 +212,10 @@ local function lualine()
 	ins_right({
 		function ()
 			local recording_register = vim.fn.reg_recording()
-			if recording_register == "" then
-				return ""
+			if recording_register == '' then
+				return ''
 			else
-				return "Recording @" .. recording_register
+				return 'Recording @' .. recording_register
 			end
 		end,
 		color = { fg = colors.green }
@@ -290,7 +290,7 @@ function M.my_setup()
 	vim.opt.statusline = '%#StatusLine# %{StatusLineGit()} %f %y'
 	                  .. ' %{&fileencoding?&fileencoding:&encoding}:%{&fileformat}'
 	                  .. ' %h%w%m%r'
-	                  .. "  %{%v:lua.require'nvim-navic'.get_location()%}"
+	                  .. "  %{%v:lua.require('nvim-navic').get_location()%}"
 	                  .. ' %#StatusLineNC#%=-%12.(%#StatusLine#'
 	                  .. ' %l,%c%V%) '
 

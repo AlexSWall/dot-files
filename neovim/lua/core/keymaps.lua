@@ -290,7 +290,7 @@ local keymaps = {
 		--		<Leader><Leader>p
 		--
 		python_post_process = function()
-			vim.keymap.set({'n'}, '<Leader><Leader>p', require("functions.python-post-process").python_post_process, { silent = true })
+			vim.keymap.set({'n'}, '<Leader><Leader>p', require('functions.python-post-process').python_post_process, { silent = true })
 		end,
 
 		-- Sudo Write

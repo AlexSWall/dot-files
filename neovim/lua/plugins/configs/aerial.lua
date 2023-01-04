@@ -7,8 +7,8 @@ function M.setup()
 			min_width = 27
 		},
 		keymaps = {
-			["<CR>"] = "actions.scroll",
-			["<C-y>"] = "actions.jump",
+			['<CR>'] = 'actions.scroll',
+			['<C-y>'] = 'actions.jump',
 		}
 	})
 	require('utils.keymap').nmap(

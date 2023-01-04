@@ -18,7 +18,7 @@ local relative_number_toggle = function(state)
 
 	if (vim.bo.filetype == '')
 		or (relative_number_toggle_ignore_list[vim.bo.filetype] == true)
-		-- or require("true-zen.ataraxis").running
+		-- or require('true-zen.ataraxis').running
 
 	then
 		-- We're never setting the number or relative number in these cases.

@@ -48,7 +48,7 @@ opt.completeopt = 'menuone,noinsert,noselect'
 --   > off in insert mode
 --   > on otherwise
 -- (except in specific filetypes)
-require("functions.relative-number-toggle").set_number_toggle("enable")
+require('functions.relative-number-toggle').set_number_toggle('enable')
 
 -- 'Format options':
 --   t: Auto-wrap text using textwidth
