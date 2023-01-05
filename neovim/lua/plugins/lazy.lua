@@ -84,6 +84,7 @@ local plugins = {
 			dependencies = {
 				'williamboman/mason.nvim',
 				'williamboman/mason-lspconfig.nvim',
+				'folke/neodev.nvim'
 			},
 			config = function()
 				require('plugins.configs.lsp').setup()
@@ -358,13 +359,6 @@ local plugins = {
 		-- Lua
 			{
 				'folke/neodev.nvim',
-				dependencies = {
-					'neovim/nvim-lspconfig',
-					'williamboman/mason-lspconfig',
-				},
-				config = function()
-					require('neodev').setup({})
-				end
 			},
 
 		-- Markdown

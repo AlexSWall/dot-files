@@ -91,9 +91,15 @@ function M.add_keymaps(_, bufnr)
 	vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help, { desc = 'Show signature help', buffer = 0 } )
 end
 
+function M.setup_lsp_plugins()
+	require('neodev').setup({})
+end
+
 function M.setup()
 
 	local servers = require('plugins.lsp-servers').servers_to_ensure_installed()
+
+	M.setup_lsp_plugins()
 
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
