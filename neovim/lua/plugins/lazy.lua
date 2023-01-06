@@ -754,6 +754,5 @@ require('lazy').setup(plugins, {})
 -- To consider:
 -- { 'mfussenegger/nvim-dap-python', dependencies = 'mfussenegger/nvim-dap', ft = { 'python' } },
 -- { 'leoluz/nvim-dap-go', dependencies = 'mfussenegger/nvim-dap', ft = { 'go' } },
--- { 'lukas-reineke/lsp-format.nvim' },
 -- If <Leader>d fails me: 'inkarkat/vim-ReplaceWithRegister'
 -- If I want to use multiple cursors: 'mg979/vim-visual-multi'
