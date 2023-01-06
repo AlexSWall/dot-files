@@ -97,7 +97,7 @@ end
 
 function M.setup()
 
-	local servers = require('plugins.lsp-servers').servers_to_ensure_installed()
+	local servers = require('plugins.ensure-installed').lsp_servers_to_ensure_installed
 
 	M.setup_lsp_plugins()
 

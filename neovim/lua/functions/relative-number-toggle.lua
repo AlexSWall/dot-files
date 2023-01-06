@@ -1,6 +1,7 @@
 local M = {}
 
-local relative_number_toggle_ignore_list = require('utils').table_to_lookup({
+local relative_number_toggle_ignore_list_lookup = require('utils').list_to_lookup({
+	'',
 	'aerial',
 	'DressingInput',
 	'help',
@@ -16,10 +17,8 @@ local number_toggle_on = true
 
 local relative_number_toggle = function(state)
 
-	if (vim.bo.filetype == '')
-		or (relative_number_toggle_ignore_list[vim.bo.filetype] == true)
+	if relative_number_toggle_ignore_list_lookup[vim.bo.filetype]
 		-- or require('true-zen.ataraxis').running
-
 	then
 		-- We're never setting the number or relative number in these cases.
 		vim.opt_local.relativenumber = false

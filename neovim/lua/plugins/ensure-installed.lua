@@ -1,6 +1,6 @@
 local M = {}
 
-M.lsp_servers = {
+M.lsp_servers_to_ensure_installed = require('utils').lookup_to_list({
 	bashls        = true,   -- bash
 	clangd        = true,   -- C, C++
 	cmake         = true,   -- CMake
@@ -10,6 +10,7 @@ M.lsp_servers = {
 	hls           = false,  -- Haskell
 	html          = true,   -- HTML
 	intelephense  = true,   -- PHP
+	pyright       = true,   -- Python
 	rust_analyzer = false,  -- Rust
 	sumneko_lua   = true,   -- Lua
 	taplo         = false,  -- Toml
@@ -17,26 +18,13 @@ M.lsp_servers = {
 	tsserver      = true,   -- Typescript, Javascript
 	vimls         = true,   -- Vimscript
 	yamlls        = true,   -- Yaml
+})
 
-   -- Python:
-	pyright              = true,
-	jedi_language_server = false,
-	sourcery             = false,
-	pylsp                = false,
+M.treesitter_parsers_to_ensure_installed = {
+	'bash', 'c', 'comment', 'cpp', 'css', 'dockerfile', 'erlang', 'fish', 'go',
+	'gomod', 'haskell', 'help', 'html', 'java', 'javascript', 'json', 'latex',
+	'lua', 'make', 'markdown', 'php', 'python', 'rust', 'tsx', 'typescript',
+	'vim', 'yaml'
 }
-
-M.servers_to_ensure_installed = function()
-
-	local servers_to_ensure_installed = {}
-
-	for name, enabled in pairs(M.lsp_servers) do
-		if enabled == true then
-			table.insert(servers_to_ensure_installed, name)
-		end
-	end
-
-	return servers_to_ensure_installed
-
-end
 
 return M
