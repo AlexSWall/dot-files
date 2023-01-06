@@ -65,7 +65,15 @@ local plugins = {
 		{
 			'williamboman/mason.nvim',
 			config = function()
-				require('mason').setup()
+				require('mason').setup({
+					ui = {
+						icons = {
+							package_installed = "✓",
+							package_pending = "➜",
+							package_uninstalled = "✗"
+						}
+					}
+				})
 			end,
 		},
 
@@ -124,6 +132,7 @@ local plugins = {
 			end
 		},
 
+
 		-- Code outline
 		{
 			'stevearc/aerial.nvim',
@@ -131,6 +140,15 @@ local plugins = {
 				require('plugins.configs.aerial').setup()
 			end
 		},
+
+		-- Formatting
+
+		-- {
+		-- 	'mhartington/formatter.nvim',
+		-- 	config = function()
+		-- 		require('plugins.configs.formatter').setup()
+		-- 	end
+		-- },
 
 
 	-- DAP Plugins
@@ -259,13 +277,6 @@ local plugins = {
 			'sindrets/diffview.nvim',
 			config = function()
 				require('diffview').setup({})
-			end
-		},
-
-		{
-			'mhartington/formatter.nvim',
-			config = function()
-				require('plugins.configs.formatter').setup()
 			end
 		},
 

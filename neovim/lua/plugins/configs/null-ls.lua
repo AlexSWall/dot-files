@@ -35,7 +35,6 @@ function M.setup()
 			code_actions.eslint_d,
 			formatting.prettierd,
 		},
-		-- on_attach = require('configs.lsp').on_attach_no_symbols,
 	})
 end
 
