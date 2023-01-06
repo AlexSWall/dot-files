@@ -88,6 +88,17 @@ local plugins = {
 		},
 
 		{
+			'jayp0521/mason-null-ls.nvim',
+			dependencies = {
+				'williamboman/mason.nvim',
+				'jose-elias-alvarez/null-ls.nvim',
+			},
+			config = function()
+				require('plugins.configs.mason-null-ls').setup()
+			end
+		},
+
+		{
 			'neovim/nvim-lspconfig',
 			dependencies = {
 				'williamboman/mason.nvim',
