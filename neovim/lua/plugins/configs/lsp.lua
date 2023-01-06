@@ -1,5 +1,55 @@
 local M = {}
 
+function M.python_env()
+	-- Attempts to find the Python virtual environment.
+	--
+	-- 1. Search environment for VIRTUAL_ENV or (failing that) CONDA_DEFAULT_ENV.
+	-- 2. Search for a venv folder in the current working directory
+	--    (via the pattern '.?v?env.?')
+	-- 3. Search for the system Python.
+	--
+	-- On success, a dictionary containing python_path and bin_dir is returned.
+	-- On failure, nil is returned.
+
+	local path = require('lspconfig/util').path
+	local join = path.join
+
+	-- Use virtualenv or conda env if present.
+	if vim.env.VIRTUAL_ENV or vim.env.CONDA_DEFAULT_ENV then
+		local bin_dir = join(vim.env.VIRTUAL_ENV or vim.env.CONDA_DEFAULT_ENV, 'bin')
+		return {
+			python_path = join(bin_dir, 'python'),
+			bin_dir = bin_dir
+		}
+	end
+
+	-- Search for venv patterns in current working directory.
+	for _, pattern in ipairs({
+		'venv', 'venv?', '.venv', '.venv?', 'env', '.env'
+	}) do
+		local matches = vim.fn.glob(join(vim.fn.getcwd(), pattern), true, true)
+		local _, match = next(matches)
+		if match and path.exists(join(match, 'bin', 'python')) then
+			local bin_dir = join(match, 'bin')
+			return {
+				python_path = join(bin_dir, 'python'),
+				bin_dir = bin_dir
+			}
+		end
+	end
+
+	-- No Python environment found, try to use the system Python.
+	local python_path = vim.fn.exepath('python3') or vim.fn.exepath('python') or nil
+	if python_path then
+		return {
+			python_path = python_path,
+			bin_dir = path.dirname(python_path)
+		}
+	end
+
+	return nil
+end
+
 M.enhance_server_opts = {
 	['sumneko_lua'] = function(opts)
 
@@ -40,19 +90,32 @@ M.enhance_server_opts = {
 		}
 	end,
 
-	['pylsp'] = function(opts)
+	['pyright'] = function(opts)
+		-- https://github.com/microsoft/pyright/blob/main/docs/settings.md
 		opts.settings = {
-			pylsp = {
-				plugins = {
-					jedi_completion = {
-						include_params = true,
-					}
+			pyright = {
+				-- Use ruff instead.
+				disableOrganizeImports = true,
+			},
+			python = {
+				analysis = {
+					autoImportCompletions = true,
+
+					-- Alternatively 'workspace', but may be slow.
+					diagnosticMode = 'openFilesOnly',
+
+					typeCheckingMode = 'basic',
 				}
 			},
-			mccabe = {
-				Threshold = 25
-			}
 		}
+
+		opts.before_init = function(_, config)
+			local python_env = M.python_env()
+			if python_env == nil then
+				return
+			end
+			config.settings.python.pythonPath = python_env.python_path
+		end
 	end,
 
 	['tsserver'] = function(opts)
@@ -71,7 +134,7 @@ M.enhance_server_opts = {
 	end
 }
 
-function M.add_keymaps(_, bufnr)
+function M.add_keymaps(client, bufnr)
 	local function keymap(from, to, desc)
 		vim.keymap.set('n', from, to, { desc = desc, buffer = bufnr } )
 	end
@@ -87,6 +150,19 @@ function M.add_keymaps(_, bufnr)
 	keymap('[d',         vim.diagnostic.goto_prev,                  'Go to previous diagnostic')
 	keymap(']d',         vim.diagnostic.goto_next,                  'Go to next diagnostic')
 	keymap('<Leader>rn', vim.lsp.buf.rename,                        'Rename symbol')
+
+	-- -- Overwrite <Leader>F to use null_ls formatting instead for python.
+	-- if client.name == 'pyright' then
+	local format_buffer_cmd = function()
+		vim.lsp.buf.format({
+			bufnr = bufnr,
+			filter = function(buf_client)
+				return buf_client.name == "null-ls"
+			end
+		})
+	end
+	keymap('<Leader>F', format_buffer_cmd, 'Format file using null-ls')
+	-- end
 
 	vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help, { desc = 'Show signature help', buffer = 0 } )
 end

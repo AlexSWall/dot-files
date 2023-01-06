@@ -6,6 +6,24 @@ function M.setup()
 	local diagnostics  = require('null-ls').builtins.diagnostics
 	local formatting   = require('null-ls').builtins.formatting
 
+	local ruff_extra_args = {
+		-- Removed: McCabe (C90), flake8-print (T20), flake8-errmsg (EM), eradicate (ERA), flake8-pie (PIE)
+		'--select', 'F,E,W,I,D,UP,N,YTT,ANN,S,BLE,FBT,B,A,C4,T10,ISC,ICN,PT,Q,RET,SIM,TID,ARG,DTZ,PD,PGH,PLC,PLE,PLR,PLW,RUF',
+		'--ignore', ''
+		-- These are covered by pyright.
+		.. 'F401,F821,F841,'
+		-- Don't force one-line docstrings.
+		.. 'D200,'
+		-- No blank lines before class docstring.
+		.. 'D203,'
+		-- Multiline docstrings should start on next line.
+		.. 'D212,'
+		-- Allow single quotes.
+		.. 'Q000,Q001'
+		.. '',
+		'--line-length', '120'
+	}
+
 	require('null-ls').setup({
 		sources = {
 			-- All
@@ -17,17 +35,22 @@ function M.setup()
 				diagnostics_format = '[#{c}] #{m} (#{s})'
 			}),
 
-			-- Python
-			diagnostics.flake8.with({
-				extra_args = {
-					-- These are covered by pyright.
-					'--ignore', 'F401,F821,F841',
-					'--max-line-length', '120'
-				}
-			}),
+			-- C/C++
+			-- diagnostics.cpplint,
+			formatting.clang_format,
 
-			formatting.black,
-			formatting.isort,
+			-- Python
+			diagnostics.ruff.with({
+				extra_args = ruff_extra_args
+			}),
+			diagnostics.pycodestyle,  -- Catches too many blank lines, whitespace issues, etc.
+			formatting.ruff.with({
+				extra_args = ruff_extra_args
+			}),
+			formatting.blue,  -- Preferable to Black.
+			formatting.autopep8,  -- Slower but catches additional errors such as whitespace issues.
+
+			-- Lua
 			formatting.stylua,
 
 			-- Javascript
