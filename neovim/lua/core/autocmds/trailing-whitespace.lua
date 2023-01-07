@@ -1,6 +1,7 @@
 local whitespace_ft_exclusions_lookup = require('utils').list_to_lookup({
 	'',
 	'aerial',
+	'dapui_console', 'dapui_breakpoints', 'dapui_stacks', 'dapui_watches', 'dap-repl', 'dapui_scopes',
 	'toggleterm',
 	'help'
 })

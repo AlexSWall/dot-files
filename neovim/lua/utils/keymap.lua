@@ -3,7 +3,16 @@ local M = {}
 M.keymap = vim.keymap.set
 
 M.map = function(mode, shortcut, command, desc)
-	vim.keymap.set(mode, shortcut, command, { noremap = true, silent = true, desc = desc })
+	local map = function(lhs)
+		vim.keymap.set(mode, lhs, command, { noremap = true, silent = true, desc = desc })
+	end
+	if type(shortcut) == 'table' then
+		for _, shortcut_elem in pairs(shortcut) do
+			map(shortcut_elem)
+		end
+	else
+		map(shortcut)
+	end
 end
 
 M.map_expr = function(mode, shortcut, command, desc)

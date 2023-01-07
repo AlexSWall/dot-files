@@ -220,10 +220,10 @@ local keymaps = {
 
 		complex_functionality = function()
 
-			-- Use d to yank text beforehand.
-			nmap('<Leader>dd', 'dd:let @0=@"<CR>')
-			nmap('<Leader>D', 'D:let @0=@"<CR>')
-			vmap('<Leader>d', 'd:let @0=@"<CR>')
+			-- Use d,D,dd to yank text beforehand.
+			nmap('<Leader><Leader>D', 'D:let @0=@"<CR>')
+			xmap('<Leader><Leader>d', 'd:let @0=@"<CR>')
+			nmap('<Leader><Leader>dd', 'dd:let @0=@"<CR>')
 
 			-- Move highlighted text (in visual mode) up and down using J and K.
 			vmap('J', ":m '>+1<CR>gv=gv")

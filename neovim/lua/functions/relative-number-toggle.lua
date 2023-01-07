@@ -3,6 +3,7 @@ local M = {}
 local relative_number_toggle_ignore_list_lookup = require('utils').list_to_lookup({
 	'',
 	'aerial',
+	'dapui_console', 'dapui_breakpoints', 'dapui_stacks', 'dapui_watches', 'dap-repl', 'dapui_scopes',
 	'DressingInput',
 	'help',
 	'NvimTree',

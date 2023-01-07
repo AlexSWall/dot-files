@@ -294,7 +294,9 @@ function M.my_setup()
 	                  .. ' %#StatusLineNC#%=-%12.(%#StatusLine#'
 	                  .. ' %l,%c%V%) '
 
-	vim.opt.fillchars = 'stl:-,stlnc:-'  -- Fill status line with hyphens
+	-- Fill status line with hyphens.
+	vim.opt.fillchars['stl'] = '-'
+	vim.opt.fillchars['stlnc'] = '-'
 
 	vim.opt.cmdheight = 0
 

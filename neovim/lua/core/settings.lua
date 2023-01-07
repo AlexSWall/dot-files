@@ -61,7 +61,7 @@ require('functions.relative-number-toggle').set_number_toggle('enable')
 --   a: Auto-format paragraphs when inserting into them.
 vim.api.nvim_create_autocmd('BufEnter', {
 	callback = function()
-		opt.formatoptions = 'tcqjr'
+		opt.formatoptions = 'tcroqj'
 	end
 })
 
@@ -76,6 +76,7 @@ opt.cursorlineopt = 'number'
 opt.colorcolumn = { 80, 120 }
 
 opt.listchars = 'eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣'
+opt.fillchars = { eob = ' ' }  -- Remove ~ end-of-buffer symbols.
 
 opt.wrap = true
 opt.linebreak = true        -- Break between words, not in the middle.
