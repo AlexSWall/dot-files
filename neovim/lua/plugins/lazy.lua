@@ -1,8 +1,3 @@
--- Structure based on
--- https://github.com/gotgenes/dotfiles
--- For speed, look into
--- https://github.com/ray-x/nvim
-
 -- Ensure lazy.nvim is installed.
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 -- e.g. lazypath = ~/.local/share/nvim/lazy/lazy.nvim
@@ -190,9 +185,7 @@ local plugins = {
 		{
 			'mfussenegger/nvim-dap-python',
 			dependencies = 'mfussenegger/nvim-dap',
-			ft = { 'python' },
-			config = function()
-			end
+			ft = { 'python' }
 		},
 
 	-- Other Code-Aware Plugins
@@ -493,9 +486,6 @@ local plugins = {
 
 			-- 'machakann/vim-sandwich')
 
-			-- gS, gJ
-			'AndrewRadev/splitjoin.vim',
-
 			{
 				'junegunn/vim-easy-align',  -- gaip + =,*=,<space>.
 				config = function()
@@ -597,6 +587,8 @@ local plugins = {
 					'javascriptreact', 'typescriptreact', 'tsx', 'jsx'
 				}
 			},
+
+			'tpope/vim-speeddating',
 
 
 	-- Visuals
@@ -759,6 +751,5 @@ local plugins = {
 require('lazy').setup(plugins, {})
 
 -- To consider:
--- { 'leoluz/nvim-dap-go', dependencies = 'mfussenegger/nvim-dap', ft = { 'go' } },
 -- If <Leader>d fails me: 'inkarkat/vim-ReplaceWithRegister'
 -- If I want to use multiple cursors: 'mg979/vim-visual-multi'
