@@ -134,37 +134,34 @@ M.enhance_server_opts = {
 	end
 }
 
-function M.add_keymaps(client, bufnr)
-	local function keymap(from, to, desc)
-		vim.keymap.set('n', from, to, { desc = desc, buffer = bufnr } )
-	end
+function M.add_keymaps()
 
-	keymap('<C-k>',      vim.lsp.buf.hover,                         'Show hover information')
-	keymap('<C-s>',      vim.lsp.buf.signature_help,                'Show function signature')
-	keymap('gd',         '<cmd>Telescope lsp_definitions<CR>',      'Show/go to symbol definitions(s)')
-	keymap('gt',         '<cmd>Telescope lsp_type_definitions<CR>', 'Show/go to type definition(s)')
-	keymap('gi',         '<cmd>Telescope lsp_implementations<CR>',  'Show/go to implementation(s)')
-	keymap('gr',         '<cmd>Telescope lsp_references<CR>',       'Show/go to reference(s)')
-	keymap('gH',         vim.lsp.buf.code_action,                   'Code action')
-	keymap('gD',         '<cmd>Telescope diagnostics<CR>',          'Show diagnostics')
-	keymap('[d',         vim.diagnostic.goto_prev,                  'Go to previous diagnostic')
-	keymap(']d',         vim.diagnostic.goto_next,                  'Go to next diagnostic')
-	keymap('<Leader>rn', vim.lsp.buf.rename,                        'Rename symbol')
+	local nmap = require('utils.keymap').nmap
+	local imap = require('utils.keymap').imap
 
-	-- -- Overwrite <Leader>F to use null_ls formatting instead for python.
-	-- if client.name == 'pyright' then
+	nmap('<C-k>',      vim.lsp.buf.hover,                         'Show hover information')
+	nmap('<C-s>',      vim.lsp.buf.signature_help,                'Show (function) signature help')
+	imap('<C-s>',      vim.lsp.buf.signature_help,                'Show (function) signature help')
+	nmap('gd',         '<cmd>Telescope lsp_definitions<CR>',      'Show/go to symbol definitions(s)')
+	nmap('gt',         '<cmd>Telescope lsp_type_definitions<CR>', 'Show/go to type definition(s)')
+	nmap('gi',         '<cmd>Telescope lsp_implementations<CR>',  'Show/go to implementation(s)')
+	nmap('gr',         '<cmd>Telescope lsp_references<CR>',       'Show/go to reference(s)')
+	nmap('gH',         vim.lsp.buf.code_action,                   'Code action')
+	nmap('gD',         '<cmd>Telescope diagnostics<CR>',          'Show diagnostics')
+	nmap('[d',         vim.diagnostic.goto_prev,                  'Go to previous diagnostic')
+	nmap(']d',         vim.diagnostic.goto_next,                  'Go to next diagnostic')
+	nmap('<Leader>rn', vim.lsp.buf.rename,                        'Rename symbol')
+
+	-- Use null_ls for formatting.
+	-- (Can be changed to only occur for certain LSPs if needed.)
 	local format_buffer_cmd = function()
 		vim.lsp.buf.format({
-			bufnr = bufnr,
 			filter = function(buf_client)
 				return buf_client.name == "null-ls"
 			end
 		})
 	end
-	keymap('<Leader>F', format_buffer_cmd, 'Format file using null-ls')
-	-- end
-
-	vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help, { desc = 'Show signature help', buffer = 0 } )
+	nmap('<Leader>F', format_buffer_cmd, 'Format file using null-ls')
 end
 
 function M.setup_lsp_plugins()
@@ -185,7 +182,6 @@ function M.setup()
 		-- Default options used for setting up all servers
 		local opts = {
 			on_attach = function(client, bufnr)
-				M.add_keymaps(client, bufnr)
 				if client.server_capabilities.documentSymbolProvider then
 					require('nvim-navic').attach(client, bufnr)
 				end
@@ -207,6 +203,8 @@ function M.setup()
 		local hl = 'DiagnosticSign' .. type
 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 	end
+
+	M.add_keymaps()
 end
 
 return M

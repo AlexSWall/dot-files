@@ -200,6 +200,8 @@ local keymaps = {
 			nmap('Q', '@q')
 			vmap('Q', ':norm @q<CR>')
 
+			nmap('<Space>R', '^C')
+
 			-- Toggle paste.
 			nmap('<Leader>tp', ':set paste!<CR>')
 

@@ -63,10 +63,6 @@ function M.setup()
 		}
 	})
 
-	-- Telescope
-	--
-	--		<Leader>f[abfgvrA]
-	--
 	local nmap = require('utils.keymap').nmap
 
 	nmap('<Leader>fa', require('plugins.configs.telescope').fuzzy_search_text,    'Fuzzy search text')

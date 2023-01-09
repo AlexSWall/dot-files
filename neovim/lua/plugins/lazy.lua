@@ -483,8 +483,7 @@ local plugins = {
 
 			-- ysiw) cs)] ds] etc.
 			'tpope/vim-surround',
-
-			-- 'machakann/vim-sandwich')
+			-- Alternative: 'machakann/vim-sandwich')
 
 			{
 				'junegunn/vim-easy-align',  -- gaip + =,*=,<space>.
