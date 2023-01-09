@@ -10,6 +10,10 @@ import sys
 # Targeted imports
 from copy import deepcopy
 from hashlib import md5
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Union  # Basic types
-from typing import ClassVar, Final, Literal, MappingProxyType, NoReturn, Type, TypeVar  # 'Advanced' types
 from pathlib import Path
+
+# Typing
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Set, Union  # Basic types
+from typing import ClassVar, Final, Literal, MappingProxyType, NoReturn, Type, TypeVar  # 'Advanced' types
+from typing import dataclass_transform, overload, final  # Decorators
+from typing import assert_never, assert_type, cast  # Functions
