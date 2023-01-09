@@ -31,5 +31,7 @@
 		    --pretty=format:'%Cred%h%Creset - %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 	s = \
 		status
+	d = \
+		diff HEAD~1 HEAD
 	conflicts = \
 		diff --name-only --diff-filter=U
