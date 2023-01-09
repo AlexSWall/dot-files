@@ -29,5 +29,7 @@
 	l = \
 		log --graph --abbrev-commit --all \
 		    --pretty=format:'%Cred%h%Creset - %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	s = \
+		status
 	conflicts = \
 		diff --name-only --diff-filter=U
