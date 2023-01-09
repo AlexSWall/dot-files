@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 # == Standard Library ==
 
@@ -14,6 +15,11 @@ from pathlib import Path
 
 # Typing
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Set, Union  # Basic types
-from typing import ClassVar, Final, Literal, MappingProxyType, NoReturn, Type, TypeVar  # 'Advanced' types
-from typing import dataclass_transform, overload, final  # Decorators
-from typing import assert_never, assert_type, cast  # Functions
+from typing import ClassVar, Final, Literal, NoReturn, Type, TypeVar  # 'Advanced' types
+from typing import overload, final  # Decorators
+from typing import cast  # Functions
+from types import MappingProxyType  # From types
+
+# Python 3.11.
+# from typing import dataclass_transform  # Decorators from Python 3.11
+# from typing import assert_never, assert_type  # Functions from Python 3.11
