@@ -518,6 +518,22 @@ local plugins = {
 				end
 			},
 
+			{
+				'Wansmer/treesj',
+				dependencies = 'nvim-treesitter',
+				config = function()
+					require('plugins.configs.treesj').setup()
+				end
+			},
+
+			{
+				'ckolkey/ts-node-action',
+				dependencies = 'nvim-treesitter',
+				config = function()
+					require('plugins.configs.ts-node-action').setup()
+				end
+			},
+
 			'godlygeek/tabular',
 
 			-- Change representation: cr[dxob]
