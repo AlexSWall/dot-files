@@ -55,7 +55,9 @@ function M.setup()
 			diagnostics.ruff.with({
 				extra_args = ruff_extra_args
 			}),
-			diagnostics.pycodestyle,  -- Catches too many blank lines, whitespace issues, etc.
+			diagnostics.pycodestyle.with({  -- Catches too many blank lines, whitespace issues, etc.
+				extra_args = { '--max-line-length=120' }
+			}),
 			formatting.ruff.with({
 				extra_args = ruff_extra_args
 			}),
