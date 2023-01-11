@@ -1,9 +1,9 @@
 local M = {}
 
 function M.setup_python_dap()
-	require('dap-python').setup('~/.venvs/debugpy/bin/python')
+	require('dap-python').setup('~/.local/share/nvim/dap_servers/debugpy/bin/python')
 
-	-- Add require('dap-python').test_method() etc. for Python only here.
+	-- TODO: Add require('dap-python').test_method() etc. for Python only here.
 end
 
 function M.setup()

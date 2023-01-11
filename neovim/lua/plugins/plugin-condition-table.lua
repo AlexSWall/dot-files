@@ -1,9 +1,8 @@
 local M = {}
 
 M.enable_plugin_table = {
-	['fidget']               = false,
-	['gitsigns']             = true,
 	['indent-blankline']     = true,
+	['markdown-preview']     = false,
 	['neoscroll']            = true,
 	['nvim-ts-rainbow']      = true,
 	['telescope-fzf-native'] = true,

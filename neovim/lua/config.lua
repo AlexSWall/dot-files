@@ -4,9 +4,16 @@ then
 	return
 end
 
+-- Neovim v0.9:
+-- - Add splitkeep
+-- - Add showcmdloc
+-- - Add diffopt += linematch:60
+-- - Maybe change statuscolumn
+-- - Remove editorconfig
+
 require('plugins.lazy')
 
-require('core.settings')
+require('core.options')
 require('core.autocmds')
 require('core.indentation').setup()
 require('core.keymaps')

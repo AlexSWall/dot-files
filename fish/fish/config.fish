@@ -15,8 +15,14 @@ if status is-interactive
 	bind -M insert \n execute_command_hook
 
 	# Ctrl-y accepts accept-autosuggestion
-	bind \cy accept-autosuggestion
-	bind -M insert \cy accept-autosuggestion
+	bind \cY accept-autosuggestion
+	bind -M insert \cY accept-autosuggestion
+
+	# Ctrl-n, Ctrl-p to recent argument
+	bind \cP history-token-search-backward
+	bind -M insert \cP history-token-search-backward
+	bind \cN history-token-search-forward
+	bind -M insert \cN history-token-search-forward
 
 	# Expand abbreviation without trailing space via Ctrl-Space.
 	#bind -k nul expand-abbr

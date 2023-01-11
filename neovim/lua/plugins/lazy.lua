@@ -1,30 +1,23 @@
--- Ensure lazy.nvim is installed.
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
--- e.g. lazypath = ~/.local/share/nvim/lazy/lazy.nvim
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
-		'git', 'clone',
-		'--filter=blob:none',
-		'--single-branch',
-		'https://github.com/folke/lazy.nvim.git',
-		lazypath,
+		'git', 'clone', '--filter=blob:none', '--single-branch',
+		'https://github.com/folke/lazy.nvim.git', lazypath,
 	})
 end
 vim.opt.runtimepath:prepend(lazypath)
 
-vim.g.mapleader = ' '
-
 local plugins = {
 
-	-- Core
+	-- Dependencies --
 
-		'wbthomason/packer.nvim',
+		{
+			'nvim-lua/plenary.nvim',
+		},
 
-
-	-- Meta --
-
-		'nvim-lua/plenary.nvim',
-		'nvim-tree/nvim-web-devicons',
+		{
+			'nvim-tree/nvim-web-devicons',
+		},
 
 
 	-- Metavisuals
@@ -63,9 +56,9 @@ local plugins = {
 				require('mason').setup({
 					ui = {
 						icons = {
-							package_installed = "✓",
-							package_pending = "➜",
-							package_uninstalled = "✗"
+							package_installed = '✓',
+							package_pending = '➜',
+							package_uninstalled = '✗'
 						}
 					}
 				})
@@ -86,7 +79,7 @@ local plugins = {
 			'jayp0521/mason-null-ls.nvim',
 			dependencies = {
 				'williamboman/mason.nvim',
-				'jose-elias-alvarez/null-ls.nvim',
+				'jose-elias-alvarez/null-ls.nvim'
 			},
 			config = function()
 				require('plugins.configs.mason-null-ls').setup()
@@ -110,6 +103,7 @@ local plugins = {
 			dependencies = {
 				'nvim-lua/plenary.nvim',
 				'neovim/nvim-lspconfig',
+				'jose-elias-alvarez/typescript.nvim'
 			},
 			config = function()
 				require('plugins.configs.null-ls').setup()
@@ -128,16 +122,6 @@ local plugins = {
 			dependencies = 'neovim/nvim-lspconfig'
 		},
 
-		{
-			'j-hui/fidget.nvim',
-			enabled = function()
-				return require('plugins.plugin-condition-table').enable_plugin_table['fidget']
-			end,
-			config = function()
-				require('fidget').setup({})
-			end
-		},
-
 
 		-- Code outline
 		{
@@ -146,15 +130,6 @@ local plugins = {
 				require('plugins.configs.aerial').setup()
 			end
 		},
-
-		-- Formatting
-
-		-- {
-		-- 	'mhartington/formatter.nvim',
-		-- 	config = function()
-		-- 		require('plugins.configs.formatter').setup()
-		-- 	end
-		-- },
 
 
 	-- DAP Plugins
@@ -344,9 +319,9 @@ local plugins = {
 			end
 		},
 
-		-- <Leader>b[etsv] (open/toggle/-split/|split);
-		-- then b<Num> switches to buffer
-		'jlanzarotta/bufexplorer',
+		{
+			'jlanzarotta/bufexplorer'
+		},
 
 
 	-- Code-specific
@@ -386,20 +361,15 @@ local plugins = {
 		-- Markdown
 			{
 				'iamcco/markdown-preview.nvim',
-				-- Works only if yarn and npm are installed.
 				build = 'cd app & yarn install',
-				ft = { 'markdown', 'pandoc.markdown', 'rmd' }
+				ft = { 'markdown', 'pandoc.markdown', 'rmd' },
+				enabled = function()
+					return require('plugins.plugin-condition-table').enable_plugin_table['markdown-preview']
+				end,
 			},
-			-- Edit '```' markdown codeblocks in separate buffer.
 			{
 				'AndrewRadev/inline_edit.vim',
 				ft = { 'markdown', 'pandoc.markdown', 'rmd' }
-			},
-
-		-- Python
-			{
-				'jeetsukumaran/vim-python-indent-black',
-				ft = 'python'
 			},
 
 		-- Tmux (.tmux.conf)
@@ -410,31 +380,19 @@ local plugins = {
 
 		-- Typescript
 			{
-				'leafgarland/typescript-vim',
+				'jose-elias-alvarez/typescript.nvim',
+				config = function()
+					require('typescript').setup({})
+				end,
 				ft = 'typescript'
 			},
-			{
-				'peitalin/vim-jsx-typescript',
-				ft = 'typescript'
-			},
-			-- {
-			-- 	'jose-elias-alvarez/nvim-lsp-ts-utils',
-			-- 	dependencies = {
-			-- 		'neovim/nvim-lspconfig',
-			-- 		'jose-elias-alvarez/null-ls.nvim',
-			-- 		'nvim-lua/plenary.nvim',
-			-- 	},
-			-- 	config = function()
-			-- 		require('plugins.configs.nvim-lsp-ts-utils').setup()
-			-- 	end,
-			-- 	ft = 'typescript'
-			-- },
 
 
 	-- Tmux
 
 		{
-			'numToStr/Navigator.nvim',  -- Adds vim-tmux navigation commands
+			-- Adds vim-tmux navigation commands
+			'numToStr/Navigator.nvim',
 			config = function()
 				require('plugins.configs.tmux-navigator').setup()
 			end
@@ -451,9 +409,6 @@ local plugins = {
 			dependencies = {
 				'nvim-lua/plenary.nvim'
 			},
-			enabled = function()
-				return require('plugins.plugin-condition-table').enable_plugin_table['gitsigns']
-			end,
 			config = function()
 				require('plugins.configs.gitsigns').setup()
 			end
@@ -481,12 +436,13 @@ local plugins = {
 				end
 			},
 
-			-- ysiw) cs)] ds] etc.
-			'tpope/vim-surround',
-			-- Alternative: 'machakann/vim-sandwich')
+			{
+				'tpope/vim-surround'
+				-- Alternative: 'machakann/vim-sandwich')
+			},
 
 			{
-				'junegunn/vim-easy-align',  -- gaip + =,*=,<space>.
+				'junegunn/vim-easy-align',
 				config = function()
 					require('plugins.configs.easy-align').setup()
 				end
@@ -501,8 +457,9 @@ local plugins = {
 				end
 			},
 
-			-- Extends % and adds [g[]zia]%.
-			'andymass/vim-matchup',
+			{
+				'andymass/vim-matchup'
+			},
 
 			{
 				'mhinz/vim-sayonara',
@@ -534,14 +491,19 @@ local plugins = {
 				end
 			},
 
-			'godlygeek/tabular',
+			{
+				'godlygeek/tabular'
+			},
 
-			-- Change representation: cr[dxob]
-			'glts/vim-radical',
+			{
+				'glts/vim-radical',
+			},
 
 		-- Automatic
 
-			'tpope/vim-repeat',
+			{
+				'tpope/vim-repeat'
+			},
 
 			{
 				'NMAC427/guess-indent.nvim',
@@ -617,6 +579,7 @@ local plugins = {
 				end,
 				priority = 100
 			},
+
 			-- Alternatives:
 			-- - 'catppuccin/nvim'
 			-- - 'rose-pine/neovim'
@@ -758,13 +721,20 @@ local plugins = {
 
 	-- Miscellaneous
 
-		'stevearc/stickybuf.nvim',
+		{
+			'stevearc/stickybuf.nvim',
+		},
 
-		'gpanders/editorconfig.nvim',
+		{
+			'gpanders/editorconfig.nvim',
+		}
 }
 
-require('lazy').setup(plugins, {})
-
 -- To consider:
--- If <Leader>d fails me: 'inkarkat/vim-ReplaceWithRegister'
--- If I want to use multiple cursors: 'mg979/vim-visual-multi'
+--  - If <Leader>d fails me: 'inkarkat/vim-ReplaceWithRegister'
+--  - If I want to use multiple cursors: 'mg979/vim-visual-multi'
+
+-- Must be before any keybindings which make use of <Leader>.
+vim.g.mapleader = ' '
+
+require('lazy').setup(plugins, {})

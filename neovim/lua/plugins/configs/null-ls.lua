@@ -12,26 +12,43 @@ function M.setup()
 		-- - flake8-blind-except (BLE),
 		-- - flake8-print (T20),
 		-- - flake8-errmsg (EM),
+		-- - flake8-unused-arguments (ARG),
 		-- - eradicate (ERA),
 		-- - flake8-pie (PIE)
-		'--select', 'F,E,W,I,D,UP,N,YTT,ANN,S,FBT,B,A,C4,T10,ISC,ICN,PT,Q,RET,SIM,TID,ARG,DTZ,PD,PGH,PLC,PLE,PLR,PLW,RUF',
+		'--select', 'F,E,W,I,D,UP,N,YTT,ANN,S,FBT,B,A,C4,T10,ISC,ICN,PT,Q,RET,SIM,TID,DTZ,PD,PGH,PLC,PLE,PLR,PLW,RUF',
 		'--ignore', ''
 		-- These are covered by pyright.
 		.. 'F401,F821,F841,'
-		-- 'Temporarily allow no docstrings.'
-		-- .. 'D100,D101,D102,D103,D104,D105,D106,D107,'
+		-- Remove documentation requirement for packages, modules, and classes.
+		.. 'D100,D101,D104,D106,'
 		-- No blank lines before class docstring.
 		.. 'D203,'
 		-- Don't force one-line docstrings.
 		.. 'D200,'
 		-- Multiline docstrings should start on next line.
 		.. 'D212,'
+		-- Avoid preferring list to List for type annocations.
+		.. 'UP006,'
+		-- Avoid preferring | to Union—the former is a Python 3.10 feature.
+		.. 'UP007,'
 		-- Allow dynamically-typed expressions via typing.Any.
 		.. 'ANN401,'
+		-- Ignore 'hardcoded passwords' errors.
+		.. 'S105,S106,S107,'
+		-- Allow raw dict() calls.
+		.. 'C408,'
 		-- Allow unittest.assertEquals (etc.)
 		.. 'PT009,'
+		-- Allow 'implicitly concatenated string literals over continuation line'.
+		.. 'ISC002,'
 		-- Allow single quotes.
-		.. 'Q000,Q001'
+		.. 'Q000,Q001,'
+		-- Allow nested if-statements.
+		.. 'SIM102,'
+
+		-- 'Temporarily allow no docstrings.'
+		-- .. 'D100,D101,D102,D103,D104,D105,D106,D107,'
+
 		.. '',
 		'--line-length', '120'
 	}
@@ -61,7 +78,9 @@ function M.setup()
 			formatting.ruff.with({
 				extra_args = ruff_extra_args
 			}),
-			formatting.blue,  -- Preferable to Black.
+			formatting.blue.with({  -- Preferable to Black.
+				extra_args = { '--line-length=120' }
+			}),
 			formatting.autopep8,  -- Slower but catches additional errors such as whitespace issues.
 
 			-- Lua
@@ -71,6 +90,9 @@ function M.setup()
 			diagnostics.eslint_d,
 			code_actions.eslint_d,
 			formatting.prettierd,
+
+			-- Typescript
+			require("typescript.extensions.null-ls.code-actions"),
 		},
 	})
 end

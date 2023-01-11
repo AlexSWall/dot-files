@@ -35,3 +35,15 @@
 		diff HEAD~1 HEAD
 	conflicts = \
 		diff --name-only --diff-filter=U
+
+	# Diffs between the n-th last commit and its parent.
+	d0 = diff HEAD~1  HEAD~0
+	d1 = diff HEAD~2  HEAD~1
+	d2 = diff HEAD~3  HEAD~2
+	d3 = diff HEAD~4  HEAD~3
+	d4 = diff HEAD~5  HEAD~4
+	d5 = diff HEAD~6  HEAD~5
+	d6 = diff HEAD~7  HEAD~6
+	d7 = diff HEAD~8  HEAD~7
+	d8 = diff HEAD~9  HEAD~8
+	d9 = diff HEAD~10 HEAD~9

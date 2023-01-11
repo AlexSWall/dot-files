@@ -190,10 +190,6 @@ local function lualine()
 		end,
 	})
 
-	-- TODO Add showcmd entry on Neovim v0.9.
-	-- See: https://github.com/neovim/neovim/issues/20882
-	-- See: https://github.com/neovim/neovim/pull/21202
-
 	-- Search Count; e.g. [23/81]
 	ins_right({
 		function ()
