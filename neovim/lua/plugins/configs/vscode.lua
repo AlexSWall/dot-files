@@ -42,11 +42,33 @@ M.vscode_colourscheme_colour_overrides = {
 	vscStatusNCForeground = '#20202A',
 }
 
+M.my_colours = {
+	ErrorColour = '#db4b4b',
+	WarnColour = '#ff966c',
+	InfoColour = '#ffc777',
+	HintColour = '#73daca',
+	MiscColour = '#bb9af7',
+
+	ScrollHandle = '#181818',
+	ScrollCursor = '#606060',
+	ScrollSearch = '#0db9d7',
+
+	TabColour = '#191919',
+	TabColourSelected = '#303030',
+	TabBackgroundColour = '#111111',
+
+	BreakpointColour = '#db4b4b',
+	DapLogPointColour = '#ffc777',
+	DapStoppedColour = '#73daca',
+	DebuggingLinePC = '#202020',
+}
+
 function M.setup()
 
 	vim.o.background = 'dark'
 
 	local c = M.vscode_colourscheme_colour_overrides
+	local mc = M.my_colours
 
 	require('vscode').setup({
 		italic_comments = true,
@@ -135,48 +157,55 @@ function M.setup()
 			-- LeapLabelSelected = {},
 
 			-- Nvim-Scrollbar
-			HlSearchLens = { fg = 'Red', bg = 'Blue' }  -- Should never appear
+			HlSearchLens = { fg = 'Red', bg = 'Blue' },  -- Should never appear
+
+			-- Dap
+			DapBreakpoint = { fg = mc.BreakpointColour, bold = true },
+			DapLogPoint = { fg = mc.DapLogPointColour, bold = true },
+			DapStopped = { fg = mc.DapStoppedColour, bold = true },
+			debugPC = { bg = mc.DebuggingLinePC, bold = true }
 		}
 	})
 end
 
 function M.bufferline_highlights()
 
-	local tab_colour = '#191919'
-	local tab_colour_selected = '#303030'
-	local tab_background_colour = '#111111'
+	local c = M.my_colours
 
 	return {
-		background = { bg = tab_colour },
-		buffer_selected = { bg = tab_colour_selected, italic = false },
-		tab_close = { bg = tab_colour },
-		close_button = { bg = tab_colour },
-		close_button_visible = { bg = tab_colour },
-		close_button_selected = { bg = tab_colour_selected },
-		modified = { bg = tab_colour },
-		modified_visible = { bg = tab_colour },
-		modified_selected = { bg = tab_colour_selected },
-		separator_selected = { fg = tab_background_colour, bg = tab_colour_selected  },
-		separator_visible = { fg = tab_background_colour, bg = tab_colour  },
-		separator = { fg = tab_background_colour, bg = tab_colour  },
+		background            = { bg = c.TabColour },
+		tab_close             = { bg = c.TabColour },
+		close_button          = { bg = c.TabColour },
+		close_button_visible  = { bg = c.TabColour },
+		modified              = { bg = c.TabColour },
+		modified_visible      = { bg = c.TabColour },
+		buffer_selected       = { bg = c.TabColourSelected },
+		modified_selected     = { bg = c.TabColourSelected },
+		close_button_selected = { bg = c.TabColourSelected },
+		separator_selected    = { fg = c.TabBackgroundColour, bg = c.TabColourSelected  },
+		separator_visible     = { fg = c.TabBackgroundColour, bg = c.TabColour  },
+		separator             = { fg = c.TabBackgroundColour, bg = c.TabColour  },
 	}
 end
 
 function M.nvim_scrollbar_highlights()
 
+	local c = M.my_colours
+
 	return {
 		handle = {
-			color = '#181818',
+			color = c.ScrollHandle,
 		},
 		marks = {
-			Cursor = { color = '#606060' },
-			Search = { color = '#0db9d7', gui = 'bold' },
-			Error = { color = '#db4b4b', gui = 'bold' },
-			Warn = { color = '#ff966c', gui = 'bold' },
-			Info = { color = '#ffc777', gui = 'bold' },
-			Hint = { color = '#73daca', gui = 'bold' },
-			Misc = { color = '#bb9af7', gui = 'bold' },
+			Cursor = { color = c.ScrollCursor },
+			Search = { color = c.ScrollSearch, gui = 'bold' },
+			Error  = { color = c.ErrorColour, gui = 'bold' },
+			Warn   = { color = c.WarnColour, gui = 'bold' },
+			Info   = { color = c.InfoColour, gui = 'bold' },
+			Hint   = { color = c.HintColour, gui = 'bold' },
+			Misc   = { color = c.MiscColour, gui = 'bold' },
 		}
 	}
 end
+
 return M

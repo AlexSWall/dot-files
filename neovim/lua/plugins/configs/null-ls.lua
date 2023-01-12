@@ -44,7 +44,7 @@ function M.setup()
 		-- Allow single quotes.
 		.. 'Q000,Q001,'
 		-- Allow nested if-statements.
-		.. 'SIM102,'
+		.. 'SIM102'
 
 		-- 'Temporarily allow no docstrings.'
 		-- .. 'D100,D101,D102,D103,D104,D105,D106,D107,'

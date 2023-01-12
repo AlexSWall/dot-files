@@ -136,6 +136,11 @@ local plugins = {
 
 		{
 			'mfussenegger/nvim-dap',
+			dependencies = {
+				'rcarriga/nvim-dap-ui',
+				'mfussenegger/nvim-dap-python',
+				'theHamsta/nvim-dap-virtual-text',
+			},
 			config = function()
 				require('plugins.configs.dap').setup()
 			end
@@ -163,14 +168,26 @@ local plugins = {
 			ft = { 'python' }
 		},
 
-	-- Other Code-Aware Plugins
+	-- Testing
 
 		{
-			'vim-test/vim-test',
+			'nvim-neotest/neotest',
+			dependencies = {
+				'nvim-lua/plenary.nvim',
+				'nvim-treesitter/nvim-treesitter',
+				'nvim-neotest/neotest-python',
+				'nvim-neotest/neotest-plenary'
+			},
 			config = function()
-				require('plugins.configs.vim-test').setup()
+				require('plugins.configs.neotest').setup()
 			end
 		},
+		{ 'nvim-neotest/neotest-python' },
+		{ 'nvim-neotest/neotest-plenary' },
+		{ 'nvim-neotest/neotest-vim-test' },
+		{ 'vim-test/vim-test' },
+
+	-- Other Code-Aware Plugins
 
 		{
 			'ThePrimeagen/refactoring.nvim',

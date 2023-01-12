@@ -2,16 +2,9 @@ local M = {}
 
 function M.setup_python_dap()
 	require('dap-python').setup('~/.local/share/nvim/dap_servers/debugpy/bin/python')
-
-	-- TODO: Add require('dap-python').test_method() etc. for Python only here.
 end
 
-function M.setup()
-	-- Notes:
-	-- - Type any expressions (e.g. a variable name) in the Watches buffer to watch
-
-	M.setup_python_dap()
-
+function M.setup_dap_keymaps()
 	local nmap = require('utils.keymap').nmap
 	local xmap = require('utils.keymap').xmap
 	local dap = require('dap')
@@ -51,7 +44,7 @@ function M.setup()
 	end, 'Set log message breakpoint')
 
 	-- UI. (t)
-	nmap('<Leader>dt', function()
+	nmap('<Leader>d<Space>', function()
 		dapui.toggle()
 	end, 'Toggle debugging REPL')
 
@@ -60,6 +53,31 @@ function M.setup()
 	nmap('<Leader>de', function()
 		dapui.eval(input('Expression to evaluate: '))
 	end, 'Evaluate an expression')
+end
+
+function M.setup_dap_visuals()
+
+	local signs = {
+		DapBreakpoint          = { text = '', texthl = 'DapBreakpoint', linehl = '', numhl = '' },
+		DapBreakpointCondition = { text = '', texthl = 'DapBreakpoint', linehl = '', numhl = '' },
+		DapBreakpointRejected  = { text = '', texthl = 'DapBreakpoint', linehl = '', numhl = '' },
+		DapLogPoint            = { text = '', texthl = 'DapLogPoint',   linehl = '',   numhl = '' },
+		DapStopped             = { text = '', texthl = 'DapStopped',    linehl = 'debugPC', numhl = '' },
+	}
+
+	for name, opts in pairs(signs) do
+		vim.fn.sign_define(name, opts)
+	end
+end
+
+function M.setup()
+	-- Notes:
+	-- - Type any expressions (e.g. a variable name) in the Watches buffer to watch
+
+	M.setup_dap_keymaps()
+	M.setup_python_dap()
+	M.setup_dap_visuals()
+
 end
 
 return M
