@@ -93,6 +93,9 @@ function M.setup()
 
 			-- Typescript
 			require("typescript.extensions.null-ls.code-actions"),
+
+			-- Rust
+			formatting.rustfmt
 		},
 	})
 end

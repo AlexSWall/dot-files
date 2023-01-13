@@ -131,6 +131,30 @@ M.enhance_server_opts = {
 	['clangd'] = function(opts)
 		-- See https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
 		opts.capabilities.offsetEncoding = { 'utf-16' }
+	end,
+
+	['rust_analyzer'] = function(opts)
+		opts.settings = {
+			['rust-analyzer'] = {
+				imports = {
+					granularity = {
+						group = 'module',
+					},
+					prefix = 'self',
+				},
+				cargo = {
+					buildScripts = {
+						enable = true,
+					},
+				},
+				procMacro = {
+					enable = true
+				},
+				checkOnSave = {
+					command = 'clippy'
+				}
+			}
+		}
 	end
 }
 
@@ -195,7 +219,36 @@ function M.setup()
 			M.enhance_server_opts[server](opts)
 		end
 
+		if server == 'rust_analyzer' then
+			require('rust-tools').setup({
+				dap = {
+					adapter = require('plugins.configs.dap').get_codelldb_adapter()
+				},
+				server = {
+					on_attach = function(client, bufnr)
+						opts.on_attach(client, bufnr)
+
+						local map = function(lhs, rhs)
+							vim.keymap.set('n', lhs, rhs, { buffer = bufnr })
+						end
+
+						-- Run Rust
+						map('<Leader>rr', require('rust-tools').runnables.runnables)
+
+						-- LSP-specific overrides.
+						-- map('<C-K>', require('rust-tools').hover_actions.hover_actions)
+
+						require('plugins.configs.dap').setup_rust_dap_keymaps()
+					end,
+					capabilities = opts.capabilities,
+					settings = opts.settings
+				}
+			})
+			goto continue
+		end
+
 		require('lspconfig')[server].setup(opts)
+		::continue::
 	end
 
 	local signs = { Error = '', Warn = '', Info = '', Hint = '' }

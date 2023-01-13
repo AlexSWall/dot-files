@@ -91,7 +91,8 @@ local plugins = {
 			dependencies = {
 				'williamboman/mason.nvim',
 				'williamboman/mason-lspconfig.nvim',
-				'folke/neodev.nvim'
+				'folke/neodev.nvim',
+				'simrat39/rust-tools.nvim'
 			},
 			config = function()
 				require('plugins.configs.lsp').setup()
@@ -387,6 +388,12 @@ local plugins = {
 			{
 				'AndrewRadev/inline_edit.vim',
 				ft = { 'markdown', 'pandoc.markdown', 'rmd' }
+			},
+
+		-- Rust
+
+			{
+				'simrat39/rust-tools.nvim'
 			},
 
 		-- Tmux (.tmux.conf)
