@@ -146,7 +146,7 @@ function M.add_keymaps()
 	nmap('gt',         '<cmd>Telescope lsp_type_definitions<CR>', 'Show/go to type definition(s)')
 	nmap('gi',         '<cmd>Telescope lsp_implementations<CR>',  'Show/go to implementation(s)')
 	nmap('gr',         '<cmd>Telescope lsp_references<CR>',       'Show/go to reference(s)')
-	nmap('gH',         vim.lsp.buf.code_action,                   'Code action')
+	nmap('gh',         vim.lsp.buf.code_action,                   'Code action')
 	nmap('gD',         '<cmd>Telescope diagnostics<CR>',          'Show diagnostics')
 	nmap('[d',         vim.diagnostic.goto_prev,                  'Go to previous diagnostic')
 	nmap(']d',         vim.diagnostic.goto_next,                  'Go to next diagnostic')
@@ -157,7 +157,7 @@ function M.add_keymaps()
 	local format_buffer_cmd = function()
 		vim.lsp.buf.format({
 			filter = function(buf_client)
-				return buf_client.name == "null-ls"
+				return buf_client.name == 'null-ls'
 			end
 		})
 	end

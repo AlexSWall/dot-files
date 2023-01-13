@@ -642,7 +642,7 @@ local plugins = {
 			{
 				'lukas-reineke/virt-column.nvim',
 				config = function()
-					require('virt-column').setup()
+					require('plugins.configs.virt-column').setup()
 				end
 			},
 
@@ -678,7 +678,9 @@ local plugins = {
 			{
 				'NvChad/nvim-colorizer.lua',
 				config = function()
-					require('colorizer').setup({ names = false })
+					require('colorizer').setup({
+						user_default_options = { names = false }
+					})
 				end,
 			},
 

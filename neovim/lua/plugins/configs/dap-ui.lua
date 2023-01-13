@@ -8,7 +8,7 @@ function M.setup()
 			{
 				elements = {
 					-- Elements can be strings or table with id and size keys.
-					{ id = 'console',     size = 0.25 },
+					{ id = 'repl',        size = 0.25 },
 					{ id = 'watches',     size = 0.25 },
 					{ id = 'breakpoints', size = 0.20 },
 					{ id = 'stacks',      size = 0.30 },
@@ -18,8 +18,8 @@ function M.setup()
 			},
 			{
 				elements = {
-					{ id = 'scopes', size = 0.60 },
-					{ id = 'repl',   size = 0.40 },
+					{ id = 'scopes',  size = 0.60 },
+					{ id = 'console', size = 0.40 },
 				},
 				size = 0.30,
 				position = 'bottom',
