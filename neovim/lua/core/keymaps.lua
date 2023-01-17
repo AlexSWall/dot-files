@@ -167,6 +167,7 @@ local keymaps = {
 
 			-- Set file indentation.
 			nmap('<Leader>it', function() require('core.indentation').set_indentation(3, true) end, 'Set indentation to tabs')
+			nmap('<Leader>i1', function() require('core.indentation').set_indentation(1, false) end, 'Set indentation to one space')
 			nmap('<Leader>i2', function() require('core.indentation').set_indentation(2, false) end, 'Set indentation to two spaces')
 			nmap('<Leader>i3', function() require('core.indentation').set_indentation(3, false) end, 'Set indentation to three spaces')
 			nmap('<Leader>i4', function() require('core.indentation').set_indentation(4, false) end, 'Set indentation to four spaces')
