@@ -604,10 +604,6 @@ local plugins = {
 				priority = 100
 			},
 
-			-- Alternatives:
-			-- - 'catppuccin/nvim'
-			-- - 'rose-pine/neovim'
-
 		-- Editor
 
 			{
