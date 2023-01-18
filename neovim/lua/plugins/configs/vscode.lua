@@ -29,7 +29,7 @@ M.vscode_colourscheme_colour_overrides = {
 	vscLightBlueGreen = '#5EF0E5',
 	vscRed = '#F44747',
 	vscOrange = '#CE9178',  -- Only needed due to specifying it in group_overrides
-	vscYellowOrange = '#F7DA8D',
+	vscYellowOrange = '#F7CA8D',
 	vscYellow = '#D5D5A3',
 
 	vscFoldBackground = '#121212',
@@ -95,6 +95,7 @@ function M.setup()
 			Character      = { fg = c.vscGreen, bg = 'NONE' },
 			Number         = { fg = c.vscOrange, bg = 'NONE' },
 			Float          = { fg = c.vscOrange, bg = 'NONE' },
+			Macro          = { fg = c.vscYellowOrange, bg = 'NONE', },
 			TSStringRegex  = { fg = c.vscGreen, bg = 'NONE' },
 			TSString       = { fg = c.vscGreen, bg = 'NONE' },
 			TSCharacter    = { fg = c.vscGreen, bg = 'NONE' },
