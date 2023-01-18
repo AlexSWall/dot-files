@@ -455,7 +455,14 @@ local plugins = {
 				'ggandor/flit.nvim',
 				config = function()
 					require('flit').setup({
-						labeled_modes = 'nx'
+						labeled_modes = 'nx',
+						opts = {
+							-- Removing 'S', which is used for visual vim-surround.
+							safe_labels = {
+								's', 'f', 'n', 'u', 't', '/', 'F', 'N',
+								'L', 'H', 'M', 'U', 'G', 'T', '?', 'Z'
+							}
+						}
 					})
 				end
 			},
