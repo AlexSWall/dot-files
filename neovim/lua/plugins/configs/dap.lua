@@ -85,7 +85,7 @@ function M.setup_dap_keymaps()
 
 	-- UI. (t)
 	nmap('<Leader>d<Space>', function()
-		dapui.toggle()
+		dapui.toggle({ reset = true })
 	end, 'Toggle debugging REPL')
 
 	-- Evaluate an expression (e)
