@@ -51,7 +51,7 @@ function M.python_env()
 end
 
 M.enhance_server_opts = {
-	['sumneko_lua'] = function(opts)
+	['lua_ls'] = function(opts)
 
 		local runtime_path = vim.split(package.path, ';')
 		table.insert(runtime_path, 'lua/?.lua')
