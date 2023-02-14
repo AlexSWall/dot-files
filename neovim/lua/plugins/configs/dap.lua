@@ -4,6 +4,22 @@ function M.setup_python_dap()
 	require('dap-python').setup('~/.local/share/nvim/dap_servers/debugpy/bin/python')
 end
 
+function M.setup_cpp_dap()
+	require('dap').adapters.codelldb = M.get_codelldb_adapter()
+	require('dap').configurations.cpp = {
+		{
+			type = 'codelldb',
+			request = 'launch',
+			program = function()
+				return vim.fn.input('Path to executable: ', vim.fn.getcwd()..'/', 'file')
+			end,
+			--program = '${fileDirname}/${fileBasenameNoExtension}',
+			cwd = '${workspaceFolder}',
+			terminal = 'integrated'
+		}
+	}
+end
+
 function M.get_codelldb_adapter()
 	local lldb_extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.8.1/'
 	local code_lldb_port_num = '13000'
@@ -118,6 +134,7 @@ function M.setup()
 	M.setup_dap_visuals()
 
 	M.setup_python_dap()
+	M.setup_cpp_dap()
 end
 
 return M
