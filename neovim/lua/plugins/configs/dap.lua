@@ -25,6 +25,7 @@ function M.setup_rust_dap_keymaps()
 
 	-- Dap-specific overrides.
 	local map = function(lhs, rhs, desc)
+		vim.keymap.del('n', lhs)  -- Delete original mapping.
 		vim.keymap.set('n', lhs, rhs, { buffer = vim.api.nvim_get_current_buf(), desc = desc })
 	end
 
