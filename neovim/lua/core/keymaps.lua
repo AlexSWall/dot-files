@@ -203,12 +203,14 @@ local keymaps = {
 			nmap('<Leader>0',
 				':Gitsigns detach<CR>' ..
 				':set nonumber norelativenumber nolinebreak nobreakindent signcolumn=no showbreak= <CR>' ..
+				':lua vim.g.indent_blankline_enabled = false<CR>:lua require("indent_blankline").refresh()<CR>' ..
 				':lua require("functions.relative-number-toggle").set_number_toggle("disable")<CR>')
 			--
 			-- Re-enable GUI
 			nmap('<Leader><Leader>0',
 				':Gitsigns attach<CR>' ..
 				':set number relativenumber linebreak breakindent signcolumn=yes showbreak=↪\\ <CR>' ..
+				':lua vim.g.indent_blankline_enabled = true<CR>:lua require("indent_blankline").refresh()<CR>' ..
 				':lua require("functions.relative-number-toggle").set_number_toggle("enable")<CR>')
 
 			-- Toggle comment using <C-c> in normal and insert mode.
