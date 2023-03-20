@@ -70,6 +70,7 @@ function M.setup()
 	local c = M.vscode_colourscheme_colour_overrides
 	local mc = M.my_colours
 
+	-- Set up the colorscheme.
 	require('vscode').setup({
 		italic_comments = true,
 
@@ -167,6 +168,9 @@ function M.setup()
 			debugPC = { bg = mc.DebuggingLinePC, bold = true }
 		}
 	})
+
+	-- Now load the colorscheme.
+	require('vscode').load()
 end
 
 function M.bufferline_highlights()
