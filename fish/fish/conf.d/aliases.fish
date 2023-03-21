@@ -16,3 +16,6 @@ abbr --add gs 'git status'
 
 # Hex
 abbr --add hx 'xxd -p'
+
+# Networking
+abbr --add wget 'curl -fLsS --no-clobber --remote-name-all'
