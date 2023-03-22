@@ -1,3 +1,15 @@
 old
 host.txt
 fish_variables
+
+# == Fisher, fzf.fish, and fifc.fish ==
+fish/fish/completions/fifc.fish
+fish/fish/completions/fisher.fish
+fish/fish/completions/fzf_configure_bindings.fish
+fish/fish/conf.d/fifc.fish
+fish/fish/conf.d/fzf.fish
+fish/fish/fish_plugins
+fish/fish/functions/_*
+fish/fish/functions/fifc.fish
+fish/fish/functions/fisher.fish
+fish/fish/functions/fzf_configure_bindings.fish
