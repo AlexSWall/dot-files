@@ -25,8 +25,8 @@ if status is-interactive
 	bind -M insert \cN history-token-search-forward
 
 	# Expand abbreviation without trailing space via Ctrl-Space.
-	#bind -k nul expand-abbr
-	#bind -M insert -k nul expand-abbr
+	bind \cE expand-abbr
+	bind -M insert \cE expand-abbr
 
 	source ~/.fishrc
 	fenv "source ~/.profile"
