@@ -14,6 +14,8 @@ abbr --add gc 'git checkout'
 abbr --add gd 'git diff'
 abbr --add gl 'git l'
 abbr --add gs 'git status'
+abbr --add gp 'git push'
+abbr --add gps 'git push --set-upstream origin'
 
 # Hex
 abbr --add hx 'xxd -p'
