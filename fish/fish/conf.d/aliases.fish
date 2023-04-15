@@ -4,8 +4,9 @@ abbr --add sl 'ls'
 abbr --add s ''
 abbr --add c 'clear'
 abbr --add v 'nvim'
+abbr --add --position 'anywhere' --function 'pwd_alias_expansion' 'pwd'
 
-# Git abbreviations
+# Git Abbreviations
 abbr --add g 'git'
 abbr --add t 'git'
 abbr --add ga 'git add'
