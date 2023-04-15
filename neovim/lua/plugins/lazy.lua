@@ -657,7 +657,7 @@ local plugins = {
 			},
 
 			{
-				'p00f/nvim-ts-rainbow',
+				'HiPhish/nvim-ts-rainbow2',
 				enabled = function()
 					return require('plugins.plugin-condition-table').enable_plugin_table['nvim-ts-rainbow']
 				end,
