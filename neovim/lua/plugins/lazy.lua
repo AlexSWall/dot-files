@@ -672,9 +672,11 @@ local plugins = {
 			},
 
 			{
-				'narutoxy/dim.lua',
-				config = function()
-					require('dim').setup({})
+				"zbirenbaum/neodim",
+				event = "LspAttach",
+				branch = 'v2',
+				config = function ()
+					require("neodim").setup({})
 				end,
 			},
 
