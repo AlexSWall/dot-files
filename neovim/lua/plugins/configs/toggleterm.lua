@@ -11,7 +11,7 @@ function M.setup()
 			end
 		end,
 		open_mapping = [[<c-q>]],
-		direction = 'vertical'
+		direction = 'float'
 	})
 
 	local m = require('utils.keymap').nmap
