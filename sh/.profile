@@ -13,16 +13,9 @@ if [[ -r "$HOME/.local_profile" ]]; then source "$HOME/.local_profile"; fi
 PYFLYBY_PATH="$HOME/.config/pyflyby/pyflyby"
 export PYFLYBY_PATH
 
-# Export UID and GID
-if [[ "$SHELL" != *fish ]]
-then
-	# fish already does this for us, so only do it for non-fish shells.
-	UID=$(id -u)
-	export UID
-fi
-
-GID=$(id -g)
-export GID
+# Set UID and GID (if not already set) and export both.
+[ -z "$UID" ] && UID=$(id -u); export UID
+[ -z "$GID" ] && GID=$(id -g); export GID
 
 
 # Set PATH
