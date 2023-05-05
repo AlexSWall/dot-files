@@ -2,7 +2,7 @@ local M = {}
 
 M.vscode_colourscheme_colour_overrides = {
 	vscFront = '#D1D0D0',
-	vscBack = '#0e0e0e',
+	vscBack = '#0E0E0E',
 	vscTabCurrent = '#0E0E0E',
 	vscTabOther = '#222222',
 	vscTabOutside = '#151516',
@@ -75,7 +75,7 @@ function M.setup()
 		italic_comments = true,
 
 		-- Enable transparent background
-		transparent = true,
+		transparent = false,
 
 		-- Disable nvim-tree background color
 		disable_nvimtree_bg = false,

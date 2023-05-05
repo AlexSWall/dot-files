@@ -18,7 +18,7 @@ if status is-interactive
 	bind \cY accept-autosuggestion
 	bind -M insert \cY accept-autosuggestion
 
-	# Ctrl-n, Ctrl-p to recent argument
+	# Ctrl-n, Ctrl-p to recent arguments
 	bind \cP history-token-search-backward
 	bind -M insert \cP history-token-search-backward
 	bind \cN history-token-search-forward

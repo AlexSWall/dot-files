@@ -672,11 +672,11 @@ local plugins = {
 			},
 
 			{
-				"zbirenbaum/neodim",
-				event = "LspAttach",
+				'zbirenbaum/neodim',
+				event = 'LspAttach',
 				branch = 'v2',
 				config = function ()
-					require("neodim").setup({})
+					require('neodim').setup({})
 				end,
 			},
 
@@ -755,7 +755,7 @@ local plugins = {
 		{
 			'stevearc/stickybuf.nvim',
 			config = function()
-				require("stickybuf").setup()
+				require('stickybuf').setup()
 			end
 		},
 

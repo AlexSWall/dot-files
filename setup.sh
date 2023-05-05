@@ -5,7 +5,7 @@ set -e
 
 
 echo '-----'
-echo 'You need to ensure git, curl, and neovim (nvim) are installed.'
+echo 'You need to ensure git, curl, fish, and neovim (nvim) are installed.'
 echo ''
 echo "For installing all LSP servers, you'll also need to install npm."
 echo ''
@@ -104,10 +104,12 @@ create_git_repo "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm"
 
 # == Install Fisher ==
 
+fish -c "
 curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source &&
 	fisher install jorgebucaran/fisher &&
 	fisher install PatrickF1/fzf.fish &&
 	fisher install gazorby/fifc
+"
 
 
 # == Miscellaneous ==
@@ -130,7 +132,7 @@ fi
 echo '-----'
 echo 'Done!'
 echo ''
-echo 'You may now need to install: fish, zsh, neovim, and tmux.'
+echo 'You may now also want to install to ensure zsh and tmux are installed.'
 echo ''
 echo "For installing all LSP servers, you'll also need to install npm."
 echo ''
