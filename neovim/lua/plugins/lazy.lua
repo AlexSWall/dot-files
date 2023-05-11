@@ -757,10 +757,6 @@ local plugins = {
 			config = function()
 				require('stickybuf').setup()
 			end
-		},
-
-		{
-			'gpanders/editorconfig.nvim',
 		}
 }
 

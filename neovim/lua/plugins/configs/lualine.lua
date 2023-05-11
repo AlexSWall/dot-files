@@ -190,6 +190,15 @@ local function lualine()
 		end,
 	})
 
+	-- Show partially-entered commands/operators in status lines.
+	ins_right({
+		'%S ',
+		color = {
+			fg = colors.magenta,
+			gui = 'bold'
+		}
+	})
+
 	-- Search Count; e.g. [23/81]
 	ins_right({
 		function ()

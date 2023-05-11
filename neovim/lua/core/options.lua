@@ -17,6 +17,7 @@ local options = {
 	smartcase = true,
 	splitbelow = true,
 	splitright = true,
+	splitkeep = 'screen',
 
 	-- Visuals.
 	breakindent = true,
@@ -31,8 +32,13 @@ local options = {
 	pumheight = 20,
 	scrolloff = 3,
 	showbreak = '↪ ',
+	showcmdloc = 'statusline',
 	sidescrolloff = 5,
 	signcolumn = 'yes',
+	-- Shows number or relativenumber are off, show nothing.
+	-- Else, show 'number relativenumber', but in the same column.
+	-- Disabled for now, as currently it doesn't support e.g. gitsigns.
+	-- statuscolumn = '%=%{ &number && &relativenumber ? ( v:relnum ? v:relnum + " asd" : v:lnum ) : "" } ',
 	termguicolors = true,
 	wrap = true,
 
@@ -48,3 +54,4 @@ end
 -- Appends.
 vim.opt.shortmess:append({ s = true, I = true })  -- No 'search hit BOTTOM' nor intro text.
 vim.opt.diffopt:append('vertical')                -- Create vertical vimdiff splits.
+vim.opt.diffopt:append('linematch:60')            -- Improve the diff engine using Neovim v0.9 functionality.
