@@ -243,6 +243,26 @@ local keymaps = {
 
 	custom = {
 
+		-- Man page search
+		--
+		--    <Leader>fM
+		--
+		man_page_search = function()
+			nmap('<Leader>fM', function()
+				vim.print('Type the flag to find...')
+				local flag = vim.fn.getcharstr()
+				local prefix = '^[ \t]*'
+				local flag_search = '-' .. flag .. '[^a-zA-Z]'
+				local line_num = vim.fn.search(prefix .. flag_search)
+				if line_num ~= 0 then
+					-- Flag exists; move to it on the line.
+					vim.fn.search(flag_search)
+					-- Centre the flag.
+					vim.api.nvim_feedkeys('zz', 'n', false)
+				end
+			end, 'Searches Man page for a flag argument.')
+		end,
+
 		-- Open in Man page
 		--
 		--		<Leader>M
