@@ -102,14 +102,6 @@ create_git_repo "https://github.com/zsh-users/zsh-syntax-highlighting" "$HOME/.z
 create_git_repo "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm"
 
 
-# == Install Fisher ==
-
-fish -c "
-curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source &&
-	fisher install jorgebucaran/fisher
-"
-
-
 # == Miscellaneous ==
 
 # Prompt host string
