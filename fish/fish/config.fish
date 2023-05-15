@@ -37,9 +37,4 @@ if status is-interactive
 
 	# Set colourscheme for command line
 	source ~/.config/fish/functions/fish_cli_colourscheme.fish && fish_cli_colourscheme
-
-	# Configure fzf.fish.
-	# Set fzf `git log` binding to be Ctrl-Alt-g (for 'git').
-	# Currently also has Ctrl-Alt-f for fzf
-	fzf_configure_bindings --git_log=\e\cg
 end
