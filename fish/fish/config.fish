@@ -40,23 +40,6 @@ if status is-interactive
 
 	# Configure fzf.fish.
 	# Set fzf `git log` binding to be Ctrl-Alt-g (for 'git').
+	# Currently also has Ctrl-Alt-f for fzf
 	fzf_configure_bindings --git_log=\e\cg
-
-	# Configure fifc.
-	# fifc can help with finding:
-	# - command options
-	# - processes
-	# - variables
-	# Works best with the following installed:
-	# - fd (paths)
-	# - bat (files)
-	# - exa (directories)
-	# - procs (processes)
-	# - hexyl (binaries)
-	# - chafa (pictures)
-	# Use Ctrl-Alt-x to use it (e.g. for command-arguemnt completion), with
-	# neovim as the editor, and show hiiden files by default with fd.
-	set -U fifc_keybinding \e\cx
-	set -Ux fifc_editor 'nvim'
-	set -U fifc_fd_opts --hidden
 end
