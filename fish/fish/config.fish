@@ -11,22 +11,22 @@ if status is-interactive
 	# Run before executing a command.
 	bind \r execute_command_hook
 	bind \n execute_command_hook
-	bind -M insert \r execute_command_hook
-	bind -M insert \n execute_command_hook
+	bind --mode insert \r execute_command_hook
+	bind --mode insert \n execute_command_hook
 
 	# Ctrl-y accepts accept-autosuggestion
 	bind \cY accept-autosuggestion
-	bind -M insert \cY accept-autosuggestion
+	bind --mode insert \cY accept-autosuggestion
 
 	# Ctrl-n, Ctrl-p to recent arguments
 	bind \cP history-token-search-backward
-	bind -M insert \cP history-token-search-backward
+	bind --mode insert \cP history-token-search-backward
 	bind \cN history-token-search-forward
-	bind -M insert \cN history-token-search-forward
+	bind --mode insert \cN history-token-search-forward
 
 	# Expand abbreviation without trailing space via Ctrl-Space.
 	bind \cE expand-abbr
-	bind -M insert \cE expand-abbr
+	bind --mode insert \cE expand-abbr
 
 	source ~/.fishrc
 	fenv "source ~/.profile"
