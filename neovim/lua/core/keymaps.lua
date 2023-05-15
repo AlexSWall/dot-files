@@ -243,6 +243,33 @@ local keymaps = {
 
 	custom = {
 
+		-- Open in Man page
+		--
+		--		<Leader>M
+		--
+		open_man_page_link = function()
+			nmap('<Leader>M', function()
+				vim.cmd(':Man')
+			end, 'Opens the word under the cursor as a man page.')
+
+		-- Manually implemented:
+		-- 	nmap('<Leader>M', function()
+		-- 		local cword = vim.fn.expand('<cWORD>')
+		-- 		local page, section = string.match(cword, "%w+(%d)")
+		-- 		local cmd = nil
+		-- 		if page and section then
+		-- 			cmd = 'Man ' .. section .. ' ' .. page
+		-- 		else
+		-- 			page = string.match(cword, "%w+")
+		-- 			if not page then
+		-- 				error('No word found under the cursor.')
+		-- 			end
+		-- 			cmd = 'Man ' .. page
+		-- 		end
+		-- 		vim.cmd(cmd)
+		-- 	end, 'Opens the word under the cursor as a man page.')
+		end,
+
 		-- Python Post-Process
 		--
 		--		<Leader><Leader>p
