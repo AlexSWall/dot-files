@@ -24,3 +24,8 @@ vim.api.nvim_create_autocmd('BufEnter', {
 
 -- relativenumber = not in_insert_mode, unless ignored filetype.
 require('functions.relative-number-toggle').set_number_toggle('enable')
+
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = 'man',
+	command = 'setlocal keywordprg=:Man'
+})
