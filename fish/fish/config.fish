@@ -28,6 +28,10 @@ if status is-interactive
 	bind \cE expand-abbr
 	bind --mode insert \cE expand-abbr
 
+	# `i` and `a` in visual mode set the mode to 'insert'.
+	bind --mode visual i --sets-mode insert repaint
+	bind --mode visual a --sets-mode insert forward-single-char and repaint
+
 	source ~/.fishrc
 	fenv "source ~/.profile"
 
