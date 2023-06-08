@@ -6,6 +6,14 @@ abbr --add c 'clear'
 abbr --add v 'nvim'
 abbr --add --position 'anywhere' --function 'pwd_alias_expansion' 'pwd'
 
+# Folder Traversal
+abbr --add desk 'cd ~/Desktop'
+abbr --add docs 'cd ~/Documents'
+abbr --add down 'cd ~/Downloads'
+abbr --add pics 'cd ~/Pictures'
+abbr --add '-' 'cd -'
+abbr --add '..' 'cd ..'
+
 # Git Abbreviations
 abbr --add g 'git'
 abbr --add t 'git'
