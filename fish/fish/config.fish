@@ -38,3 +38,6 @@ if status is-interactive
 	# Set colourscheme for command line
 	source ~/.config/fish/functions/fish_cli_colourscheme.fish && fish_cli_colourscheme
 end
+
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+
