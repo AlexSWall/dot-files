@@ -1,6 +1,4 @@
 function fzf --wraps fzf --description 'fzf with directory positional argument added.'
-	# Create local variable 'stdin' containing any stdin contents.
-	isatty stdin || read --local --null stdin
 
 	set -f flags
 	set -f pos_args
@@ -18,40 +16,49 @@ function fzf --wraps fzf --description 'fzf with directory positional argument a
 	set -l fzf_cmd \
 		fzf --bind 'ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-f:page-down,ctrl-b:page-up' $flags
 
-	# We have 2x2 valid cases:
-	# - We either have stdin or not
-	# - We either have a positional argument or we don't.
+	# We have a few cases.
 	#
-	# We'll check the number of positional arguments and then check for stdin.
-	switch (count $pos_args)
-		case 0
-			# Only provide $stdin if it's non-empty.
-			if test "$stdin" = ''
-				set -f output "$(              command $fzf_cmd)"
-			else
-				set -f output "$(echo $stdin | command $fzf_cmd)"
-			end
-		case 1
-			# Only provide $stdin if it's non-empty.
-			if test "$stdin" = ''
-				set -f output "$(              fish -c "cd $pos_args[1] && command $fzf_cmd")"
-			else
-				set -f output "$(echo $stdin | fish -c "cd $pos_args[1] && command $fzf_cmd")"
-			end
+	# - We have more than one positional argument. This is not valid.
+	# - If we do not a positional argument, we'll base a file search from there.
+	# - Else we'll do a normal fzf search, ensuring we consume stdin here if any.
+	#
+	# Additionally, if we have a positional argument to base a file search from,
+	# we'll need to prepend all results with the base directory.
 
-			# If we chose an entry, we need to prepend our directory positional
-			# argument. We check this by checking for a (single) line of output.
-			if test (count (string split \n $output)) -eq 1
-				set output $pos_args[1]$output
-			end
-		case '*'
-			echo "Error: expected no more than one positional argument; received: $($pos_args)" 1>&2
-			return 1
-	end
+	if test (count $pos_args) -gt 1
+		echo "Error: expected no more than one positional argument; received: $pos_args" 1>&2
+		return 1
 
-	# Only output if there's anything to output.
-	if test (string trim $output) != ''
-		echo $output
+	# Case where we have only a positional argument.
+	# We ignore stdin.
+	else if test -n "$pos_args"
+		set -l base_dir $pos_args[1]
+
+		# Do some smart mappings to standard base directories.
+		switch $base_dir
+			case 'docs'
+				set base_dir '~/Documents/'
+		end
+
+		set -f output "$(fish -c "cd $base_dir && command $fzf_cmd")"
+
+		# If we chose an entry, we need to prepend our directory positional
+		# argument.
+		if test (string trim $output) = ''
+			# No output - don't echo.
+
+		else
+			set -l lines (string split \n $output)
+			set -l output
+			for line in $lines
+				set -a output $base_dir$line
+			end
+			echo $output
+		end
+
+	else
+		# This will include the stdin if any.
+		command $fzf_cmd
 	end
 end
 
