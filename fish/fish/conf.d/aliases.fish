@@ -4,6 +4,7 @@ abbr --add sl 'ls'
 abbr --add s ''
 abbr --add c 'clear'
 abbr --add v 'nvim'
+abbr --add vf 'fzf | xargs nvim'
 abbr --add --position 'anywhere' --function 'pwd_alias_expansion' 'pwd'
 
 # Folder Traversal
