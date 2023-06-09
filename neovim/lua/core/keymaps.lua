@@ -226,7 +226,11 @@ local keymaps = {
 			nmap('<Leader>gc', '<cmd>set operatorfunc=v:lua.__flip_flop_comment<cr>gvg@', 'Invert comments in previous selection')
 
 			-- Replace current word.
-			nmap('<leader><Leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], 'Substitute current word')
+			-- See `:help c_<C-R>_<C-W>` if needed.
+			nmap('<leader><Leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], 'Substitute/replace current word')
+			-- This yanks into the 'a' register, reselects the text, and then puts this in the command line with <C-r>a.
+			-- See https://stackoverflow.com/a/3620549/5233676
+			vmap('<leader><Leader>s', [["ay:%s/<C-r>a/<C-r>a/gI<Left><Left><Left>]], 'Substitute/replace selected/highlighted word')
 
 			-- Set file to be executable.
 			nmap('<leader>x', '<cmd>!chmod +x %<CR>', 'Set file to be executable')
