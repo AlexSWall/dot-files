@@ -209,6 +209,11 @@ function M.setup()
 				if client.server_capabilities.documentSymbolProvider then
 					require('nvim-navic').attach(client, bufnr)
 				end
+
+				-- Only overwrite K if we've attached an LSP.
+				vim.keymap.set('n', 'K', vim.lsp.buf.hover, {
+					noremap = true, silent = true, desc = 'Show hover information', buffer = bufnr
+				})
 			end,
 			capabilities = capabilities,
 			single_file_support = true
