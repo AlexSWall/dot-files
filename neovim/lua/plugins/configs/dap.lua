@@ -68,7 +68,7 @@ function M.setup_dap_keymaps()
 	local input = function(prompt) return vim.fn.input(prompt) end
 
 	-- Control debugging flow. (i,o,u,s,h)
-	nmap({ '<F1>', '<Leader>di' }, dap.step_into, 'Step info')
+	nmap({ '<F1>', '<Leader>di' }, dap.step_into, 'Step into')
 	nmap({ '<F2>', '<Leader>do' }, dap.step_over, 'Step over')
 	nmap({ '<F3>', '<Leader>du' }, dap.step_out, 'Step out')
 	nmap({ '<F4>', '<Leader>ds' }, dap.continue, 'Continue/Start')
