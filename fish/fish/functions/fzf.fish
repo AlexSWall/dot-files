@@ -6,9 +6,9 @@ function fzf --wraps fzf --description 'fzf with directory positional argument a
 	for arg in $argv
 		switch $arg
 			case '-*'
-				set flags $flags $arg
+				set -a flags $arg
 			case '*'
-				set pos_args $pos_args $arg
+				set -a pos_args $arg
 		end
 	end
 
