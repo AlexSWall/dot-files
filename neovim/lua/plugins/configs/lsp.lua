@@ -226,6 +226,11 @@ function M.setup()
 
 		if server == 'rust_analyzer' then
 			require('rust-tools').setup({
+				tools = {
+					inlay_hints = {
+						only_current_line = true
+					}
+				},
 				dap = {
 					adapter = require('plugins.configs.dap').get_codelldb_adapter()
 				},

@@ -46,7 +46,8 @@ function M.setup()
 			},
 			file_ignore_patterns = {
 				'.?venv[0-9]*',
-				'node_modules'
+				'node_modules',
+				'target'
 			}
 		},
 		extensions = {

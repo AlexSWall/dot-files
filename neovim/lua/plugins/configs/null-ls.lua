@@ -56,7 +56,9 @@ function M.setup()
 	require('null-ls').setup({
 		sources = {
 			-- All
-			diagnostics.codespell,
+			diagnostics.codespell.with({
+				extra_args = { '-L', 'crate' }
+			}),
 
 			-- Bash
 			code_actions.shellcheck,
