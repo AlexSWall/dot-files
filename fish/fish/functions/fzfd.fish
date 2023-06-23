@@ -1,5 +1,4 @@
-# Changes to another directory using fzf.
-function fzf-dir
+function fzfd --description 'fzf over directories, with optional directory positional argument.'
 
 	set --function flags
 	set --function pos_args
@@ -7,9 +6,9 @@ function fzf-dir
 	for arg in $argv
 		switch $arg
 			case '-*'
-				set flags $flags $arg
+				set -a flags $arg
 			case '*'
-				set pos_args $pos_args $arg
+				set -a pos_args $arg
 		end
 	end
 
@@ -31,9 +30,5 @@ function fzf-dir
 		return 1
 	end
 
-	fd . $base_dir --type d 2> /dev/null | fzf $flags | read -f target_dir
-
-	if test -n "$target_dir"
-		cd "$target_dir"
-	end
+	fd . $base_dir --type d 2> /dev/null | fzf $flags
 end
