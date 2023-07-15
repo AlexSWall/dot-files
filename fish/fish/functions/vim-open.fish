@@ -1,4 +1,4 @@
-function vim-open
+function vim-open --description 'Opens many files conforming to a given glob or regex.'
 
 	if test (count $argv) = 1
 		set DIRECTORY '.'
@@ -15,7 +15,7 @@ function vim-open
 	end
 
 	# Check whether interpreting as a regex gives results...
-	set FILES (find -E "$DIRECTORY" -regex "$REGEX_OR_GLOB" -type f 2>/dev/null)
+	set FILES (find -E "$DIRECTORY" -regex "$REGEX_OR_GLOB" \( -type l -o -type f \) 2>/dev/null)
 
 	if test ! -z "$FILES"
 		#echo 'Interpreting input as a regular expression.'
@@ -23,7 +23,7 @@ function vim-open
 	else
 		# Check whether interpreting as a regex with ".*/" prefixed gives
 		# results...
-		set FILES (find -E "$DIRECTORY" -regex ".*/$REGEX_OR_GLOB" -type f 2>/dev/null)
+		set FILES (find -E "$DIRECTORY" -regex ".*/$REGEX_OR_GLOB" \( -type l -o -type f \) 2>/dev/null)
 
 		if test ! -z "$FILES"
 			#echo 'Interpreting input as a regular expression, adding a ".*/" prefix.'
@@ -32,7 +32,7 @@ function vim-open
 			# Regexes failed, assume it's meant to be a glob...
 
 			#echo 'Interpreting input as a glob.'
-			set FILES (find "$DIRECTORY" -name "$REGEX_OR_GLOB" -type f 2>/dev/null)
+			set FILES (find "$DIRECTORY" -name "$REGEX_OR_GLOB" \( -type l -o -type f \) 2>/dev/null)
 		end
 	end
 
