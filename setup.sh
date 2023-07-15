@@ -74,20 +74,23 @@ do
 done
 
 # Fish Directory
-create_symlink "./fish/fish"       "$HOME/.config"
+create_symlink "./fish/fish"            "$HOME/.config"
 
 # Neovim
-create_symlink "./neovim/init.lua" "$HOME/.config/nvim"
-create_symlink "./neovim/lua"      "$HOME/.config/nvim"
+create_symlink "./neovim/init.lua"      "$HOME/.config/nvim"
+create_symlink "./neovim/lua"           "$HOME/.config/nvim"
 
 # Vim Monokai
-create_symlink "./vim/monokai.vim" "$HOME/.vim/colors"
+create_symlink "./vim/monokai.vim"      "$HOME/.vim/colors"
 
 # Pip
-create_symlink "./pip/pip.conf"    "$HOME/.config/pip"
+create_symlink "./pip/pip.conf"         "$HOME/.config/pip"
 
 # Python
-create_symlink "./python/pyflyby"  "$HOME/.config/pyflyby"
+create_symlink "./python/pyflyby"       "$HOME/.config/pyflyby"
+
+# Wezterm
+create_symlink "./wezterm/wezterm.lua"  "$HOME/.config/wezterm"
 
 
 # == Git Repositories ==
