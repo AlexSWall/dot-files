@@ -122,8 +122,13 @@ M.enhance_server_opts = {
 		opts.settings = {
 			tsserver = {
 				suggest = {
-					autoImports = true;
+					autoImports = true,
 				}
+			}
+		}
+		opts.init_options = {
+			preferences = {
+				disableSuggestions = true
 			}
 		}
 	end,
@@ -253,6 +258,14 @@ function M.setup()
 					capabilities = opts.capabilities,
 					settings = opts.settings
 				}
+			})
+			goto continue
+
+		elseif server == 'tsserver' then
+			-- Uses jose-elias-alvarez/typescript.nvim, which calls lsconfig's
+			-- setup itself.
+			require('typescript').setup({
+				server = opts
 			})
 			goto continue
 		end
