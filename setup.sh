@@ -13,14 +13,15 @@ read -r -p 'If/when these are installed, please press enter...'
 echo '-----'
 echo 'Installing...'
 
-PWD="$(pwd)"
-OLD="$(pwd)/old"
-rm -rf "$OLD"
-mkdir -p "$OLD"
+DOT_FILES_DIR="$HOME/.dot-files"
+
+# Location to move 'old' files that would be overwritten by this script.
+OLD_FILES_DIR="$DOT_FILES_DIR/old"
+rm -rf "$OLD_FILES_DIR"
+mkdir -p "$OLD_FILES_DIR"
 
 create_symlink () {
 	# Arguments
-	local DOT_FILES_DIR="$PWD"
 	local SRC_PATH="$1"
 	local DESTINATION_DIR="$2"
 
@@ -34,13 +35,24 @@ create_symlink () {
 	if [ -L "$DESTINATION_DIR/$FILENAME" ]; then
 		rm "$DESTINATION_DIR/$FILENAME"
 
-	# Else if non-symlink file exists, move to $OLD
+	# Else if non-symlink file exists, move to $OLD_FILES_DIR
 	elif [ -f "$DESTINATION_DIR/$FILENAME" ]; then
 		# Quick hack to make the parent folder
-		mkdir -p "$OLD/$FILENAME" && rmdir "$OLD/$FILENAME"
+		mkdir -p "$OLD_FILES_DIR/$FILENAME" && rmdir "$OLD_FILES_DIR/$FILENAME"
 
 		# Backup the file
-		mv "$DESTINATION_DIR/$FILENAME" "$OLD/$FILENAME"
+		mv "$DESTINATION_DIR/$FILENAME" "$OLD_FILES_DIR/$FILENAME"
+
+	# Else if non-symlink directory exists, move to $OLD_FILES_DIR
+	elif [ -d "$DESTINATION_DIR/$FILENAME" ]; then
+
+		DIRNAME="$FILENAME"
+
+		# Quick hack to make the parent folder
+		mkdir -p "$OLD_FILES_DIR/$DIRNAME" && rmdir "$OLD_FILES_DIR/$DIRNAME"
+
+		# Backup the directory.
+		mv "$DESTINATION_DIR/$DIRNAME" "$OLD_FILES_DIR/$DIRNAME"
 	fi
 
 	# Create symlink
@@ -62,7 +74,7 @@ create_git_repo () {
 
 # Bash, Zsh, Fish, Tmux, Git, and Vim
 for f in \
-	'./sh/.profile' './sh/.shrc' './sh/.aliases' \
+	'./sh/.profile' './sh/.shrc' './sh/.aliases' './sh/.inputrc' \
 	'./bash/.bash_profile' './bash/.bashrc' \
 	'./zsh/.zshenv' './zsh/.zshrc' \
 	'./fish/.fishrc' \
@@ -82,6 +94,7 @@ create_symlink "./neovim/lua"           "$HOME/.config/nvim"
 
 # Vim Monokai
 create_symlink "./vim/monokai.vim"      "$HOME/.vim/colors"
+create_symlink "./vim/monokai.vim"      "$HOME/.config/nvim/colors"
 
 # Pip
 create_symlink "./pip/pip.conf"         "$HOME/.config/pip"
@@ -91,6 +104,9 @@ create_symlink "./python/pyflyby"       "$HOME/.config/pyflyby"
 
 # Wezterm
 create_symlink "./wezterm/wezterm.lua"  "$HOME/.config/wezterm"
+
+# GDB
+create_symlink "./gdb/gdbinit"          "$HOME/.config/gdb"
 
 
 # == Git Repositories ==
@@ -108,16 +124,27 @@ create_git_repo "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm"
 # == Miscellaneous ==
 
 # Prompt host string
-touch "./host.txt"
-create_symlink "host.txt" "$HOME/.config"
+HOST_FILE="$DOT_FILES_DIR/host.txt"
+if [ ! -f "$HOST_FILE" ]
+then
+	touch "$HOST_FILE"
+	create_symlink "$HOST_FILE/host.txt" "$HOME/.config"
+	echo 'host' >> "$HOST_FILE"
+fi
 
 # Remove shell login spam
 touch ~/.hushlogin
 
-# Remove the $OLD directory if it's empty.
-if [ -z "$(ls -A "$OLD")" ]; then
-   rmdir "$OLD"
+# Remove the $OLD_FILES_DIR directory if it's empty.
+if [ -z "$(ls -A "$OLD_FILES_DIR")" ]; then
+   rmdir "$OLD_FILES_DIR"
 fi
+
+
+# == GDB ==
+
+# Make sure custom GDB history folder is created (as set in gdbinit).
+mkdir -p "$HOME/.local/share/gdb"
 
 
 # == Finished ==

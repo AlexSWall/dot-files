@@ -21,10 +21,10 @@ unalias -a
 	export GIT_EDITOR='nvim'
 
 	# History.
-	export HISTSIZE=10000           # Number of commands.
-	export HISTFILESIZE=20000       # Number of lines.
-	export SAVEHIST=20000           # Number of lines. (Zsh)
-	export HISTCONTROL=ignoreboth   # Ignore duplicate lines and lines starting with a space.
+	export HISTSIZE=100000         # Number of commands.
+	export HISTFILESIZE=100000     # Number of lines.
+	export SAVEHIST=100000         # Number of lines. (Zsh)
+	export HISTCONTROL=ignoreboth  # Ignore duplicate lines and lines starting with a space.
 
 
 : # General Visuals

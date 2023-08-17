@@ -761,7 +761,4 @@ local plugins = {
 --  - If <Leader>d fails me: 'inkarkat/vim-ReplaceWithRegister'
 --  - If I want to use multiple cursors: 'mg979/vim-visual-multi'
 
--- Must be before any keybindings which make use of <Leader>.
-vim.g.mapleader = ' '
-
 require('lazy').setup(plugins, {})

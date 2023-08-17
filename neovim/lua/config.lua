@@ -4,6 +4,9 @@ then
 	return
 end
 
+-- Must be before any keybindings which make use of <Leader>.
+vim.g.mapleader = ' '
+
 require('plugins.lazy')
 
 require('core.options')

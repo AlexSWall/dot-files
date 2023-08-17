@@ -1,7 +1,7 @@
 function fzf --wraps fzf --description 'fzf with directory positional argument added.'
 
-	set -f flags
-	set -f pos_args
+	set -l flags
+	set -l pos_args
 
 	for arg in $argv
 		switch $arg
@@ -40,7 +40,7 @@ function fzf --wraps fzf --description 'fzf with directory positional argument a
 				set base_dir '~/Documents/'
 		end
 
-		set -f output "$(fish -c "cd $base_dir && command $fzf_cmd")"
+		set -l output (fish -c "cd $base_dir && command $fzf_cmd")
 
 		# If we chose an entry, we need to prepend our directory positional
 		# argument.

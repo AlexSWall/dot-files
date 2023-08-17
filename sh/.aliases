@@ -23,6 +23,8 @@ esac
 
 alias grep='grep --color=auto'
 
+alias bat='batcat'
+
 alias git-resolve='vim $(git conflicts)'
 
 alias docker-container-rm-all='docker rm -f $(docker ps -a -q)'

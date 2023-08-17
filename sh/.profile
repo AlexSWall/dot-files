@@ -13,6 +13,8 @@ if [[ -r "$HOME/.local_profile" ]]; then source "$HOME/.local_profile"; fi
 [ -z "$UID" ] && UID=$(id -u); export UID
 [ -z "$GID" ] && GID=$(id -g); export GID
 
+export PAGER=less
+
 # Use Neovim as the man pager.
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999

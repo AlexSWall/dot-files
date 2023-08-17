@@ -1,7 +1,7 @@
 function fzfd --description 'fzf over directories, with optional directory positional argument.'
 
-	set --function flags
-	set --function pos_args
+	set -l flags
+	set -l pos_args
 
 	for arg in $argv
 		switch $arg
