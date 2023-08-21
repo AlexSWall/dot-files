@@ -22,9 +22,9 @@ M.lsp_servers_to_ensure_installed = require('utils').lookup_to_list({
 
 M.treesitter_parsers_to_ensure_installed = {
 	'bash', 'c', 'comment', 'cpp', 'css', 'dockerfile', 'erlang', 'fish', 'go',
-	'gomod', 'haskell', 'help', 'html', 'java', 'javascript', 'json', 'latex',
-	'lua', 'make', 'markdown', 'php', 'python', 'rust', 'tsx', 'typescript',
-	'vim', 'yaml'
+	'gomod', 'haskell', 'html', 'java', 'javascript', 'json', 'latex', 'lua',
+	'make', 'markdown', 'php', 'python', 'rust', 'tsx', 'typescript', 'vim',
+	'vimdoc', 'yaml'
 }
 
 return M
