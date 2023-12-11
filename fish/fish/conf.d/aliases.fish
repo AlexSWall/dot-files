@@ -50,7 +50,3 @@ abbr --add hx 'xxd -p'
 
 # Networking
 abbr --add wget 'curl -fLsS --no-clobber --remote-name-all'
-
-# Miscellaneous
-alias bat 'batcat'
-alias fd 'fdfind'
