@@ -638,11 +638,12 @@ local plugins = {
 
 			{
 				'lukas-reineke/indent-blankline.nvim',
-				enabled = function()
-					return require('plugins.plugin-condition-table').enable_plugin_table['indent-blankline']
-				end,
+				main = 'ibl',
 				config = function()
 					require('plugins.configs.indent-blankline').setup()
+				end,
+				enabled = function()
+					return require('plugins.plugin-condition-table').enable_plugin_table['indent-blankline']
 				end,
 			},
 

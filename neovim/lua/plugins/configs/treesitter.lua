@@ -69,10 +69,6 @@ function M.setup()
 			enable        = ts_rainbow_enabled,
 			extended_mode = ts_rainbow_enabled,
 			--max_file_lines = <num>
-		},
-
-		context_commentstring = {
-			enable = true
 		}
 	})
 end

@@ -19,7 +19,7 @@ M.vscode_colourscheme_colour_overrides = {
 	vscSearchCurrent = '#4B5632',
 	vscSearch = '#264F78',
 
-	vscGray = '#707080',
+	vscGray = '#606070',
 
 	vscPink = '#C586C0',
 	vscLightBlue = '#8CCCEE',
@@ -117,7 +117,10 @@ function M.setup()
 			['@variable.builtin'] = { fg = c.vscLightBlueGreen, bg = 'NONE' },
 
 			-- Indentation rule colour
-			IndentBlanklineIndent = { fg = '#202020', nocombine = true },
+			['IblIndent']         = { fg = '#242424', nocombine = true },
+
+			-- Virtual column colour
+			['VirtualColumn']     = { fg = '#242424', nocombine = true },
 
 			-- Nvim-Cmp
 			CmpGhostText          = { fg = '#606060', bg = 'NONE' },
