@@ -536,7 +536,20 @@ local plugins = {
 			{
 				'NMAC427/guess-indent.nvim',
 				config = function()
-					require('guess-indent').setup({})
+					require('guess-indent').setup({
+						auto_cmd = false
+					})
+					-- Use GuessIndent's autocommands, but trigger on InsertEnter
+					-- instead of BufReadPost to avoid a weird issue where, on
+					-- navigating to a new file via Telescope.find_files with
+					-- cmdheight=0, an empty print statement/cmd prompt displays.
+					vim.cmd([[
+						augroup GuessIndent
+							autocmd!
+							autocmd InsertEnter *                                          silent lua require("guess-indent").set_from_buffer("auto_cmd")
+							autocmd BufNewFile * autocmd BufWritePost <buffer=abuf> ++once silent lua require("guess-indent").set_from_buffer("auto_cmd")
+						augroup END
+					]])
 				end,
 			},
 
