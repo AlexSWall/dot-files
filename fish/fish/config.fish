@@ -37,6 +37,17 @@ if status is-interactive
 
 	# Set colourscheme for command line
 	source ~/.config/fish/functions/fish_cli_colourscheme.fish && fish_cli_colourscheme
+
+	bind -s --user ge forward-bigword backward-word backward-word forward-word backward-char
+	bind -s --user gE forward-bigword backward-bigword backward-bigword forward-bigword backward-char
+	bind -s --user -M visual b backward-word
+	bind -s --user -M visual B backward-bigword
+	bind -s --user -M visual ge forward-word backward-word backward-word forward-word backward-char
+	bind -s --user -M visual gE forward-word backward-bigword backward-bigword forward-bigword backward-char
+	bind -s --user -M visual w forward-word forward-single-char
+	bind -s --user -M visual W forward-bigword forward-single-char
+	bind -s --user -M visual e forward-single-char forward-word backward-char
+	bind -s --user -M visual E forward-single-char forward-bigword backward-char
 end
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
