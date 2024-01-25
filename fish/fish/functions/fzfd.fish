@@ -30,5 +30,5 @@ function fzfd --description 'fzf over directories, with optional directory posit
 		return 1
 	end
 
-	fd . $base_dir --type d 2> /dev/null | fzf $flags
+	fd . $base_dir --type d --no-ignore 2> /dev/null | fzf $flags
 end

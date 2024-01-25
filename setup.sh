@@ -33,10 +33,12 @@ create_symlink () {
 
 	# If a symlink exists, delete it
 	if [ -L "$DESTINATION_DIR/$FILENAME" ]; then
+
 		rm "$DESTINATION_DIR/$FILENAME"
 
 	# Else if non-symlink file exists, move to $OLD_FILES_DIR
 	elif [ -f "$DESTINATION_DIR/$FILENAME" ]; then
+
 		# Quick hack to make the parent folder
 		mkdir -p "$OLD_FILES_DIR/$FILENAME" && rmdir "$OLD_FILES_DIR/$FILENAME"
 

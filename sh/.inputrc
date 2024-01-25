@@ -1,2 +1,3 @@
 # Set all executables that use readline to use vi editing mode, such as gdb (and bash).
 set editing-mode vi
+

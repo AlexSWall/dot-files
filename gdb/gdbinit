@@ -25,10 +25,3 @@ define hookpost-step
 	refresh
 end
 
-define hookpost-continue
-	refresh
-end
-
-define hookpost-continue
-	refresh
-end

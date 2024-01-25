@@ -14,7 +14,7 @@ function fzf --wraps fzf --description 'fzf with directory positional argument a
 
 	# Call fzf with additional vim-like bindings.
 	set -l fzf_cmd \
-		fzf --bind 'ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-f:page-down,ctrl-b:page-up' $flags
+		fzf --bind 'ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-f:page-down,ctrl-b:page-up' --multi $flags
 
 	# We have a few cases.
 	#
@@ -24,6 +24,8 @@ function fzf --wraps fzf --description 'fzf with directory positional argument a
 	#
 	# Additionally, if we have a positional argument to base a file search from,
 	# we'll need to prepend all results with the base directory.
+
+	set -l output
 
 	if test (count $pos_args) -gt 1
 		echo "Error: expected no more than one positional argument; received: $pos_args" 1>&2
@@ -40,28 +42,35 @@ function fzf --wraps fzf --description 'fzf with directory positional argument a
 				set base_dir '~/Documents/'
 		end
 
-		set -l output (fish -c "cd $base_dir && command $fzf_cmd")
+		set -l initial_output (fish -c "cd $base_dir && command $fzf_cmd")
 
 		# If we chose an entry, we need to prepend our directory positional
 		# argument.
-		if test (string trim $output) = ''
-			# No output - don't echo.
+		if test -z (string trim $initial_output)
+			# No output - don't set output
 
 		else
-			set -l lines (string split \n $output)
-			set -l output
-			for line in $lines
+			for line in (string split \n $initial_output)
 				set -a output $base_dir$line
 			end
-			echo $output
 		end
 
 	else
 		# This will include the stdin if any.
-		command $fzf_cmd
+		command $fzf_cmd | read -z output
 	end
+
+	# Avoid printing empty line if we have no output.
+	if test -z $output
+		return
+	end
+
+	# Print output _and_ save output for accessing last fzf output.
+	echo (string trim $output)
+	set --global FZF_LAST_OUTPUT (string trim $output)
 end
 
 # By default, fish adds `complete -c fzf -f` to disable file positional argument
 # completion, so we need to add it back here.
 complete -c fzf -F
+
