@@ -5,6 +5,7 @@ local relative_number_toggle_ignore_list_lookup = require('utils').list_to_looku
 	'aerial',
 	'dapui_console', 'dapui_breakpoints', 'dapui_stacks', 'dapui_watches', 'dap-repl', 'dapui_scopes',
 	'DressingInput',
+	'fzf',
 	'help',
 	'NvimTree',
 	'Outline',

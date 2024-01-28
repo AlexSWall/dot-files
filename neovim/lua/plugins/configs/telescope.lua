@@ -66,12 +66,15 @@ function M.setup()
 
 	local nmap = require('utils.keymap').nmap
 
-	nmap('<Leader>fa', require('plugins.configs.telescope').fuzzy_search_text,    'Fuzzy search text')
-	nmap('<Leader>fb', require('telescope.builtin').buffers,                      'Fuzzy search buffers')
+	-- Commented out are probably due to using fzf-lua instead:
+
+	--nmap('<Leader>fa', require('plugins.configs.telescope').fuzzy_search_text,    'Fuzzy search text')
+	--nmap('<Leader>fa', require('telescope.builtin').live_grep,                    'Fuzzy search text')
+	--nmap('<Leader>fb', require('telescope.builtin').buffers,                      'Fuzzy search buffers')
 	nmap('<Leader>fd', require('telescope.builtin').diagnostics,                  'Fuzzy search diagnostics')
 	nmap('<Leader>fe', require('telescope').extensions.file_browser.file_browser, 'Telescope file browser')
-	nmap('<Leader>ff', require('telescope.builtin').find_files,                   'Fuzzy search files')
-	nmap('<Leader>fg', require('telescope.builtin').git_files,                    'Fuzzy search git files')
+	--nmap('<Leader>ff', require('telescope.builtin').find_files,                   'Fuzzy search files')
+	--nmap('<Leader>fg', require('telescope.builtin').git_files,                    'Fuzzy search git files')
 	nmap('<Leader>fh', require('telescope.builtin').help_tags,                    'Fuzzy search help tags')
 	nmap('<Leader>fk', require('telescope.builtin').keymaps,                      'Fuzzy search keymaps')
 	nmap('<Leader>fm', require('telescope.builtin').keymaps,                      'Fuzzy search keymaps')
