@@ -304,7 +304,6 @@ function M.my_setup()
 	vim.opt.fillchars['stlnc'] = '-'
 
 	vim.opt.cmdheight = 0
-
 end
 
 function M.setup()

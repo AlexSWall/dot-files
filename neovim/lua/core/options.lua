@@ -18,6 +18,7 @@ local options = {
 	splitbelow = true,
 	splitright = true,
 	splitkeep = 'screen',
+	confirm = true,
 
 	-- Visuals.
 	breakindent = true,

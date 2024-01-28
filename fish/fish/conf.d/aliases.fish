@@ -52,7 +52,7 @@ abbr --add '-'  'cd -'
 abbr --add '..' 'cd ..'
 
 # Dotfiles Helpers
-abbr-prefix dotf dotfiles 'cd ~/.dot-files'
+abbr --add dotf 'cd ~/.dot-files'
 abbr --add 'fish-fns' 'cd ~/.dot-files/fish/fish/functions'
 abbr --add 'abbrs' 'vim ~/.dot-files/fish/fish/conf.d/aliases.fish && source ~/.dot-files/fish/fish/conf.d/aliases.fish'
 

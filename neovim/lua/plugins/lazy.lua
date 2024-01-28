@@ -546,8 +546,8 @@ local plugins = {
 					vim.cmd([[
 						augroup GuessIndent
 							autocmd!
-							autocmd InsertEnter *                                          silent lua require("guess-indent").set_from_buffer("auto_cmd")
-							autocmd BufNewFile * autocmd BufWritePost <buffer=abuf> ++once silent lua require("guess-indent").set_from_buffer("auto_cmd")
+							autocmd InsertEnter *                                          silent lua require('guess-indent').set_from_buffer('auto_cmd')
+							autocmd BufNewFile * autocmd BufWritePost <buffer=abuf> ++once silent lua require('guess-indent').set_from_buffer('auto_cmd')
 						augroup END
 					]])
 				end,
